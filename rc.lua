@@ -191,7 +191,7 @@ awful.screen.connect_for_each_screen(
 		env.wallpaper(s)
 
 		-- tags
-		awful.tag({ "1 - Main", "2 - Dev", "3 - Web", "4", "5", "6", "7", "8", "9", "0 - Tg" }, s, { al[4], al[3], al[3], al[1], al[1], al[1], al[1], al[1], al[1], al[6] })
+		awful.tag({ "1 - Main", "2 - Dev", "3 - Web", "0 - Tg" }, s, { al[4], al[3], al[3], al[6] })
 
 		-- layoutbox widget
 		layoutbox[s] = redflat.widget.layoutbox({ screen = s })

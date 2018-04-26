@@ -80,13 +80,49 @@ local function toggle_placement(env)
 	redflat.float.notify:show({ text = (env.set_slave and "Slave" or "Master") .. " placement" })
 end
 
+-- gets the correct tag or creates it
+local function get_or_add_tag(s, i)
+	-- number of default tags excluding telegram
+	local num_default = 3
+
+	if i <= num_default then
+		-- default tags
+		return s.tags[i]
+	else
+		-- volatile tags
+		local tag = awful.tag.find_by_name(s, tostring(i))
+		
+		if not tag then
+			-- tag doesn't exist, create and move it second to last
+			tag = awful.tag.add(tostring(i), {
+				layout = awful.layout.suit.fair,
+				screen = s,
+				volatile = true
+			})
+
+			-- swap last (newest tag) with second to last (telegram tag)
+			local tags = s.tags
+			tag:swap(tags[#tags - 1])
+
+			-- sort newest tag into place
+			for j = #tags - 2, num_default + 1, -1 do
+				if (tag.name < tags[j].name) then
+					tag:swap(tags[j])
+				end
+			end
+		end
+
+		return tag
+	end
+end
+
 -- numeric keys function builders
 local function tag_numkey(i, mod, action)
 	return awful.key(
 		mod, "#" .. i + 9,
 		function ()
 			local screen = awful.screen.focused()
-			local tag = screen.tags[i]
+			local tag = get_or_add_tag(screen, i)
 			if tag then action(tag) end
 		end
 	)
@@ -97,7 +133,7 @@ local function client_numkey(i, mod, action)
 		mod, "#" .. i + 9,
 		function ()
 			if client.focus then
-				local tag = client.focus.screen.tags[i]
+				local tag = get_or_add_tag(client.focus.screen, i)
 				if tag then action(tag) end
 			end
 		end
@@ -125,11 +161,11 @@ local function telegram_key()
 	local tags = awful.screen.focused().tags
 	local t = awful.screen.focused().selected_tag
 
-	-- tags[10] is the telegram tag
-	if t == tags[10] then
+	-- tags[#tags] is the last tag (telegram will always be the last tag)
+	if t == tags[#tags] then
 		awful.tag.history.restore()
 	else
-		tags[10]:view_only()
+		tags[#tags]:view_only()
 		awful.spawn.with_shell("telegram-desktop")
 	end
 end
