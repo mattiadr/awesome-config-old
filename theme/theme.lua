@@ -351,7 +351,7 @@ theme.widget.wrapper = {
 	battery     = {  8, 10, 7, 7 },
 	tray        = {  8,  8, 7, 7 },
 	tasklist    = {  4,  0, 0, 0 }, -- centering tasklist widget
-	systray     = {  0,  0, 8, 8 },
+	systray     = {  4,  4, 8, 8 },
 }
 
 -- Pulseaudio volume control

@@ -2,6 +2,15 @@
 --                                                    Main config                                                    --
 -----------------------------------------------------------------------------------------------------------------------
 
+-- printf
+-----------------------------------------------------------------------------------------------------------------------
+function printf(text)
+	local naughty = require("naughty")
+	naughty.notify({
+		title = tostring(text)
+	})	
+end
+
 -- Load modules
 -----------------------------------------------------------------------------------------------------------------------
 
@@ -78,7 +87,7 @@ tasklist.buttons = awful.util.table.join(
 -- Textclock widget
 --------------------------------------------------------------------------------
 local textclock = {}
-textclock.widget = redflat.widget.textclock({ timeformat = "%H:%M", dateformat = "%a, %d %B %Y" })
+textclock.widget = redflat.widget.textclock({ timeout = 10, timeformat = "%H:%M", dateformat = "%a, %d %B %Y" })
 
 -- Layoutbox configure
 --------------------------------------------------------------------------------
@@ -91,6 +100,7 @@ layoutbox.buttons = awful.util.table.join(
 	awful.button({ }, 5, function () awful.layout.inc(-1) end)
 )
 
+--[[
 -- Tray widget
 --------------------------------------------------------------------------------
 local tray = {}
@@ -99,6 +109,7 @@ tray.widget = redflat.widget.minitray()
 tray.buttons = awful.util.table.join(
 	awful.button({}, 1, function() redflat.widget.minitray:toggle() end)
 )
+]]
 
 -- PA volume control
 --------------------------------------------------------------------------------

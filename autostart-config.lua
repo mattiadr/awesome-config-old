@@ -13,8 +13,9 @@ local autostart = {}
 --------------------------------------------------------------------------------
 function autostart.run()
 	-- utils
-	--awful.spawn.with_shell("compton")
 	awful.spawn.with_shell("pulseaudio")
+	awful.spawn.with_shell("telegram-desktop")
+	--awful.spawn.with_shell("compton")
 end
 
 -- Read and commads from file and spawn them

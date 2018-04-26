@@ -121,6 +121,19 @@ local rb_corner = function()
 	         y = screen[mouse.screen].workarea.y + screen[mouse.screen].workarea.height }
 end
 
+local function telegram_key()
+	local tags = awful.screen.focused().tags
+	local t = awful.screen.focused().selected_tag
+
+	-- tags[10] is the telegram tag
+	if t == tags[10] then
+		awful.tag.history.restore()
+	else
+		tags[10]:view_only()
+		awful.spawn.with_shell("telegram-desktop")
+	end
+end
+
 -- Build hotkeys depended on config parameters
 -----------------------------------------------------------------------------------------------------------------------
 function hotkeys:init(args)
@@ -677,11 +690,11 @@ function hotkeys:init(args)
 		},
 
 		{
-			{}, "XF86MonBrightnessUp", function() brightness({ step = 1 }) end,
+			{}, "XF86MonBrightnessUp", function() brightness({ step = 5 }) end,
 			{ description = "Increase brightness", group = "Brightness control" }
 		},
 		{
-			{}, "XF86MonBrightnessDown", function() brightness({ step = 1, down = true }) end,
+			{}, "XF86MonBrightnessDown", function() brightness({ step = 5, down = true }) end,
 			{ description = "Reduce brightness", group = "Brightness control" }
 		},
 
@@ -818,6 +831,12 @@ function hotkeys:init(args)
 			{ description = "Toggle focused client on tag", group = "Numeric keys", keyset = numkeys }
 		},
 	}
+
+	-- use mod + 0 to toggle telegram
+	self.keys.root = awful.util.table.join(
+		self.keys.root,
+		awful.key({ env.mod }, "#19", telegram_key)
+	)
 
 	-- Hotkeys helper setup
 	--------------------------------------------------------------------------------
