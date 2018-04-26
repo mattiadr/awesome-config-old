@@ -21,7 +21,7 @@ function env:init()
 	-- environment vars
 	self.terminal = "st"
 	self.mod = "Mod4"
-	self.fm = "ranger" -- "st -e ranger"
+	self.fm = "st -e ranger"
 	--self.mail = args.mail or "evolution"
 	--self.player = args.player or "Lollypop"
 	--self.upgrades = args.upgrades or "bash -c 'pacman -Qu | grep -v ignored | wc -l'"

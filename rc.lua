@@ -78,7 +78,7 @@ tasklist.buttons = awful.util.table.join(
 -- Textclock widget
 --------------------------------------------------------------------------------
 local textclock = {}
-textclock.widget = redflat.widget.textclock({ timeformat = "%H:%M", dateformat = "%b  %d  %a" })
+textclock.widget = redflat.widget.textclock({ timeformat = "%H:%M", dateformat = "%a, %d %B %Y" })
 
 -- Layoutbox configure
 --------------------------------------------------------------------------------
@@ -129,8 +129,8 @@ sysmon.icon.cpuram = redflat.util.table.check(beautiful, "icon.widget.monitor")
 
 -- battery
 sysmon.widget.battery = redflat.widget.sysmon(
-	{ func = redflat.system.pformatted.bat(25), arg = "BAT1" },
-	{ timeout = 60, widget = redflat.gauge.icon.single, monitor = { is_vertical = true, icon = sysmon.icon.battery } }
+	{ func = redflat.system.pformatted.bat(25), arg = "BAT0" },
+	{ timeout = 30, widget = redflat.gauge.icon.single, monitor = { is_vertical = true, icon = sysmon.icon.battery } }
 )
 
 -- network speed
@@ -200,6 +200,7 @@ awful.screen.connect_for_each_screen(
 			{ -- left widgets
 				layout = wibox.layout.fixed.horizontal,
 
+				env.wrapper(layoutbox[s], "layoutbox", layoutbox.buttons),
 				separator,
 				env.wrapper(taglist[s], "taglist"),
 				separator,
@@ -215,7 +216,7 @@ awful.screen.connect_for_each_screen(
 				layout = wibox.layout.fixed.horizontal,
 
 				separator,
-				env.wrapper(tray.widget, "tray", tray.buttons),
+				env.wrapper(wibox.widget.systray(), "systray"),
 				--separator,
 				--env.wrapper(mail.widget, "mail", mail.buttons),
 				--separator,
@@ -227,11 +228,11 @@ awful.screen.connect_for_each_screen(
 				--separator,
 				--env.wrapper(sysmon.widget.cpuram, "cpuram", sysmon.buttons.cpuram),
 				separator,
-				env.wrapper(sysmon.widget.battery, "battery"),
-				separator,
 				env.wrapper(textclock.widget, "textclock"),
 				separator,
-				env.wrapper(layoutbox[s], "layoutbox", layoutbox.buttons),
+				env.wrapper(sysmon.widget.battery, "battery"),
+				--separator,
+				--env.wrapper(tray.widget, "tray", tray.buttons),
 			},
 		}
 	end

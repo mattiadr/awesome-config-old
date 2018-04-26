@@ -246,8 +246,8 @@ function system.battery(batname)
 		["Full\n"]        = "↯",
 		["Unknown\n"]     = "⌁",
 		["Charged\n"]     = "↯",
-		["Charging\n"]    = "+",
-		["Discharging\n"] = "-"
+		["Charging\n"]    = "++",
+		["Discharging\n"] = "--"
 	}
 
 	local files = {
