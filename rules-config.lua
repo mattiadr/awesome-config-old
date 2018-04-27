@@ -12,29 +12,30 @@ local redtitle = require("redflat.titlebar")
 local rules = {}
 
 rules.base_properties = {
-	border_width     = beautiful.border_width,
-	border_color     = beautiful.border_normal,
-	focus            = awful.client.focus.filter,
-	raise            = true,
-	size_hints_honor = false,
-	screen           = awful.screen.preferred,
+	border_width      = beautiful.border_width,
+	border_color      = beautiful.border_normal,
+	focus             = awful.client.focus.filter,
+	raise             = true,
+	size_hints_honor  = false,
+	screen            = awful.screen.preferred,
+	titlebars_enabled = false,
 }
 
 rules.floating_any = {
-	class = {
-		"Clipflap", "Run.py",
-	},
-	role = { "AlarmWindow", "pop-up", },
 	type = { "dialog" }
 }
 
-rules.titlebar_exeptions = {
-	class = { "Cavalcade", "Clipflap", "Steam", "VirtualBox" }
+rules.ide = {
+	class = { "Sublime_text" }
 }
 
-rules.maximized = {
-	class = { "Emacs24" }
+rules.borderless = {
+	class = { "Chromium" }
 }
+
+for i = 1, #rules.ide.class do
+	rules.borderless.class[#rules.borderless.class + i] = rules.ide.class[i]
+end
 
 -- Build rule table
 -----------------------------------------------------------------------------------------------------------------------
@@ -48,31 +49,55 @@ function rules:init(args)
 	-- Build rules
 	--------------------------------------------------------------------------------
 	self.rules = {
-		{
+		{ -- all
 			rule       = {},
-			properties = args.base_properties or self.base_properties
+			properties = args.base_properties or self.base_properties,
 		},
-		{
+		{ -- "2 - Dev"
+			rule_any   = self.ide,
+			properties = {
+				tag         = "2 - Dev",
+				switchtotag = true,
+			},
+		},
+		{ -- "3 - Web"
+			rule_any   = {
+				class  = { "Chromium" }
+			},
+			properties = {
+				tag         = "3 - Web",
+				switchtotag = true,
+			},
+		},
+		{ -- "0 - Tg"
+			rule_any   = {
+				class  = { "TelegramDesktop" }
+			},
+			properties = {
+				tag         = "0 - Tg",
+				switchtotag = false,
+			},
+		},
+		{ -- borderless
+			rule_any   = self.borderless,
+			properties = {
+				border_width = 0,
+			},
+		},
+		{ -- floating
 			rule_any   = args.floating_any or self.floating_any,
-			properties = { floating = true }
+			properties = {
+				floating     = true,
+				placement    = awful.placement.centered,
+				border_width = self.base_properties.border_width,
+			},
 		},
-		{
-			rule_any   = self.maximized,
-			callback = function(c)
-				c.maximized = true
-				redtitle.cut_all({ c })
-				c.height = c.screen.workarea.height - 2 * c.border_width
-			end
-		},
-		{
-			rule_any   = { type = { "normal", "dialog" }},
-			except_any = self.titlebar_exeptions,
-			properties = { titlebars_enabled = true }
-		},
-		{
+		{ -- normal
 			rule_any   = { type = { "normal" }},
-			properties = { placement = awful.placement.no_overlap + awful.placement.no_offscreen }
-		}
+			properties = {
+				placement    = awful.placement.no_overlap + awful.placement.no_offscreen,
+			},
+		},
 	}
 
 

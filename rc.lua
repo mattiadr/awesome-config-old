@@ -4,11 +4,16 @@
 
 -- printf
 -----------------------------------------------------------------------------------------------------------------------
-function printf(text)
+file = io.open("/home/mattiadr/out.txt", "a")
+function printf(obj)
+	file:write(tostring(obj) .. "\n")
+end
+
+function printn(text)
 	local naughty = require("naughty")
 	naughty.notify({
 		title = tostring(text)
-	})	
+	})
 end
 
 -- Load modules

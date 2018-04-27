@@ -760,7 +760,7 @@ function hotkeys:init(args)
 			{ description = "Reduce volume", group = "Volume control" }
 		},
 		{
-			{ env.mod }, "v", volume_mute,
+			{}, "XF86AudioMute", volume_mute,
 			{ description = "Toggle mute", group = "Volume control" }
 		},
 

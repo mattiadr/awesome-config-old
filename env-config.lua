@@ -28,8 +28,9 @@ function env:init()
 	self.home = os.getenv("HOME")
 	self.themedir = awful.util.get_configuration_dir() .. "themes/"
 
-	self.sloppy_focus = false
-	self.color_border = false
+	self.sloppy_focus = true
+	self.color_border = true
+	self.color_border_focus = true
 	self.set_slave = true
 
 	-- theme setup
