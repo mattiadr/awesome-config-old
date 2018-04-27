@@ -161,7 +161,7 @@ sysmon.widget.network = redflat.widget.net(
 )
 
 -- CPU and RAM usage
-local cpu_storage = { cpu_total = {}, cpu_active = {} }
+--[[local cpu_storage = { cpu_total = {}, cpu_active = {} }
 
 local cpuram_func = function()
 	local cpu_usage = redflat.system.cpu_usage(cpu_storage).total
@@ -181,7 +181,7 @@ sysmon.widget.cpuram = redflat.widget.sysmon(
 
 sysmon.buttons.cpuram = awful.util.table.join(
 	awful.button({ }, 1, function() redflat.float.top:show("cpu") end)
-)
+)]]
 
 -- Screen setup
 -----------------------------------------------------------------------------------------------------------------------

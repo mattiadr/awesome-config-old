@@ -90,6 +90,13 @@ function signals:init(args)
 	-- For reference, screen-dependent widgets are
 	-- redflat.widget.layoutbox, redflat.widget.taglist, redflat.widget.tasklist
 	screen.connect_signal("list", awesome.restart)
+
+	-- bring telegram to front
+	tag.connect_signal("property::urgent", function(t)
+		if not timestamp.is_startup() and t.name == "0 - Tg" then
+			t:view_only()
+		end
+	end)
 end
 
 -- End

@@ -37,6 +37,7 @@ function env:init()
 	beautiful.init(env.themedir .. "/theme.lua")
 
 	-- naughty config
+	naughty.config.defaults.position = "bottom_right"
 	naughty.config.padding = beautiful.useless_gap and 2 * beautiful.useless_gap or 0
 
 	if beautiful.naughty then

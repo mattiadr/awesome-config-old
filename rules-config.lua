@@ -19,6 +19,7 @@ rules.base_properties = {
 	size_hints_honor  = false,
 	screen            = awful.screen.preferred,
 	titlebars_enabled = false,
+	minimized         = false,
 }
 
 rules.floating_any = {

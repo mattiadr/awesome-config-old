@@ -14,7 +14,7 @@ local autostart = {}
 function autostart.run()
 	-- utils
 	awful.spawn.with_shell("pulseaudio")
-	awful.spawn.with_shell("telegram-desktop")
+	awful.spawn.with_shell("telegram-desktop -startintray")
 	--awful.spawn.with_shell("compton")
 end
 
