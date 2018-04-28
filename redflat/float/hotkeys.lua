@@ -26,7 +26,7 @@ local hotkeys = { keypack = {}, lastkey = nil, cache = {}, boxes = {} }
 local hasitem = awful.util.table.hasitem
 
 -- key bindings
-hotkeys.keys = { close = { "Escape" }, close_all = { "Super_L" } }
+hotkeys.keys = { close = { "Escape" }, close_all = { "Escape" } }
 
 -- Generate default theme vars
 -----------------------------------------------------------------------------------------------------------------------

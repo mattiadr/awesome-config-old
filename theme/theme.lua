@@ -45,32 +45,32 @@ theme.wallpaper = theme.path .. "/wallpaper/custom.png" -- wallpaper file
 -- Fonts
 ------------------------------------------------------------
 theme.fonts = {
-	main     = "Roboto 13",      -- main font
-	menu     = "Roboto 13",      -- main menu font
-	tooltip  = "Roboto 13",      -- tooltip font
-	notify   = "Play bold 14",   -- redflat notify popup font
-	clock    = "Play bold 12",   -- textclock widget font
-	qlaunch  = "Play bold 14",   -- quick launch key label font
-	keychain = "Play bold 16",   -- key sequence tip font
-	title    = "Roboto bold 13", -- widget titles font
-	titlebar = "Roboto bold 13", -- client titlebar font
+	main     = "monospace 13",      -- main font
+	menu     = "monospace 13",      -- main menu font
+	tooltip  = "monospace 13",      -- tooltip font
+	notify   = "monospace bold 14",   -- redflat notify popup font
+	clock    = "monospace bold 12",   -- textclock widget font
+	qlaunch  = "monospace bold 14",   -- quick launch key label font
+	keychain = "monospace bold 16",   -- key sequence tip font
+	title    = "monospace bold 13", -- widget titles font
+	titlebar = "monospace bold 13", -- client titlebar font
 	hotkeys  = {
-		main  = "Roboto 14",             -- hotkeys helper main font
-		key   = "Iosevka Term Light 14", -- hotkeys helper key font (use monospace for align)
-		title = "Roboto bold 16",        -- hotkeys helper group title font
+		main  = "monospace 14",             -- hotkeys helper main font
+		key   = "monospace 14", -- hotkeys helper key font (use monospace for align)
+		title = "monospace bold 16",        -- hotkeys helper group title font
 	},
 	player   = {
-		main = "Play bold 13", -- player widget main font
-		time = "Play bold 15", -- player widget current time font
+		main = "monospace bold 13", -- player widget main font
+		time = "monospace bold 15", -- player widget current time font
 	},
 }
 
 theme.cairo_fonts = {
-	tag         = { font = "Play", size = 16, face = 1 }, -- tag widget font
-	appswitcher = { font = "Play", size = 20, face = 1 }, -- appswitcher widget font
+	tag         = { font = "monospace", size = 16, face = 1 }, -- tag widget font
+	appswitcher = { font = "monospace", size = 20, face = 1 }, -- appswitcher widget font
 	navigator   = {
-		title = { font = "Play", size = 28, face = 1, slant = 0 }, -- window navigation title font
-		main  = { font = "Play", size = 22, face = 1, slant = 0 }  -- window navigation  main font
+		title = { font = "monospace", size = 28, face = 1, slant = 0 }, -- window navigation title font
+		main  = { font = "monospace", size = 22, face = 1, slant = 0 }  -- window navigation  main font
 	},
 }
 

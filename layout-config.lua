@@ -18,12 +18,11 @@ function layouts:init()
 	-- layouts list
 	local layset = {
 		awful.layout.suit.floating,
-		redflat.layout.grid,
+		--redflat.layout.grid,
 		awful.layout.suit.tile,
 		awful.layout.suit.fair,
-		redflat.layout.map,
+		--redflat.layout.map,
 		awful.layout.suit.max,
-		awful.layout.suit.max.fullscreen,
 	}
 
 	awful.layout.layouts = layset
@@ -36,8 +35,8 @@ redflat.layout.map.notification = false
 -- connect alternatve moving handler to allow using custom handler per layout
 -- by now custom handler provided for 'redflat.layout.grid' only
 -- feel free to remove if you don't use this one
-client.disconnect_signal("request::geometry", awful.layout.move_handler)
-client.connect_signal("request::geometry", redflat.layout.common.mouse.move)
+--client.disconnect_signal("request::geometry", awful.layout.move_handler)
+--client.connect_signal("request::geometry", redflat.layout.common.mouse.move)
 
 
 -- connect additional signal for 'redflat.layout.map'

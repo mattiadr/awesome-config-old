@@ -9,10 +9,10 @@ function printf(obj)
 	file:write(tostring(obj) .. "\n")
 end
 
-function printn(text)
+function printn(obj)
 	local naughty = require("naughty")
 	naughty.notify({
-		title = tostring(text)
+		title = tostring(obj)
 	})
 end
 
@@ -122,16 +122,16 @@ local volume = {}
 volume.widget = redflat.widget.pulse(nil, { widget = redflat.gauge.audio.blue.new })
 
 -- activate player widget
-redflat.float.player:init({ name = env.player })
+--redflat.float.player:init({ name = env.player })
 
 volume.buttons = awful.util.table.join(
 	awful.button({}, 4, function() redflat.widget.pulse:change_volume()                end),
 	awful.button({}, 5, function() redflat.widget.pulse:change_volume({ down = true }) end),
-	awful.button({}, 2, function() redflat.widget.pulse:mute()                         end),
-	awful.button({}, 3, function() redflat.float.player:show()                         end),
-	awful.button({}, 1, function() redflat.float.player:action("PlayPause")            end),
-	awful.button({}, 8, function() redflat.float.player:action("Previous")             end),
-	awful.button({}, 9, function() redflat.float.player:action("Next")                 end)
+	awful.button({}, 1, function() redflat.widget.pulse:mute()                         end)
+	--awful.button({}, 3, function() redflat.float.player:show()                         end),
+	--awful.button({}, 1, function() redflat.float.player:action("PlayPause")            end),
+	--awful.button({}, 8, function() redflat.float.player:action("Previous")             end),
+	--awful.button({}, 9, function() redflat.float.player:action("Next")                 end)
 )
 
 -- System resource monitoring widgets
@@ -186,9 +186,6 @@ sysmon.buttons.cpuram = awful.util.table.join(
 -- Screen setup
 -----------------------------------------------------------------------------------------------------------------------
 
--- aliases for setup
-local al = awful.layout.layouts
-
 -- setup
 awful.screen.connect_for_each_screen(
 	function(s)
@@ -196,7 +193,27 @@ awful.screen.connect_for_each_screen(
 		env.wallpaper(s)
 
 		-- tags
-		awful.tag({ "1 - Main", "2 - Dev", "3 - Web", "0 - Tg" }, s, { al[4], al[3], al[3], al[6] })
+		awful.tag.add("1 - Main", {
+			layout              = awful.layout.suit.fair,
+			screen              = s,
+			selected            = true,
+		})
+		awful.tag.add("2 - Dev", {
+			layout              = awful.layout.suit.tile,
+			screen              = s,
+			gap_single_client   = false,
+			master_width_factor = 0.75
+		})
+		awful.tag.add("3 - Web", {
+			layout              = awful.layout.suit.tile,
+			screen              = s,
+			gap_single_client   = false,
+			master_width_factor = 0.75
+		})
+		awful.tag.add("0 - Tg", {
+			layout              = awful.layout.suit.max,
+			screen              = s,
+		})
 
 		-- layoutbox widget
 		layoutbox[s] = redflat.widget.layoutbox({ screen = s })

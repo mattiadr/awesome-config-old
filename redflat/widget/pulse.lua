@@ -34,7 +34,7 @@ local pulse = { widgets = {}, mt = {} }
 local counter = 0
 local pulse_def_sink = redutil.read.output("pacmd dump|perl -ane 'print $F[1] if /set-default-sink/'")
 
-pulse.startup_time = 4
+pulse.startup_time = 10
 
 -- Generate default theme vars
 -----------------------------------------------------------------------------------------------------------------------

@@ -92,9 +92,12 @@ function signals:init(args)
 	screen.connect_signal("list", awesome.restart)
 
 	-- bring telegram to front
+	local tg_activated = 2
 	tag.connect_signal("property::urgent", function(t)
-		if not timestamp.is_startup() and t.name == "0 - Tg" then
+		if tg_activated == 0 and t.name == "0 - Tg" then
 			t:view_only()
+		else
+			tg_activated = tg_activated - 1
 		end
 	end)
 end
