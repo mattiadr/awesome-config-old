@@ -195,11 +195,11 @@ function hotkeys:init(args)
 	------------------------------------------------------------
 	local apprunner_keys_move = {
 		{
-			{ env.mod }, "k", function() apprunner:down() end,
+			{ }, "Down", function() apprunner:down() end,
 			{ description = "Select next item", group = "Navigation" }
 		},
 		{
-			{ env.mod }, "i", function() apprunner:up() end,
+			{ }, "Up", function() apprunner:up() end,
 			{ description = "Select previous item", group = "Navigation" }
 		},
 	}

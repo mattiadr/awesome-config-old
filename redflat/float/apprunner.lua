@@ -34,11 +34,11 @@ local lastquery = nil
 -- key bindings
 apprunner.keys.move = {
 	{
-		{}, "Down", function() apprunner:down() end,
+		{ }, "Down", function() apprunner:down() end,
 		{ description = "Select next item", group = "Navigation" }
 	},
 	{
-		{}, "Up", function() apprunner:up() end,
+		{ }, "Up", function() apprunner:up() end,
 		{ description = "Select previous item", group = "Navigation" }
 	},
 }
