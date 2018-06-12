@@ -90,10 +90,16 @@ end
 
 -- Set mute
 -----------------------------------------------------------------------------------------------------------------------
-function pulse:mute()
+function pulse:mute(forced)
 	local mute = redutil.read.output("pacmd dump | grep set-sink-mute | grep " .. pulse_def_sink)
 
-	if string.find(mute, "no", -4) then
+	if forced ~= nil then
+		b = forced
+	else
+		b = string.find(mute, "no", -4)
+	end
+
+	if b then
 		awful.spawn("pacmd set-sink-mute " .. pulse_def_sink .. " yes")
 	else
 		awful.spawn("pacmd set-sink-mute " .. pulse_def_sink .. " no")

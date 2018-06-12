@@ -141,8 +141,16 @@ local function client_numkey(i, mod, action)
 end
 
 -- volume functions
-local volume_raise = function() redflat.widget.pulse:change_volume({ show_notify = true })              end
-local volume_lower = function() redflat.widget.pulse:change_volume({ show_notify = true, down = true }) end
+local volume_raise = function()
+	redflat.widget.pulse:mute(false)
+	redflat.widget.pulse:change_volume({ show_notify = true })
+end
+
+local volume_lower = function()
+	redflat.widget.pulse:mute(false)
+	redflat.widget.pulse:change_volume({ show_notify = true, down = true })
+end
+
 local volume_mute  = function() redflat.widget.pulse:mute() end
 
 -- brightness functions

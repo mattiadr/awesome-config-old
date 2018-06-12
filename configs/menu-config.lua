@@ -50,7 +50,7 @@ function menu:init(args)
 
 	-- Places submenu
 	------------------------------------------------------------
-	local placesmenu = {
+	--[[local placesmenu = {
 		{ "Documents", env.fm .. " Documents",  micon("folder-documents") },
 		{ "Downloads", env.fm .. " Downloads",  micon("folder-download")  },
 		{ "Music",     env.fm .. " Music",      micon("folder-music")     },
@@ -59,7 +59,7 @@ function menu:init(args)
 		separator,
 		{ "Media",     env.fm .. " /mnt/media", micon("folder-bookmarks") },
 		{ "Storage",   env.fm .. " /opt",       micon("folder-bookmarks") },
-	}
+	}]]
 
 	-- Exit submenu
 	------------------------------------------------------------
@@ -73,16 +73,16 @@ function menu:init(args)
 	------------------------------------------------------------
 	self.mainmenu = redflat.menu({ theme = theme,
 		items = {
-			{ "Awesome",      awesomemenu,    micon("awesome") },
-			{ "Applications", appmenu,        micon("distributor-logo") },
-			{ "Places",       placesmenu,     micon("folder_home"), key = "c" },
+			{ "Awesome",      awesomemenu,                  micon("awesome") },
+			{ "Applications", appmenu,                      micon("distributor-logo") },
+			--{ "Places",       placesmenu,                   micon("folder_home"), key = "c" },
 			separator,
-			{ "Firefox",      "firefox",      micon("firefox") },
-			{ "Nemo",         "nemo",         micon("folder") },
-			{ "Emacs",        "emacs",        micon("emacs") },
+			{ "Chromium",     "chromium",                   micon("chrome") },
+			{ "ranger",       env.terminal .. " -e ranger", micon("folder") },
+			{ "htop",         env.terminal .. " -e htop",   micon("emacs") },
 			separator,
-			{ "Exit",         exitmenu,       micon("exit") },
-			{ "Shutdown",     "shutdown now", micon("system-shutdown") }
+			{ "Exit",         exitmenu,                     micon("exit") },
+			{ "Shutdown",     "shutdown now",               micon("system-shutdown") }
 		}
 	})
 
