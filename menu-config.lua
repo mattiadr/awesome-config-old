@@ -42,48 +42,47 @@ function menu:init(args)
 	-- Awesome submenu
 	------------------------------------------------------------
 	local awesomemenu = {
-		{ "Restart",         awesome.restart,                 micon("gnome-session-reboot") },
+		{ "Restart",        awesome.restart,                     micon("gnome-session-reboot") },
 		separator,
-		{ "Awesome config",  env.fm .. " .config/awesome",        micon("folder-bookmarks") },
-		{ "Awesome lib",     env.fm .. " /usr/share/awesome/lib", micon("folder-bookmarks") }
+		{ "Awesome config", env.fm .. " .config/awesome",        micon("folder-bookmarks") },
+		{ "Awesome lib",    env.fm .. " /usr/share/awesome/lib", micon("folder-bookmarks") }
 	}
 
 	-- Places submenu
 	------------------------------------------------------------
 	local placesmenu = {
-		{ "Documents",   env.fm .. " Documents", micon("folder-documents") },
-		{ "Downloads",   env.fm .. " Downloads", micon("folder-download")  },
-		{ "Music",       env.fm .. " Music",     micon("folder-music")     },
-		{ "Pictures",    env.fm .. " Pictures",  micon("folder-pictures")  },
-		{ "Videos",      env.fm .. " Videos",    micon("folder-videos")    },
+		{ "Documents", env.fm .. " Documents",  micon("folder-documents") },
+		{ "Downloads", env.fm .. " Downloads",  micon("folder-download")  },
+		{ "Music",     env.fm .. " Music",      micon("folder-music")     },
+		{ "Pictures",  env.fm .. " Pictures",   micon("folder-pictures")  },
+		{ "Videos",    env.fm .. " Videos",     micon("folder-videos")    },
 		separator,
-		{ "Media",       env.fm .. " /mnt/media", micon("folder-bookmarks") },
-		{ "Storage",     env.fm .. " /opt",       micon("folder-bookmarks") },
+		{ "Media",     env.fm .. " /mnt/media", micon("folder-bookmarks") },
+		{ "Storage",   env.fm .. " /opt",       micon("folder-bookmarks") },
 	}
 
 	-- Exit submenu
 	------------------------------------------------------------
 	local exitmenu = {
-		{ "Reboot",          "reboot",                    micon("gnome-session-reboot")  },
-		{ "Switch user",     "dm-tool switch-to-greeter", micon("gnome-session-switch")  },
-		{ "Suspend",         "systemctl suspend" ,        micon("gnome-session-suspend") },
-		{ "Log out",         awesome.quit,                micon("exit")                  },
+		{ "Reboot",       "reboot",            micon("gnome-session-reboot")  },
+		{ "Log Out",      awesome.quit,        micon("exit")                  },
+		{ "Suspend",      "systemctl suspend", micon("gnome-session-suspend") },
 	}
 
 	-- Main menu
 	------------------------------------------------------------
 	self.mainmenu = redflat.menu({ theme = theme,
 		items = {
-			{ "Awesome",       awesomemenu, micon("awesome") },
-			{ "Applications",  appmenu,     micon("distributor-logo") },
-			{ "Places",        placesmenu,  micon("folder_home"), key = "c" },
+			{ "Awesome",      awesomemenu,    micon("awesome") },
+			{ "Applications", appmenu,        micon("distributor-logo") },
+			{ "Places",       placesmenu,     micon("folder_home"), key = "c" },
 			separator,
-			{ "Firefox", "firefox", micon("firefox") },
-			{ "Nemo",    "nemo",    micon("folder") },
-			{ "Emacs",   "emacs",   micon("emacs") },
+			{ "Firefox",      "firefox",      micon("firefox") },
+			{ "Nemo",         "nemo",         micon("folder") },
+			{ "Emacs",        "emacs",        micon("emacs") },
 			separator,
-			{ "Exit",     exitmenu,       micon("exit") },
-			{ "Shutdown", "shutdown now", micon("system-shutdown") }
+			{ "Exit",         exitmenu,       micon("exit") },
+			{ "Shutdown",     "shutdown now", micon("system-shutdown") }
 		}
 	})
 

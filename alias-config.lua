@@ -4,10 +4,11 @@
 
 appnames = {}
 
+appnames["Chromium"]             = "Chrome"
+appnames["Eclipse"]              = "Eclipse"
+appnames["Nm-connection-editor"] = "NM Edit"
 appnames["st-256color"]          = "st"
 appnames["Sublime_text"]         = "Sublime"
-appnames["Chromium"]             = "Chrome"
 appnames["TelegramDesktop"]      = "TG"
 
 return appnames
-

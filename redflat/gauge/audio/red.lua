@@ -33,8 +33,8 @@ end
 
 -- Support functions
 -----------------------------------------------------------------------------------------------------------------------
-local function pattern_string(height, value, c1, c2)
-	return string.format("linear:0,%s:0,0:0,%s:%s,%s:%s,%s:1,%s", height, c1, value, c1, value, c2, c2)
+local function pattern_string(width, value, c1, c2)
+	return string.format("linear:0,0:%s,0:0,%s:%s,%s:%s,%s:1,%s", width, c1, value, c1, value, c2, c2)
 end
 
 -- Create a new audio widget
@@ -64,8 +64,8 @@ function audio.new(style)
 		if x > 1 then x = 1 end
 
 		if self.widget._image then
-			local h = self.widget._image.height
-			icon.ready:set_color(pattern_string(h, x, style.color.main, style.color.icon))
+			local w = self.widget._image.width
+			icon.ready:set_color(pattern_string(w, x, style.color.main, style.color.icon))			
 		end
 	end
 

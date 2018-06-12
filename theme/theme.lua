@@ -325,12 +325,16 @@ theme.gauge.graph.dots = {
 
 -- Volume indicator
 ------------------------------------------------------------
-theme.gauge.audio.blue = {
-	width   = 75,
-	dash    = { bar = { num = 5, width = 4 }, color = theme.color },
-	dmargin = { 10, 0, 2, 2 },
-	icon    = theme.path .. "/widget/headphones.svg",
-	color = { icon = theme.color.icon, mute = theme.color.urgent },
+theme.gauge.audio.red = {
+	icon = {
+		ready = theme.path .. "/widget/audio.svg",
+		mute  = theme.path .. "/widget/mute.svg"
+	},
+	color = {
+		main = theme.color.main,
+		icon = theme.color.icon,
+		mute = theme.color.gray
+	}
 }
 
 

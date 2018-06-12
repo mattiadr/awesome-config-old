@@ -121,7 +121,7 @@ tray.buttons = awful.util.table.join(
 -- PA volume control
 --------------------------------------------------------------------------------
 local volume = {}
-volume.widget = redflat.widget.pulse(nil, { widget = redflat.gauge.audio.blue.new })
+volume.widget = redflat.widget.pulse(nil, { widget = redflat.gauge.audio.red.new })
 
 -- activate player widget
 --redflat.float.player:init({ name = env.player })
@@ -142,17 +142,30 @@ local sysmon = { widget = {}, buttons = {}, icon = {} }
 
 -- icons
 sysmon.icon.battery = redflat.util.table.check(beautiful, "icon.widget.battery")
-sysmon.icon.network = redflat.util.table.check(beautiful, "icon.widget.wireless")
-sysmon.icon.cpuram = redflat.util.table.check(beautiful, "icon.widget.monitor")
+--sysmon.icon.network = redflat.util.table.check(beautiful, "icon.widget.wireless")
+--sysmon.icon.cpuram = redflat.util.table.check(beautiful, "icon.widget.monitor")
 
 -- battery
-sysmon.widget.battery = redflat.widget.sysmon(
+--[[sysmon.widget.battery = redflat.widget.sysmon(
 	{ func = redflat.system.pformatted.bat(25), arg = "BAT0" },
 	{ timeout = 30, widget = redflat.gauge.icon.single, monitor = { is_vertical = true, icon = sysmon.icon.battery } }
-)
+)]]
+
+-- battery
+local battery_widget = require("widgets/battery-widget")
+local BAT0_widget = battery_widget {
+	adapter = "BAT0",
+	timeout = 30,
+	widget_text = " ${AC_BAT}${color_on}${percent}%${color_off} ",
+	widget_font = "monospace",
+	tooltip_text = "${time_est} remaining\nCapacity: ${capacity_percent}%",
+	alert_threshold = 15,
+	alert_timeout = 10,
+	alert_title = "Battery low!",
+}
 
 -- network speed
-sysmon.widget.network = redflat.widget.net(
+--[[sysmon.widget.network = redflat.widget.net(
 	{
 		interface = "wlp3s0",
 		alert = { up = 4 * 1024^2, down = 4 * 1024^2 },
@@ -160,7 +173,7 @@ sysmon.widget.network = redflat.widget.net(
 		autoscale = false
 	},
 	{ timeout = 2, widget = redflat.gauge.monitor.double, monitor = { icon = sysmon.icon.network } }
-)
+)]]
 
 -- CPU and RAM usage
 --[[local cpu_storage = { cpu_total = {}, cpu_active = {} }
@@ -251,21 +264,22 @@ awful.screen.connect_for_each_screen(
 				layout = wibox.layout.fixed.horizontal,
 
 				separator,
-				env.wrapper(wibox.widget.systray(), "systray"),
+				env.wrapper(wibox.widget.systray(true), "systray"),
 				--separator,
 				--env.wrapper(mail.widget, "mail", mail.buttons),
 				--separator,
 				--env.wrapper(kbindicator.widget, "keyboard", kbindicator.buttons),
 				separator,
 				env.wrapper(volume.widget, "volume", volume.buttons),
-				separator,
-				env.wrapper(sysmon.widget.network, "network"),
+				--separator,
+				--env.wrapper(sysmon.widget.network, "network"),
 				--separator,
 				--env.wrapper(sysmon.widget.cpuram, "cpuram", sysmon.buttons.cpuram),
 				separator,
 				env.wrapper(textclock.widget, "textclock"),
 				separator,
-				env.wrapper(sysmon.widget.battery, "battery"),
+				--env.wrapper(sysmon.widget.battery, "battery"),
+				BAT0_widget,
 				--separator,
 				--env.wrapper(tray.widget, "tray", tray.buttons),
 			},

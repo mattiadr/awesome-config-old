@@ -23,15 +23,19 @@ rules.base_properties = {
 }
 
 rules.floating_any = {
-	type = { "dialog" }
+	type = { "dialog" },
+	class = { "Nm-connection-editor" },
 }
 
 rules.ide = {
-	class = { "Sublime_text" }
+	class = {
+		"Sublime_text",
+		"Eclipse"
+	},
 }
 
 rules.borderless = {
-	class = { "Chromium" }
+	class = { "Chromium" },
 }
 
 for i = 1, #rules.ide.class do

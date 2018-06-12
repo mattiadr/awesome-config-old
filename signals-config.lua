@@ -91,13 +91,12 @@ function signals:init(args)
 	-- redflat.widget.layoutbox, redflat.widget.taglist, redflat.widget.tasklist
 	screen.connect_signal("list", awesome.restart)
 
-	-- bring telegram to front
-	local tg_activated = 2
+	-- bring urgent to front
+	local ignore = 2
 	tag.connect_signal("property::urgent", function(t)
-		if tg_activated == 0 and t.name == "0 - Tg" then
+		if ignore > 0 then
 			t:view_only()
-		else
-			tg_activated = tg_activated - 1
+			ignore = ignore - 1
 		end
 	end)
 end
