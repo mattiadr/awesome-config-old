@@ -155,6 +155,7 @@ sysmon.icon.battery = redflat.util.table.check(beautiful, "icon.widget.battery")
 local battery_widget = require("widgets/battery-widget")
 local BAT0_widget = battery_widget {
 	adapter = "BAT0",
+	listen = true,
 	timeout = 30,
 	widget_text = " ${AC_BAT}${color_on}${percent}%${color_off} ",
 	widget_font = "monospace",

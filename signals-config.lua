@@ -95,8 +95,9 @@ function signals:init(args)
 	local ignore = 2
 	tag.connect_signal("property::urgent", function(t)
 		if ignore > 0 then
-			t:view_only()
 			ignore = ignore - 1
+		else
+			t:view_only()
 		end
 	end)
 end
