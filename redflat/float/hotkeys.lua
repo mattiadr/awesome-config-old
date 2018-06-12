@@ -74,13 +74,14 @@ end
 local function parse(rawkeys, columns)
 	local keys = {}
 	local columns = columns or 1
-	local p = math.ceil(#rawkeys / columns)
 
 	local rk = {}
 	for _, k in ipairs(rawkeys) do if k[#k].description then table.insert(rk, k) end end
 
+	local p = math.ceil(#rk / columns)
+
 	-- dirty trick for raw sorting
-	local sp = {}
+	--[[local sp = {}
 	for _, v in ipairs(rk) do
 		if not hasitem(sp, v[#v].group) then table.insert(sp, v[#v].group) end
 	end
@@ -91,7 +92,7 @@ local function parse(rawkeys, columns)
 		else
 			return a[2] < b[2]
 		end
-	end)
+	end)]]
 
 	-- split keys to columns
 	for i = 1, columns do
@@ -121,7 +122,7 @@ local function parse(rawkeys, columns)
 		end
 
 		-- sort key by lenght inside group
-		for name, group in pairs(keys[i].groups) do table.sort(group, keysort) end
+		--for name, group in pairs(keys[i].groups) do table.sort(group, keysort) end
 	end
 
 	return keys
@@ -168,6 +169,7 @@ local function build_tip(pack, style, keypressed)
 				)
 				coltxt = coltxt .. line .. "\n"
 			end
+			coltxt = coltxt .. "\n"
 		end
 		text[i] = coltxt
 	end

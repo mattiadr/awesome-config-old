@@ -71,9 +71,9 @@ taglist.buttons = awful.util.table.join(
 	awful.button({ env.mod }, 1, function(t) if client.focus then client.focus:move_to_tag(t) end end),
 	awful.button({         }, 2, awful.tag.viewtoggle),
 	awful.button({         }, 3, function(t) redflat.widget.layoutbox:toggle_menu(t) end),
-	awful.button({ env.mod }, 3, function(t) if client.focus then client.focus:toggle_tag(t) end end),
-	awful.button({         }, 4, function(t) awful.tag.viewnext(t.screen) end),
-	awful.button({         }, 5, function(t) awful.tag.viewprev(t.screen) end)
+	awful.button({ env.mod }, 3, function(t) if client.focus then client.focus:toggle_tag(t) end end)
+	--awful.button({         }, 4, function(t) awful.tag.viewnext(t.screen) end),
+	--awful.button({         }, 5, function(t) awful.tag.viewprev(t.screen) end)
 )
 
 -- Tasklist
@@ -86,9 +86,9 @@ tasklist.style = { appnames = require("configs/alias-config") }
 tasklist.buttons = awful.util.table.join(
 	awful.button({ }, 1, redflat.widget.tasklist.action.select),
 	awful.button({ }, 2, redflat.widget.tasklist.action.close),
-	awful.button({ }, 3, redflat.widget.tasklist.action.menu),
-	awful.button({ }, 4, redflat.widget.tasklist.action.switch_next),
-	awful.button({ }, 5, redflat.widget.tasklist.action.switch_prev)
+	awful.button({ }, 3, redflat.widget.tasklist.action.menu)
+	--awful.button({ }, 4, redflat.widget.tasklist.action.switch_next),
+	--awful.button({ }, 5, redflat.widget.tasklist.action.switch_prev)
 )
 
 -- Textclock widget
@@ -155,7 +155,7 @@ sysmon.icon.battery = redflat.util.table.check(beautiful, "icon.widget.battery")
 local battery_widget = require("widgets/battery-widget")
 local BAT0_widget = battery_widget {
 	adapter = "BAT0",
-	listen = true,
+	listen = false,
 	timeout = 30,
 	widget_text = " ${AC_BAT}${color_on}${percent}%${color_off} ",
 	widget_font = "monospace",

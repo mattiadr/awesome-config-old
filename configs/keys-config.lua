@@ -15,7 +15,7 @@ local hotkeys = { mouse = {}, raw = {}, keys = {}, fake = {} }
 
 -- key aliases
 local apprunner = redflat.float.apprunner
-local appswitcher = redflat.float.appswitcher
+--local appswitcher = redflat.float.appswitcher
 local current = redflat.widget.tasklist.filter.currenttags
 local allscr = redflat.widget.tasklist.filter.allscreen
 local laybox = redflat.widget.layoutbox
@@ -188,9 +188,9 @@ function hotkeys:init(args)
 	local mainmenu = args.menu
 
 	self.mouse.root = (awful.util.table.join(
-		awful.button({ }, 3, function () mainmenu:toggle() end),
-		awful.button({ }, 4, awful.tag.viewnext),
-		awful.button({ }, 5, awful.tag.viewprev)
+		awful.button({ }, 3, function () mainmenu:toggle() end)
+		--awful.button({ }, 4, awful.tag.viewnext),
+		--awful.button({ }, 5, awful.tag.viewprev)
 	))
 
 	-- Init widgets
@@ -203,12 +203,12 @@ function hotkeys:init(args)
 	------------------------------------------------------------
 	local apprunner_keys_move = {
 		{
-			{ }, "Down", function() apprunner:down() end,
-			{ description = "Select next item", group = "Navigation" }
-		},
-		{
 			{ }, "Up", function() apprunner:up() end,
 			{ description = "Select previous item", group = "Navigation" }
+		},
+		{
+			{ }, "Down", function() apprunner:down() end,
+			{ description = "Select next item", group = "Navigation" }
 		},
 	}
 
@@ -219,16 +219,16 @@ function hotkeys:init(args)
 	------------------------------------------------------------
 	local menu_keys_move = {
 		{
-			{ env.mod }, "k", redflat.menu.action.down,
+			{ env.mod }, "h", redflat.menu.action.back,
+			{ description = "Go back", group = "Navigation" }
+		},
+		{
+			{ env.mod }, "j", redflat.menu.action.down,
 			{ description = "Select next item", group = "Navigation" }
 		},
 		{
-			{ env.mod }, "i", redflat.menu.action.up,
+			{ env.mod }, "k", redflat.menu.action.up,
 			{ description = "Select previous item", group = "Navigation" }
-		},
-		{
-			{ env.mod }, "j", redflat.menu.action.back,
-			{ description = "Go back", group = "Navigation" }
 		},
 		{
 			{ env.mod }, "l", redflat.menu.action.enter,
@@ -236,11 +236,12 @@ function hotkeys:init(args)
 		},
 	}
 
-	-- redflat.menu:set_keys(awful.util.table.join(redflat.menu.keys.move, menu_keys_move), "move")
-	redflat.menu:set_keys(menu_keys_move, "move")
+	redflat.menu:set_keys(awful.util.table.join(redflat.menu.keys.move, menu_keys_move), "move")
+	-- redflat.menu:set_keys(menu_keys_move, "move")
 
 	-- Appswitcher widget
 	------------------------------------------------------------
+	--[[
 	appswitcher_keys = {
 		{
 			{ env.mod }, "a", function() appswitcher:switch() end,
@@ -289,6 +290,7 @@ function hotkeys:init(args)
 	}
 
 	appswitcher:set_keys(appswitcher_keys)
+	--]]
 
 	-- Emacs like key sequences
 	--------------------------------------------------------------------------------
@@ -372,20 +374,20 @@ function hotkeys:init(args)
 	-- shared layout keys
 	local layout_tile = {
 		{
-			{ env.mod }, "l", function () awful.tag.incmwfact( 0.05) end,
-			{ description = "Increase master width factor", group = "Layout" }
-		},
-		{
-			{ env.mod }, "j", function () awful.tag.incmwfact(-0.05) end,
+			{ env.mod }, "h", function () awful.tag.incmwfact(-0.05) end,
 			{ description = "Decrease master width factor", group = "Layout" }
 		},
 		{
-			{ env.mod }, "i", function () awful.client.incwfact( 0.05) end,
+			{ env.mod }, "j", function () awful.client.incwfact(-0.05) end,
+			{ description = "Decrease window factor of a client", group = "Layout" }
+		},
+		{
+			{ env.mod }, "k", function () awful.client.incwfact( 0.05) end,
 			{ description = "Increase window factor of a client", group = "Layout" }
 		},
 		{
-			{ env.mod }, "k", function () awful.client.incwfact(-0.05) end,
-			{ description = "Decrease window factor of a client", group = "Layout" }
+			{ env.mod }, "l", function () awful.tag.incmwfact( 0.05) end,
+			{ description = "Increase master width factor", group = "Layout" }
 		},
 		{
 			{ env.mod, }, "+", function () awful.tag.incnmaster( 1, nil, true) end,
@@ -410,102 +412,102 @@ function hotkeys:init(args)
 	-- grid layout keys
 	local layout_grid_move = {
 		{
-			{ "Mod4" }, "KP_Up", function() grid.move_to("up") end,
+			{ env.mod }, "KP_Up", function() grid.move_to("up") end,
 			{ description = "Move window up", group = "Movement" }
 		},
 		{
-			{ "Mod4" }, "KP_Down", function() grid.move_to("down") end,
+			{ env.mod }, "KP_Down", function() grid.move_to("down") end,
 			{ description = "Move window down", group = "Movement" }
 		},
 		{
-			{ "Mod4" }, "KP_Left", function() grid.move_to("left") end,
+			{ env.mod }, "KP_Left", function() grid.move_to("left") end,
 			{ description = "Move window left", group = "Movement" }
 		},
 		{
-			{ "Mod4" }, "KP_right", function() grid.move_to("right") end,
+			{ env.mod }, "KP_right", function() grid.move_to("right") end,
 			{ description = "Move window right", group = "Movement" }
 		},
 		{
-			{ "Mod4", "Control" }, "KP_Up", function() grid.move_to("up", true) end,
+			{ env.mod, "Control" }, "KP_Up", function() grid.move_to("up", true) end,
 			{ description = "Move window up by bound", group = "Movement" }
 		},
 		{
-			{ "Mod4", "Control" }, "KP_Down", function() grid.move_to("down", true) end,
+			{ env.mod, "Control" }, "KP_Down", function() grid.move_to("down", true) end,
 			{ description = "Move window down by bound", group = "Movement" }
 		},
 		{
-			{ "Mod4", "Control" }, "KP_Left", function() grid.move_to("left", true) end,
+			{ env.mod, "Control" }, "KP_Left", function() grid.move_to("left", true) end,
 			{ description = "Move window left by bound", group = "Movement" }
 		},
 		{
-			{ "Mod4", "Control" }, "KP_Right", function() grid.move_to("right", true) end,
+			{ env.mod, "Control" }, "KP_Right", function() grid.move_to("right", true) end,
 			{ description = "Move window right by bound", group = "Movement" }
 		},
 	}
 
 	local layout_grid_resize = {
 		{
-			{ "Mod4" }, "i", function() grid.resize_to("up") end,
-			{ description = "Inrease window size to the up", group = "Resize" }
-		},
-		{
-			{ "Mod4" }, "k", function() grid.resize_to("down") end,
-			{ description = "Inrease window size to the down", group = "Resize" }
-		},
-		{
-			{ "Mod4" }, "j", function() grid.resize_to("left") end,
+			{ env.mod }, "h", function() grid.resize_to("left") end,
 			{ description = "Inrease window size to the left", group = "Resize" }
 		},
 		{
-			{ "Mod4" }, "l", function() grid.resize_to("right") end,
+			{ env.mod }, "j", function() grid.resize_to("down") end,
+			{ description = "Inrease window size to the down", group = "Resize" }
+		},
+		{
+			{ env.mod }, "k", function() grid.resize_to("up") end,
+			{ description = "Inrease window size to the up", group = "Resize" }
+		},
+		{
+			{ env.mod }, "l", function() grid.resize_to("right") end,
 			{ description = "Inrease window size to the right", group = "Resize" }
 		},
 		{
-			{ "Mod4", "Shift" }, "i", function() grid.resize_to("up", nil, true) end,
-			{ description = "Decrease window size from the up", group = "Resize" }
-		},
-		{
-			{ "Mod4", "Shift" }, "k", function() grid.resize_to("down", nil, true) end,
-			{ description = "Decrease window size from the down", group = "Resize" }
-		},
-		{
-			{ "Mod4", "Shift" }, "j", function() grid.resize_to("left", nil, true) end,
+			{ env.mod, "Shift" }, "h", function() grid.resize_to("left", nil, true) end,
 			{ description = "Decrease window size from the left", group = "Resize" }
 		},
 		{
-			{ "Mod4", "Shift" }, "l", function() grid.resize_to("right", nil, true) end,
+			{ env.mod, "Shift" }, "j", function() grid.resize_to("down", nil, true) end,
+			{ description = "Decrease window size from the down", group = "Resize" }
+		},
+		{
+			{ env.mod, "Shift" }, "k", function() grid.resize_to("up", nil, true) end,
+			{ description = "Decrease window size from the up", group = "Resize" }
+		},
+		{
+			{ env.mod, "Shift" }, "l", function() grid.resize_to("right", nil, true) end,
 			{ description = "Decrease window size from the right", group = "Resize" }
 		},
 		{
-			{ "Mod4", "Control" }, "i", function() grid.resize_to("up", true) end,
-			{ description = "Increase window size to the up by bound", group = "Resize" }
-		},
-		{
-			{ "Mod4", "Control" }, "k", function() grid.resize_to("down", true) end,
-			{ description = "Increase window size to the down by bound", group = "Resize" }
-		},
-		{
-			{ "Mod4", "Control" }, "j", function() grid.resize_to("left", true) end,
+			{ env.mod, "Control" }, "h", function() grid.resize_to("left", true) end,
 			{ description = "Increase window size to the left by bound", group = "Resize" }
 		},
 		{
-			{ "Mod4", "Control" }, "l", function() grid.resize_to("right", true) end,
+			{ env.mod, "Control" }, "j", function() grid.resize_to("down", true) end,
+			{ description = "Increase window size to the down by bound", group = "Resize" }
+		},
+		{
+			{ env.mod, "Control" }, "k", function() grid.resize_to("up", true) end,
+			{ description = "Increase window size to the up by bound", group = "Resize" }
+		},
+		{
+			{ env.mod, "Control" }, "l", function() grid.resize_to("right", true) end,
 			{ description = "Increase window size to the right by bound", group = "Resize" }
 		},
 		{
-			{ "Mod4", "Control", "Shift" }, "i", function() grid.resize_to("up", true, true) end,
-			{ description = "Decrease window size from the up by bound ", group = "Resize" }
-		},
-		{
-			{ "Mod4", "Control", "Shift" }, "k", function() grid.resize_to("down", true, true) end,
-			{ description = "Decrease window size from the down by bound ", group = "Resize" }
-		},
-		{
-			{ "Mod4", "Control", "Shift" }, "j", function() grid.resize_to("left", true, true) end,
+			{ env.mod, "Control", "Shift" }, "h", function() grid.resize_to("left", true, true) end,
 			{ description = "Decrease window size from the left by bound ", group = "Resize" }
 		},
 		{
-			{ "Mod4", "Control", "Shift" }, "l", function() grid.resize_to("right", true, true) end,
+			{ env.mod, "Control", "Shift" }, "j", function() grid.resize_to("down", true, true) end,
+			{ description = "Decrease window size from the down by bound ", group = "Resize" }
+		},
+		{
+			{ env.mod, "Control", "Shift" }, "k", function() grid.resize_to("up", true, true) end,
+			{ description = "Decrease window size from the up by bound ", group = "Resize" }
+		},
+		{
+			{ env.mod, "Control", "Shift" }, "l", function() grid.resize_to("right", true, true) end,
 			{ description = "Decrease window size from the right by bound ", group = "Resize" }
 		},
 	}
@@ -516,98 +518,98 @@ function hotkeys:init(args)
 	-- user map layout keys
 	local layout_map_layout = {
 		{
-			{ "Mod4" }, "s", function() map.swap_group() end,
+			{ env.mod }, "s", function() map.swap_group() end,
 			{ description = "Change placement direction for group", group = "Layout" }
 		},
 		{
-			{ "Mod4" }, "v", function() map.new_group(true) end,
+			{ env.mod }, "v", function() map.new_group(true) end,
 			{ description = "Create new vertical group", group = "Layout" }
 		},
 		{
-			{ "Mod4" }, "h", function() map.new_group(false) end,
+			{ env.mod }, "h", function() map.new_group(false) end,
 			{ description = "Create new horizontal group", group = "Layout" }
 		},
 		{
-			{ "Mod4", "Control" }, "v", function() map.insert_group(true) end,
+			{ env.mod, "Control" }, "v", function() map.insert_group(true) end,
 			{ description = "Insert new vertical group before active", group = "Layout" }
 		},
 		{
-			{ "Mod4", "Control" }, "h", function() map.insert_group(false) end,
+			{ env.mod, "Control" }, "h", function() map.insert_group(false) end,
 			{ description = "Insert new horizontal group before active", group = "Layout" }
 		},
 		{
-			{ "Mod4" }, "d", function() map.delete_group() end,
+			{ env.mod }, "d", function() map.delete_group() end,
 			{ description = "Destroy group", group = "Layout" }
 		},
 		{
-			{ "Mod4", "Control" }, "d", function() map.clean_groups() end,
+			{ env.mod, "Control" }, "d", function() map.clean_groups() end,
 			{ description = "Destroy all empty groups", group = "Layout" }
 		},
 		{
-			{ "Mod4" }, "f", function() map.set_active() end,
+			{ env.mod }, "f", function() map.set_active() end,
 			{ description = "Set active group", group = "Layout" }
 		},
 		{
-			{ "Mod4" }, "g", function() map.move_to_active() end,
+			{ env.mod }, "g", function() map.move_to_active() end,
 			{ description = "Move focused client to active group", group = "Layout" }
 		},
 		{
-			{ "Mod4", "Control" }, "f", function() map.hilight_active() end,
+			{ env.mod, "Control" }, "f", function() map.hilight_active() end,
 			{ description = "Hilight active group", group = "Layout" }
 		},
 		{
-			{ "Mod4" }, "a", function() map.switch_active(1) end,
+			{ env.mod }, "a", function() map.switch_active(1) end,
 			{ description = "Activate next group", group = "Layout" }
 		},
 		{
-			{ "Mod4" }, "q", function() map.switch_active(-1) end,
+			{ env.mod }, "q", function() map.switch_active(-1) end,
 			{ description = "Activate previous group", group = "Layout" }
 		},
 		{
-			{ "Mod4" }, "]", function() map.move_group(1) end,
+			{ env.mod }, "]", function() map.move_group(1) end,
 			{ description = "Move active group to the top", group = "Layout" }
 		},
 		{
-			{ "Mod4" }, "[", function() map.move_group(-1) end,
+			{ env.mod }, "[", function() map.move_group(-1) end,
 			{ description = "Move active group to the bottom", group = "Layout" }
 		},
 		{
-			{ "Mod4" }, "r", function() map.reset_tree() end,
+			{ env.mod }, "r", function() map.reset_tree() end,
 			{ description = "Reset layout structure", group = "Layout" }
 		},
 	}
 
 	local layout_map_resize = {
 		{
-			{ "Mod4" }, "j", function() map.incfactor(nil, 0.1, false) end,
+			{ env.mod }, "h", function() map.incfactor(nil, 0.1, false) end,
 			{ description = "Increase window horizontal size factor", group = "Resize" }
 		},
 		{
-			{ "Mod4" }, "l", function() map.incfactor(nil, -0.1, false) end,
+			{ env.mod }, "l", function() map.incfactor(nil, -0.1, false) end,
 			{ description = "Decrease window horizontal size factor", group = "Resize" }
 		},
 		{
-			{ "Mod4" }, "i", function() map.incfactor(nil, 0.1, true) end,
+			{ env.mod }, "k", function() map.incfactor(nil, 0.1, true) end,
 			{ description = "Increase window vertical size factor", group = "Resize" }
 		},
 		{
-			{ "Mod4" }, "k", function() map.incfactor(nil, -0.1, true) end,
+			{ env.mod }, "j", function() map.incfactor(nil, -0.1, true) end,
 			{ description = "Decrease window vertical size factor", group = "Resize" }
 		},
 		{
-			{ "Mod4", "Control" }, "j", function() map.incfactor(nil, 0.1, false, true) end,
+			{ env.mod, "Control" }, "h", function() map.incfactor(nil, 0.1, false, true) end,
 			{ description = "Increase group horizontal size factor", group = "Resize" }
 		},
 		{
-			{ "Mod4", "Control" }, "l", function() map.incfactor(nil, -0.1, false, true) end,
+			{ env.mod, "Control" }, "l", function() map.incfactor(nil, -0.1, false, true) end,
 			{ description = "Decrease group horizontal size factor", group = "Resize" }
 		},
 		{
-			{ "Mod4", "Control" }, "i", function() map.incfactor(nil, 0.1, true, true) end,
+			{ env.mod, "Control" }, "k", function() map.incfactor(nil, 0.1, true, true) end,
 			{ description = "Increase group vertical size factor", group = "Resize" }
 		},
 		{
-			{ "Mod4", "Control" }, "k", function() map.incfactor(nil, -0.1, true, true) end,
+			{ env.mod, "Control" }, "j", function() map.incfactor(nil, -0.1, true, true) end,
 			{ description = "Decrease group vertical size factor", group = "Resize" }
 		},
 	}
@@ -628,12 +630,12 @@ function hotkeys:init(args)
 			{ description = "Window control mode", group = "Main" }
 		},
 		{
-			{ env.mod, "Control" }, "r", awesome.restart,
-			{ description = "Reload awesome", group = "Main" }
-		},
-		{
 			{ env.mod }, "c", function() redflat.float.keychain:activate(keyseq, "User") end,
 			{ description = "User key sequence", group = "Main" }
+		},
+		{
+			{ env.mod, "Control" }, "r", awesome.restart,
+			{ description = "Reload awesome", group = "Main" }
 		},
 
 		{
@@ -641,34 +643,21 @@ function hotkeys:init(args)
 			{ description = "Open a terminal", group = "Applications" }
 		},
 		{
+			{ env.mod }, "b", function() awful.spawn("chromium") end,
+			{ description = "Open Chromium", group = "Applications" }
+		},
+		{
+			{ env.mod }, "e", function() awful.spawn(env.terminal .. " -e ranger") end,
+			{ description = "Open ranger", group = "Applications" }
+		},
+		{
+			{ env.mod }, "x", function() awful.spawn(env.terminal .. " -e htop") end,
+			{ description = "Open htop", group = "Applications" }
+		},
+		--[[{
 			{ env.mod, "Mod1" }, "space", function() awful.spawn("clipflap --show") end,
 			{ description = "Clipboard manager", group = "Applications" }
-		},
-
-		{
-			{ env.mod }, "l", focus_switch_byd("right"),
-			{ description = "Go to right client", group = "Client focus" }
-		},
-		{
-			{ env.mod }, "j", focus_switch_byd("left"),
-			{ description = "Go to left client", group = "Client focus" }
-		},
-		{
-			{ env.mod }, "i", focus_switch_byd("up"),
-			{ description = "Go to upper client", group = "Client focus" }
-		},
-		{
-			{ env.mod }, "k", focus_switch_byd("down"),
-			{ description = "Go to lower client", group = "Client focus" }
-		},
-		{
-			{ env.mod }, "u", awful.client.urgent.jumpto,
-			{ description = "Go to urgent client", group = "Client focus" }
-		},
-		{
-			{ env.mod }, "Tab", focus_to_previous,
-			{ description = "Go to previos client", group = "Client focus" }
-		},
+		},]]
 
 		{
 			{ env.mod }, "w", function() mainmenu:show() end,
@@ -682,41 +671,25 @@ function hotkeys:init(args)
 			{ env.mod }, "p", function() redflat.float.prompt:run() end,
 			{ description = "Show the prompt box", group = "Widgets" }
 		},
-		{
-			{ env.mod }, "x", function() redflat.float.top:show("cpu") end,
-			{ description = "Show the top process list", group = "Widgets" }
-		},
-		{
-			{ env.mod, "Control" }, "m", function() redflat.widget.mail:update() end,
-			{ description = "Check new mail", group = "Widgets" }
-		},
-		{
-			{ env.mod, "Control" }, "i", function() redflat.widget.minitray:toggle() end,
-			{ description = "Show minitray", group = "Widgets" }
-		},
-		{
-			{ env.mod, "Control" }, "u", function() redflat.widget.upgrades:update(true) end,
-			{ description = "Check available upgrades", group = "Widgets" }
-		},
-		{
+		--[[{
 			{ env.mod }, "F3", function() qlaunch:show() end,
 			{ description = "Application quick launcher", group = "Widgets" }
-		},
+		},]]
 
 		{
-			{ env.mod }, "Escape", awful.tag.history.restore,
-			{ description = "Go previos tag", group = "Tag navigation" }
+			{ env.mod }, "Left", awful.tag.viewprev,
+			{ description = "View previous tag", group = "Tag navigation" }
 		},
 		{
 			{ env.mod }, "Right", awful.tag.viewnext,
 			{ description = "View next tag", group = "Tag navigation" }
 		},
 		{
-			{ env.mod }, "Left", awful.tag.viewprev,
-			{ description = "View previous tag", group = "Tag navigation" }
+			{ env.mod }, "Escape", awful.tag.history.restore,
+			{ description = "Go previos tag", group = "Tag navigation" }
 		},
-
-		{
+		
+		--[[{
 			{ env.mod }, "a", nil, function() appswitcher:show({ filter = current }) end,
 			{ description = "Switch to next with current tag", group = "Application switcher" }
 		},
@@ -731,18 +704,18 @@ function hotkeys:init(args)
 		{
 			{ env.mod, "Shift" }, "q", nil, function() appswitcher:show({ filter = allscr, reverse = true }) end,
 			{ description = "Switch to previous through all tags", group = "Application switcher" }
-		},
+		},]]
 
 		{
 			{}, "XF86MonBrightnessUp", function() brightness({ step = 5 }) end,
-			{ description = "Increase brightness", group = "Brightness control" }
+			{} -- hidden key
 		},
 		{
 			{}, "XF86MonBrightnessDown", function() brightness({ step = 5, down = true }) end,
-			{ description = "Reduce brightness", group = "Brightness control" }
+			{} -- hidden key
 		},
 
-		{
+		--[[{
 			{ env.mod }, "t", function() redtitle.toggle(client.focus) end,
 			{ description = "Show/hide titlebar for focused client", group = "Titlebar" }
 		},
@@ -757,42 +730,21 @@ function hotkeys:init(args)
 		{
 			{ env.mod, "Control", "Shift" }, "t", function() redtitle.switch_all() end,
 			{ description = "Switch titlebar view for all clients", group = "Titlebar" }
-		},
+		},]]
 
 		{
 			{}, "XF86AudioRaiseVolume", volume_raise,
-			{ description = "Increase volume", group = "Volume control" }
+			{} -- hidden key
 		},
 		{
 			{}, "XF86AudioLowerVolume", volume_lower,
-			{ description = "Reduce volume", group = "Volume control" }
+			{} -- hidden key
 		},
 		{
 			{}, "XF86AudioMute", volume_mute,
-			{ description = "Toggle mute", group = "Volume control" }
+			{} -- hidden key
 		},
 
-		{
-			{ env.mod }, "e", function() redflat.float.player:show(rb_corner()) end,
-			{ description = "Show/hide widget", group = "Audio player" }
-		},
-		{
-			{}, "XF86AudioPlay", function() redflat.float.player:action("PlayPause") end,
-			{ description = "Play/Pause track", group = "Audio player" }
-		},
-		{
-			{}, "XF86AudioNext", function() redflat.float.player:action("Next") end,
-			{ description = "Next track", group = "Audio player" }
-		},
-		{
-			{}, "XF86AudioPrev", function() redflat.float.player:action("Previous") end,
-			{ description = "Previous track", group = "Audio player" }
-		},
-
-		{
-			{ env.mod }, "y", function() laybox:toggle_menu(mouse.screen.selected_tag) end,
-			{ description = "Show layout menu", group = "Layouts" }
-		},
 		{
 			{ env.mod}, "Up", function() awful.layout.inc(1) end,
 			{ description = "Select next layout", group = "Layouts" }
@@ -801,40 +753,69 @@ function hotkeys:init(args)
 			{ env.mod }, "Down", function() awful.layout.inc(-1) end,
 			{ description = "Select previous layout", group = "Layouts" }
 		},
+		{
+			{ env.mod }, "y", function() laybox:toggle_menu(mouse.screen.selected_tag) end,
+			{ description = "Show layout menu", group = "Layouts" }
+		},
 
 		{
 			{ env.mod, "Control" }, "s", function() for s in screen do env.wallpaper(s) end end,
-			{} -- hidden key
-		}
+			{ description = "Refresh Wallpaper", group = "Misc" }
+		},
+
+		{
+			{ env.mod }, "h", focus_switch_byd("left"),
+			{ description = "Go to left client", group = "Client focus" }
+		},
+		{
+			{ env.mod }, "j", focus_switch_byd("down"),
+			{ description = "Go to lower client", group = "Client focus" }
+		},
+		{
+			{ env.mod }, "k", focus_switch_byd("up"),
+			{ description = "Go to upper client", group = "Client focus" }
+		},
+		{
+			{ env.mod }, "l", focus_switch_byd("right"),
+			{ description = "Go to right client", group = "Client focus" }
+		},
+		{
+			{ env.mod }, "Tab", focus_to_previous,
+			{ description = "Go to previos client", group = "Client focus" }
+		},
+		{
+			{ env.mod }, "u", awful.client.urgent.jumpto,
+			{ description = "Go to urgent client", group = "Client focus" }
+		},
 	}
 
 	-- Client keys
 	--------------------------------------------------------------------------------
 	self.raw.client = {
 		{
+			{ env.mod, "Shift" }, "q", function(c) c:kill() end,
+			{ description = "Close", group = "Client keys" }
+		},
+		{
 			{ env.mod }, "f", function(c) c.fullscreen = not c.fullscreen; c:raise() end,
 			{ description = "Toggle fullscreen", group = "Client keys" }
 		},
 		{
-			{ env.mod }, "F4", function(c) c:kill() end,
-			{ description = "Close", group = "Client keys" }
-		},
-		{
-			{ env.mod, "Control" }, "f", awful.client.floating.toggle,
+			{ env.mod, }, "g", awful.client.floating.toggle,
 			{ description = "Toggle floating", group = "Client keys" }
 		},
 		{
-			{ env.mod, "Control" }, "o", function(c) c.ontop = not c.ontop end,
-			{ description = "Toggle keep on top", group = "Client keys" }
+			{ env.mod }, "m", function(c) c.maximized = not c.maximized; c:raise() end,
+			{ description = "Maximize", group = "Client keys" }
 		},
 		{
 			{ env.mod }, "n", function(c) c.minimized = true end,
 			{ description = "Minimize", group = "Client keys" }
 		},
 		{
-			{ env.mod }, "m", function(c) c.maximized = not c.maximized; c:raise() end,
-			{ description = "Maximize", group = "Client keys" }
-		}
+			{ env.mod, "Control" }, "o", function(c) c.ontop = not c.ontop end,
+			{ description = "Toggle keep on top", group = "Client keys" }
+		},
 	}
 
 	self.keys.root = redflat.util.key.build(self.raw.root)
@@ -874,6 +855,10 @@ function hotkeys:init(args)
 			{ env.mod, "Control", "Shift" }, "1..9", nil,
 			{ description = "Toggle focused client on tag", group = "Numeric keys", keyset = numkeys }
 		},
+		{
+			{ env.mod }, "0", nil,
+			{ description = "Toggle Telegram", group = "Numeric keys" }
+		}
 	}
 
 	-- use mod + 0 to toggle telegram

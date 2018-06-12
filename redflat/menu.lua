@@ -164,7 +164,11 @@ function menu.action.down(_menu, sel)
 end
 
 function menu.action.enter(_menu, sel)
-	if sel > 0 and _menu.items[sel].child then _menu.items[sel].child:show() end
+	if sel > 0 and _menu.items[sel].child then
+		_menu.items[sel].child:show()
+	else
+		menu.action.exec(_menu, sel)
+	end
 end
 
 function menu.action.exec(_menu, sel)
