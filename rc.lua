@@ -38,21 +38,21 @@ timestamp = require("redflat.timestamp")
 
 -- Error handling
 -----------------------------------------------------------------------------------------------------------------------
-require("ercheck-config") -- load file with error handling
+require("configs/ercheck-config") -- load file with error handling
 
 -- Setup theme and environment vars
 -----------------------------------------------------------------------------------------------------------------------
-local env = require("env-config") -- load file with environment
+local env = require("configs/env-config") -- load file with environment
 env:init()
 
 -- Layouts setup
 -----------------------------------------------------------------------------------------------------------------------
-local layouts = require("layout-config") -- load file with tile layouts setup
+local layouts = require("configs/layout-config") -- load file with tile layouts setup
 layouts:init()
 
 -- Main menu configuration
 -----------------------------------------------------------------------------------------------------------------------
-local mymenu = require("menu-config") -- load file with menu configuration
+local mymenu = require("configs/menu-config") -- load file with menu configuration
 mymenu:init({ env = env })
 
 -- Panel widgets
@@ -81,7 +81,7 @@ taglist.buttons = awful.util.table.join(
 local tasklist = {}
 
 -- load list of app name aliases from files and set it as part of tasklist theme
-tasklist.style = { appnames = require("alias-config") }
+tasklist.style = { appnames = require("configs/alias-config") }
 
 tasklist.buttons = awful.util.table.join(
 	awful.button({ }, 1, redflat.widget.tasklist.action.select),
@@ -290,37 +290,37 @@ awful.screen.connect_for_each_screen(
 
 -- Desktop widgets
 -----------------------------------------------------------------------------------------------------------------------
---local desktop = require("desktop-config") -- load file with desktop widgets configuration
+--local desktop = require("configs/desktop-config") -- load file with desktop widgets configuration
 --desktop:init({ env = env })
 
 -- Active screen edges
 -----------------------------------------------------------------------------------------------------------------------
---local edges = require("edges-config") -- load file with edges configuration
+--local edges = require("configs/edges-config") -- load file with edges configuration
 --edges:init()
 
 -- Key bindings
 -----------------------------------------------------------------------------------------------------------------------
-local hotkeys = require("keys-config") -- load file with hotkeys configuration
+local hotkeys = require("configs/keys-config") -- load file with hotkeys configuration
 hotkeys:init({ env = env, menu = mymenu.mainmenu })
 
 -- Rules
 -----------------------------------------------------------------------------------------------------------------------
-local rules = require("rules-config") -- load file with rules configuration
+local rules = require("configs/rules-config") -- load file with rules configuration
 rules:init({ hotkeys = hotkeys})
 
 -- Titlebar setup
 -----------------------------------------------------------------------------------------------------------------------
---local titlebar = require("titlebar-config") -- load file with titlebar configuration
+--local titlebar = require("configs/titlebar-config") -- load file with titlebar configuration
 --titlebar:init()
 
 -- Base signal set for awesome wm
 -----------------------------------------------------------------------------------------------------------------------
-local signals = require("signals-config") -- load file with signals configuration
+local signals = require("configs/signals-config") -- load file with signals configuration
 signals:init({ env = env })
 
 -- Autostart user applications
 -----------------------------------------------------------------------------------------------------------------------
-local autostart = require("autostart-config") -- load file with autostart application list
+local autostart = require("configs/autostart-config") -- load file with autostart application list
 
 if timestamp.is_startup() then
 	autostart.run()
