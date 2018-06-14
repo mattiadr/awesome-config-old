@@ -9,14 +9,14 @@ local wa = mouse.screen.workarea
 -- Color scheme
 -----------------------------------------------------------------------------------------------------------------------
 theme.color = {
-	main      = "#064E71",
+	main      = "#C3001A", -- #064E71
 	gray      = "#575757",
 	bg        = "#161616",
 	bg_second = "#181818",
 	wibox     = "#202020",
 	icon      = "#a0a0a0",
 	text      = "#aaaaaa",
-	urgent    = "#B32601",
+	urgent    = "#00A584", -- #B32601
 	highlight = "#e0e0e0",
 
 	border    = "#404040",
@@ -215,7 +215,7 @@ theme.service.navigator.keytip = {}
 theme.service.navigator.keytip["fairv"] = { geometry = { width = 600, height = 440 }, exit = true }
 theme.service.navigator.keytip["fairh"] = theme.service.navigator.keytip["fairv"]
 
-theme.service.navigator.keytip["tile"] = { geometry = { width = 600, height = 660 }, exit = true }
+theme.service.navigator.keytip["tile"] = { geometry = { width = 670, height = 660 }, exit = true }
 theme.service.navigator.keytip["tileleft"]   = theme.service.navigator.keytip["tile"]
 theme.service.navigator.keytip["tiletop"]    = theme.service.navigator.keytip["tile"]
 theme.service.navigator.keytip["tilebottom"] = theme.service.navigator.keytip["tile"]

@@ -46,8 +46,8 @@ function signals:init(args)
 
 			-- startup placement
 			if awesome.startup
-			   and not c.size_hints.user_position
-			   and not c.size_hints.program_position
+				and not c.size_hints.user_position
+				and not c.size_hints.program_position
 			then
 				awful.placement.no_offscreen(c)
 			end
@@ -91,7 +91,7 @@ function signals:init(args)
 	-- redflat.widget.layoutbox, redflat.widget.taglist, redflat.widget.tasklist
 	screen.connect_signal("list", awesome.restart)
 
-	-- bring urgent to front
+	-- bring urgent to front, first two are ignored to avoid switching to telegram at startup
 	local ignore = 2
 	tag.connect_signal("property::urgent", function(t)
 		if ignore > 0 then
@@ -99,6 +99,11 @@ function signals:init(args)
 		else
 			t:view_only()
 		end
+	end)
+
+	-- fix geometry not refreshed when untagged
+	tag.connect_signal("untagged", function(t)
+		t:emit_signal("tagged")
 	end)
 end
 
