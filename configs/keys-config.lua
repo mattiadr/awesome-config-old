@@ -196,13 +196,31 @@ local function scrot(sel, clipboard)
 	awful.spawn.with_shell(cmd)
 end
 
+-- stash functions
+local stashed_client = nil
+
+local stash = function()
+	if stashed_client then
+		-- retrieve from stash
+		local t = awful.screen.focused().selected_tags
+		stashed_client:tags(t)
+		stashed_client = nil
+	else
+		-- push into stash
+		local c = client.focus
+		if not c then return end
+		stashed_client = c
+		c:tags({})
+	end
+end
+
 -- right bottom corner position
 local rb_corner = function()
 	return { x = screen[mouse.screen].workarea.x + screen[mouse.screen].workarea.width,
 	         y = screen[mouse.screen].workarea.y + screen[mouse.screen].workarea.height }
 end
 
-local function telegram_key()
+local telegram_key = function()
 	local tags = awful.screen.focused().tags
 	local t = awful.screen.focused().selected_tag
 
@@ -821,6 +839,10 @@ function hotkeys:init(args)
 		{
 			{ env.mod }, "u", awful.client.urgent.jumpto,
 			{ description = "Go to urgent client", group = "Client focus" }
+		},
+		{
+			{ env.mod }, "s", stash,
+			{ description = "Push/retrieve stash", group = "Client focus" }
 		},
 
 		{

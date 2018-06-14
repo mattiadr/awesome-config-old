@@ -65,7 +65,7 @@ local separator = redflat.gauge.separator.vertical()
 -- Taglist widget
 --------------------------------------------------------------------------------
 local taglist = {}
-taglist.style = { separator = separator, widget = redflat.gauge.tag.blue.new, show_tip = true }
+taglist.style = { separator = separator, widget = redflat.gauge.tag.blue.new, show_tip = false }
 taglist.buttons = awful.util.table.join(
 	awful.button({         }, 1, function(t) t:view_only() end),
 	awful.button({ env.mod }, 1, function(t) if client.focus then client.focus:move_to_tag(t) end end),
@@ -152,7 +152,7 @@ sysmon.icon.battery = redflat.util.table.check(beautiful, "icon.widget.battery")
 )]]
 
 -- battery
-local battery_widget = require("widgets/battery-widget")
+local battery_widget = require("user/widgets/battery-widget")
 local BAT0_widget = battery_widget {
 	adapter = "BAT0",
 	listen = false,
