@@ -159,6 +159,43 @@ local brightness = function(args)
 	-- redflat.float.brightness:change_with_gsd(args) -- use gnome settings deamon
 end
 
+-- horizontal scroll function
+local toggle_hor_scroll = function()
+	local cmd = [[xinput list-props "AlpsPS/2 ALPS DualPoint TouchPad"]]
+	awful.spawn.with_line_callback(cmd, {
+		stdout = function(line)
+			if not line:find("libinput Horizontal Scroll Enabled") then return end
+
+			if line:match("0$") then
+				awful.spawn.with_shell([[xinput set-prop "AlpsPS/2 ALPS DualPoint TouchPad" "libinput Horizontal Scroll Enabled" 1]])
+				awful.spawn.with_shell([[notify-send "Horizontal scroll Enabled"]])
+			else
+				awful.spawn.with_shell([[xinput set-prop "AlpsPS/2 ALPS DualPoint TouchPad" "libinput Horizontal Scroll Enabled" 0]])
+				awful.spawn.with_shell([[notify-send "Horizontal scroll Disabled"]])
+			end
+		end
+	})
+end
+
+-- scrot function
+local function scrot(sel, clipboard)
+	local s = ""
+	if sel then s = "-s " end
+
+	local name
+	local notif
+	if clipboard then
+		name = "/tmp/scrot.png"
+		notif = "clipboard"
+	else
+		name = "~/images/scrot/%Y-%m-%d_$wx$h_scrot.png"
+		notif = "~/images/scrot/"
+	end
+
+	local cmd = string.format("sleep 0.2 ; scrot -z -q 100 %s%s --exec 'xclip -i -selection c -t image/png < $f' && notify-send 'scrot' 'Screenshot taken to %s'", s, name, notif)
+	awful.spawn.with_shell(cmd)
+end
+
 -- right bottom corner position
 local rb_corner = function()
 	return { x = screen[mouse.screen].workarea.x + screen[mouse.screen].workarea.width,
@@ -706,15 +743,6 @@ function hotkeys:init(args)
 			{ description = "Switch to previous through all tags", group = "Application switcher" }
 		},]]
 
-		{
-			{}, "XF86MonBrightnessUp", function() brightness({ step = 5 }) end,
-			{} -- hidden key
-		},
-		{
-			{}, "XF86MonBrightnessDown", function() brightness({ step = 5, down = true }) end,
-			{} -- hidden key
-		},
-
 		--[[{
 			{ env.mod }, "t", function() redtitle.toggle(client.focus) end,
 			{ description = "Show/hide titlebar for focused client", group = "Titlebar" }
@@ -733,19 +761,6 @@ function hotkeys:init(args)
 		},]]
 
 		{
-			{}, "XF86AudioRaiseVolume", volume_raise,
-			{} -- hidden key
-		},
-		{
-			{}, "XF86AudioLowerVolume", volume_lower,
-			{} -- hidden key
-		},
-		{
-			{}, "XF86AudioMute", volume_mute,
-			{} -- hidden key
-		},
-
-		{
 			{ env.mod}, "Up", function() awful.layout.inc(1) end,
 			{ description = "Select next layout", group = "Layouts" }
 		},
@@ -758,6 +773,26 @@ function hotkeys:init(args)
 			{ description = "Show layout menu", group = "Layouts" }
 		},
 
+		{
+			{}, "XF86TouchpadToggle", toggle_hor_scroll,
+			{ description = "Toggle horizontal scroll", group = "Misc" }
+		},
+		{
+			{}, "Print", function() scrot(true, true) end,
+			{ description = "scrot selection to clipboard", group = "Misc" }
+		},
+		{
+			{ "Shift" }, "Print", function() scrot(false, true) end,
+			{ description = "scrot to clipboard", group = "Misc" }
+		},
+		{
+			{ "Control" }, "Print", function() scrot(true, false) end,
+			{ description = "scrot selection to file", group = "Misc" }
+		},
+		{
+			{ "Control", "Shift" }, "Print", function() scrot(false, false) end,
+			{ description = "scrot to file", group = "Misc" }
+		},
 		{
 			{ env.mod, "Control" }, "s", function() for s in screen do env.wallpaper(s) end end,
 			{ description = "Refresh Wallpaper", group = "Misc" }
@@ -787,6 +822,29 @@ function hotkeys:init(args)
 			{ env.mod }, "u", awful.client.urgent.jumpto,
 			{ description = "Go to urgent client", group = "Client focus" }
 		},
+
+		{
+			{}, "XF86AudioRaiseVolume", volume_raise,
+			{} -- hidden key
+		},
+		{
+			{}, "XF86AudioLowerVolume", volume_lower,
+			{} -- hidden key
+		},
+		{
+			{}, "XF86AudioMute", volume_mute,
+			{} -- hidden key
+		},
+
+		{
+			{}, "XF86MonBrightnessUp", function() brightness({ step = 5 }) end,
+			{} -- hidden key
+		},
+		{
+			{}, "XF86MonBrightnessDown", function() brightness({ step = 5, down = true }) end,
+			{} -- hidden key
+		},
+
 	}
 
 	-- Client keys
