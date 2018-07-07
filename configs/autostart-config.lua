@@ -16,7 +16,7 @@ function autostart.run()
 	awful.spawn.with_shell("pulseaudio")
 	awful.spawn.with_shell("nm-applet")
 	awful.spawn.with_shell("telegram-desktop -startintray")
-	awful.spawn.with_shell("compton")
+	-- awful.spawn.with_shell("compton --backend glx --paint-on-overlay --glx-no-stencil --vsync opengl-swc --unredir-if-possible")
 end
 
 -- Read and commads from file and spawn them
