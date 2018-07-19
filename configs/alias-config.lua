@@ -6,6 +6,7 @@ appnames = {}
 
 appnames["Chromium"]             = "Chrome"
 appnames["Eclipse"]              = "Eclipse"
+appnames["qBittorrent"]          = "qBit"
 appnames["Nm-connection-editor"] = "NM Edit"
 appnames["Nm-applet"]            = "NM App"
 appnames["st-256color"]          = "st"
