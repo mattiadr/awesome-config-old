@@ -197,20 +197,20 @@ local function scrot(sel, clipboard)
 end
 
 -- stash functions
-local stashed_client = nil
+local stash_FILO = {}
 
-local stash = function()
-	if stashed_client then
-		-- retrieve from stash
+local stash_push = function()
+	local c = client.focus
+	if not c then return end
+	table.insert(stash_FILO, c)
+	c:tags({})
+end
+
+local stash_pop = function()
+	if #stash_FILO > 0 then
 		local t = awful.screen.focused().selected_tags
-		stashed_client:tags(t)
-		stashed_client = nil
-	else
-		-- push into stash
-		local c = client.focus
-		if not c then return end
-		stashed_client = c
-		c:tags({})
+		stash_FILO[#stash_FILO]:tags(t)
+		stash_FILO[#stash_FILO] = nil
 	end
 end
 
@@ -841,8 +841,12 @@ function hotkeys:init(args)
 			{ description = "Go to urgent client", group = "Client focus" }
 		},
 		{
-			{ env.mod }, "s", stash,
-			{ description = "Push/retrieve stash", group = "Client focus" }
+			{ env.mod }, "s", stash_push,
+			{ description = "Push current client to stash", group = "Client focus" }
+		},
+		{
+			{ env.mod, "Shift" }, "s", stash_pop,
+			{ description = "Pop from top of the stash to current tag", group = "Client focus" }
 		},
 
 		{
