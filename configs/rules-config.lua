@@ -25,6 +25,7 @@ rules.base_properties = {
 rules.floating_any = {
 	type = { "dialog" },
 	class = { "Nm-connection-editor" },
+	role = { "pop-up" },
 }
 
 rules.ide = {
