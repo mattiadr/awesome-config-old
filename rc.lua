@@ -2,15 +2,8 @@
 --                                                    Main config                                                    --
 -----------------------------------------------------------------------------------------------------------------------
 
--- printf
+-- print
 -----------------------------------------------------------------------------------------------------------------------
---[[
-file = io.open("/home/mattiadr/out.txt", "a")
-function printf(obj)
-	file:write(tostring(obj) .. "\n")
-end
---]]
-
 function printn(obj)
 	local naughty = require("naughty")
 	naughty.notify({
@@ -153,17 +146,17 @@ sysmon.icon.battery = redflat.util.table.check(beautiful, "icon.widget.battery")
 
 -- battery
 local battery_widget = require("user/widgets/battery-widget")
-local BAT0_widget = battery_widget {
+local BAT0 = battery_widget({
 	adapter = "BAT0",
 	listen = false,
 	timeout = 30,
-	widget_text = " ${AC_BAT}${color_on}${percent}%${color_off} ",
+	widget_text = "${AC_BAT}${color_on}${percent}%${color_off}",
 	widget_font = "monospace",
 	tooltip_text = "${time_est} remaining\nCapacity: ${capacity_percent}%",
 	alert_threshold = 15,
 	alert_timeout = 10,
 	alert_title = "Battery low!",
-}
+})
 
 -- network speed
 --[[sysmon.widget.network = redflat.widget.net(
@@ -280,7 +273,7 @@ awful.screen.connect_for_each_screen(
 				env.wrapper(textclock.widget, "textclock"),
 				separator,
 				--env.wrapper(sysmon.widget.battery, "battery"),
-				BAT0_widget,
+				env.wrapper(BAT0.widget, "battery"),
 				--separator,
 				--env.wrapper(tray.widget, "tray", tray.buttons),
 			},
