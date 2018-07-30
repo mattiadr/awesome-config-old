@@ -3,7 +3,7 @@
 -----------------------------------------------------------------------------------------------------------------------
 
 -- Grab environment
-local awful =require("awful")
+local awful = require("awful")
 local beautiful = require("beautiful")
 local redtitle = require("redflat.titlebar")
 
