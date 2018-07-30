@@ -80,40 +80,57 @@ local function toggle_placement(env)
 	redflat.float.notify:show({ text = (env.set_slave and "Slave" or "Master") .. " placement" })
 end
 
+local function tag_starts_with(tags, name)
+	for _, t in ipairs(tags) do
+		if t.name:sub(1, #name) == name then
+			return t
+		end
+	end
+end
+
 -- gets the correct tag or creates it
 local function get_or_add_tag(s, i)
-	-- number of default tags excluding telegram
-	local num_default = 3
+	-- volatile tags
+	local tag = tag_starts_with(s.tags, tostring(i))
 
-	if i <= num_default then
-		-- default tags
-		return s.tags[i]
-	else
-		-- volatile tags
-		local tag = awful.tag.find_by_name(s, tostring(i))
-		
-		if not tag then
-			-- tag doesn't exist, create and move it second to last
-			tag = awful.tag.add(tostring(i), {
-				layout = awful.layout.suit.fair,
-				screen = s,
-				volatile = true
-			})
+	if not tag then
+		-- tag doesn't exist, create and move it second to last
+		tag = awful.tag.add(tostring(i), {
+			layout              = awful.layout.suit.tile,
+			screen              = s,
+			gap_single_client   = false,
+			master_width_factor = 0.75,
+			volatile            = true,
+		})
 
-			-- swap last (newest tag) with second to last (telegram tag)
-			local tags = s.tags
-			tag:swap(tags[#tags - 1])
+		-- swap last (newest tag) with second to last (telegram tag)
+		local tags = s.tags
+		tag:swap(tags[#tags - 1])
 
-			-- sort newest tag into place
-			for j = #tags - 2, num_default + 1, -1 do
-				if (tag.name < tags[j].name) then
-					tag:swap(tags[j])
-				end
+		-- sort newest tag into place
+		for j = #tags - 2, 1, -1 do
+			if (tonumber(tag.name) < tonumber(tags[j].name)) then
+				tag:swap(tags[j])
+			else
+				break
 			end
 		end
-
-		return tag
 	end
+
+	return tag
+end
+
+-- add new tag
+function global_add_tag()
+	local s = awful.screen.focused()
+	local tags = s.tags
+	for i = 1, #tags do
+		local is = tostring(i)
+		if tags[i].name:sub(1, #is) ~= is then
+			return get_or_add_tag(s, i)
+		end
+	end
+	return get_or_add_tag(s, #s.tags)
 end
 
 -- numeric keys function builders
@@ -743,6 +760,10 @@ function hotkeys:init(args)
 			{ env.mod }, "Escape", awful.tag.history.restore,
 			{ description = "Go previos tag", group = "Tag navigation" }
 		},
+		{
+			{ env.mod }, "t", function() global_add_tag():view_only() end,
+			{ description = "Add new tag", group = "Tag navigation" }
+		},
 		
 		--[[{
 			{ env.mod }, "a", nil, function() appswitcher:show({ filter = current }) end,
@@ -909,47 +930,47 @@ function hotkeys:init(args)
 	--------------------------------------------------------------------------------
 
 	-- add real keys without description here
-	for i = 1, 9 do
+	for i = 1, 10 do
 		self.keys.root = awful.util.table.join(
 			self.keys.root,
-			tag_numkey(i,    { env.mod },                     function(t) t:view_only()               end),
-			tag_numkey(i,    { env.mod, "Control" },          function(t) awful.tag.viewtoggle(t)     end),
-			client_numkey(i, { env.mod, "Shift" },            function(t) client.focus:move_to_tag(t) end),
-			client_numkey(i, { env.mod, "Control", "Shift" }, function(t) client.focus:toggle_tag(t)  end)
+			tag_numkey(i,    { env.mod },                     function(t) t:view_only()                             end),
+			tag_numkey(i,    { env.mod, "Control" },          function(t) awful.tag.viewtoggle(t)                   end),
+			client_numkey(i, { env.mod, "Shift" },            function(t) client.focus:move_to_tag(t) t:view_only() end),
+			client_numkey(i, { env.mod, "Control", "Shift" }, function(t) client.focus:toggle_tag(t)                end)
 		)
 	end
 
+	-- use mod + \ to toggle telegram
+	self.keys.root = awful.util.table.join(
+		self.keys.root,
+		awful.key({ env.mod }, "\\", telegram_key)
+	)
+
 	-- make fake keys with description special for key helper widget
-	local numkeys = { "1", "2", "3", "4", "5", "6", "7", "8", "9" }
+	local numkeys = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" }
 
 	self.fake.numkeys = {
 		{
-			{ env.mod }, "1..9", nil,
+			{ env.mod }, "1..0", nil,
 			{ description = "Switch to tag", group = "Numeric keys", keyset = numkeys }
 		},
 		{
-			{ env.mod, "Control" }, "1..9", nil,
+			{ env.mod, "Control" }, "1..0", nil,
 			{ description = "Toggle tag", group = "Numeric keys", keyset = numkeys }
 		},
 		{
-			{ env.mod, "Shift" }, "1..9", nil,
+			{ env.mod, "Shift" }, "1..0", nil,
 			{ description = "Move focused client to tag", group = "Numeric keys", keyset = numkeys }
 		},
 		{
-			{ env.mod, "Control", "Shift" }, "1..9", nil,
+			{ env.mod, "Control", "Shift" }, "1..0", nil,
 			{ description = "Toggle focused client on tag", group = "Numeric keys", keyset = numkeys }
 		},
 		{
-			{ env.mod }, "0", nil,
+			{ env.mod }, "\\", nil,
 			{ description = "Toggle Telegram", group = "Numeric keys" }
 		}
 	}
-
-	-- use mod + 0 to toggle telegram
-	self.keys.root = awful.util.table.join(
-		self.keys.root,
-		awful.key({ env.mod }, "#19", telegram_key)
-	)
 
 	-- Hotkeys helper setup
 	--------------------------------------------------------------------------------

@@ -295,9 +295,9 @@ theme.gauge.monitor.double = {
 -- Tag
 ------------------------------------------------------------
 theme.gauge.tag.blue = {
-	width    = 103,
+	width    = 50,
 	font     = theme.cairo_fonts.tag,
-	point    = { width = 80, height = 3, gap = 27, dx = 5 },
+	point    = { width = 40, height = 3, gap = 27, dx = 5 },
 	text_gap = 20,
 	color    = theme.color
 }
@@ -724,7 +724,7 @@ theme.titlebar = {
 theme.naughty = {}
 
 theme.naughty.base = {
-	timeout      = 10,
+	timeout      = 5,
 	margin       = 12,
 	icon_size    = 80,
 	font         = theme.fonts.main,
@@ -738,7 +738,7 @@ theme.naughty.base = {
 
 theme.naughty.normal = {}
 theme.naughty.critical = { timeout = 0, border_color = theme.color.main }
-theme.naughty.low = { timeout = 5 }
+theme.naughty.low = { timeout = 3 }
 
 -- Default awesome theme vars
 -----------------------------------------------------------------------------------------------------------------------

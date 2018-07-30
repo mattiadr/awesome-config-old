@@ -11,6 +11,14 @@ function printn(obj)
 	})
 end
 
+function table_to_string(t)
+	local str = ""
+	for key, value in pairs(t) do
+		str = str .. "\n" .. tostring(key) .. ": " .. tostring(value)
+	end
+	return str
+end
+
 -- Load modules
 -----------------------------------------------------------------------------------------------------------------------
 
@@ -87,7 +95,7 @@ tasklist.buttons = awful.util.table.join(
 -- Textclock widget
 --------------------------------------------------------------------------------
 local textclock = {}
-textclock.widget = redflat.widget.textclock({ timeout = 10, timeformat = "%H:%M", dateformat = "%a, %d %B %Y" })
+textclock.widget = redflat.widget.textclock({ timeout = 10, timeformat = "%H:%M - %d/%m", dateformat = "%a, %d %B %Y" })
 
 -- Layoutbox configure
 --------------------------------------------------------------------------------
@@ -202,24 +210,12 @@ awful.screen.connect_for_each_screen(
 		env.wallpaper(s)
 
 		-- tags
-		awful.tag.add("1 - Main", {
+		awful.tag.add("1", {
 			layout              = awful.layout.suit.fair,
 			screen              = s,
 			selected            = true,
 		})
-		awful.tag.add("2 - Dev", {
-			layout              = awful.layout.suit.tile,
-			screen              = s,
-			gap_single_client   = false,
-			master_width_factor = 0.75
-		})
-		awful.tag.add("3 - Web", {
-			layout              = awful.layout.suit.tile,
-			screen              = s,
-			gap_single_client   = false,
-			master_width_factor = 0.75
-		})
-		awful.tag.add("0 - Tg", {
+		awful.tag.add("TG", {
 			layout              = awful.layout.suit.max,
 			screen              = s,
 		})
