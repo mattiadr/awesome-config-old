@@ -101,7 +101,8 @@ local function get_or_add_tag(s, i, name)
 
 	if not tag then
 		-- tag doesn't exist, create and move it second to last
-		tag = awful.tag.add(tostring(i) .. " " .. name, {
+		local tagname = name and tostring(i) .. " " .. name or tostring(i)
+		tag = awful.tag.add(tagname, {
 			layout              = awful.layout.suit.tile,
 			screen              = s,
 			gap_single_client   = false,
