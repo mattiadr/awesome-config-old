@@ -33,7 +33,6 @@ theme.homedir = os.getenv("HOME")
 
 -- Main config
 ------------------------------------------------------------
-
 theme.panel_height        = 36 -- panel height
 theme.border_width        = 2  -- window border width
 theme.useless_gap         = 3  -- useless gap
@@ -91,6 +90,14 @@ theme.icon.widget = {
 	monitor  = theme.path .. "/widget/monitor.svg",
 }
 
+-- Udisks icons
+--------------------------------------------------------------------------------
+theme.icon.widget.udisks = {
+	removable_default_mounted   = theme.path .. "/widget/udisks/default_mounted.svg",
+	removable_default_unmounted = theme.path .. "/widget/udisks/default_unmounted.svg",
+	removable_usb_mounted       = theme.path .. "/widget/udisks/usb_mounted.svg",
+	removable_usb_unmounted     = theme.path .. "/widget/udisks/usb_unmounted.svg",
+}
 
 -- Desktop config
 -----------------------------------------------------------------------------------------------------------------------

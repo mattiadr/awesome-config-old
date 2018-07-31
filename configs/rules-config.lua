@@ -5,7 +5,9 @@
 -- Grab environment
 local awful = require("awful")
 local beautiful = require("beautiful")
+
 local redtitle = require("redflat.titlebar")
+
 local appnames = require("configs/alias-config")
 
 -- Initialize tables and vars for module
@@ -31,6 +33,15 @@ rules.base_properties = {
 	end
 }
 
+rules.borderless = {
+	class = {
+		"Chromium",
+		"Eclipse",
+		"qBittorrent",
+		"Sublime_text",
+	},
+}
+
 rules.floating_any = {
 	type = { "dialog" },
 	class = { "Nm-connection-editor" },
@@ -40,15 +51,6 @@ rules.floating_any = {
 rules.minor = {
 	class = {
 		"st-256color",
-	},
-}
-
-rules.borderless = {
-	class = {
-		"Chromium",
-		"Eclipse",
-		"qBittorrent",
-		"Sublime_text",
 	},
 }
 
@@ -78,6 +80,12 @@ function rules:init(args)
 				callback    = function() end, -- used to disable default callback
 			},
 		},
+		{ -- borderless
+			rule_any   = self.borderless,
+			properties = {
+				border_width = 0,
+			},
+		},
 		{ -- floating
 			rule_any   = args.floating_any or self.floating_any,
 			properties = {
@@ -91,12 +99,6 @@ function rules:init(args)
 			rule_any   = self.minor,
 			properties = {
 				callback     = function() end, -- used to disable default callback
-			},
-		},
-		{ -- borderless
-			rule_any   = self.borderless,
-			properties = {
-				border_width = 0,
 			},
 		},
 		{ -- normal

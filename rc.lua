@@ -11,6 +11,14 @@ function printn(obj)
 	})
 end
 
+function printf(obj)
+	local f = io.open("/home/mattiadr/awesome_log", "a")
+	io.output(f)
+	io.write(tostring(obj))
+	io.write("\n\n")
+	io.close(f)
+end
+
 function table_to_string(t)
 	local str = ""
 	for key, value in pairs(t) do
@@ -152,20 +160,6 @@ sysmon.icon.battery = redflat.util.table.check(beautiful, "icon.widget.battery")
 	{ timeout = 30, widget = redflat.gauge.icon.single, monitor = { is_vertical = true, icon = sysmon.icon.battery } }
 )]]
 
--- battery
-local battery_widget = require("user/widgets/battery-widget")
-local BAT0 = battery_widget({
-	adapter = "BAT0",
-	listen = false,
-	timeout = 30,
-	widget_text = "${AC_BAT}${color_on}${percent}%${color_off}",
-	widget_font = "monospace",
-	tooltip_text = "${time_est} remaining\nCapacity: ${capacity_percent}%",
-	alert_threshold = 15,
-	alert_timeout = 10,
-	alert_title = "Battery low!",
-})
-
 -- network speed
 --[[sysmon.widget.network = redflat.widget.net(
 	{
@@ -199,6 +193,26 @@ sysmon.widget.cpuram = redflat.widget.sysmon(
 sysmon.buttons.cpuram = awful.util.table.join(
 	awful.button({ }, 1, function() redflat.float.top:show("cpu") end)
 )]]
+
+-- Battery widget
+--------------------------------------------------------------------------------
+local battery_widget = require("user/widgets/battery-widget")
+local BAT0 = battery_widget({
+	adapter = "BAT0",
+	listen = false,
+	timeout = 30,
+	widget_text = "${AC_BAT}${color_on}${percent}%${color_off}",
+	widget_font = "monospace",
+	tooltip_text = "${time_est} remaining\nCapacity: ${capacity_percent}%",
+	alert_threshold = 15,
+	alert_timeout = 10,
+	alert_title = "Battery low!",
+})
+
+-- Usisks_old widget
+--------------------------------------------------------------------------------
+local udisks = require("user/widgets/udisks-widget")
+udisks.filemanager = env.fm
 
 -- Screen setup
 -----------------------------------------------------------------------------------------------------------------------
@@ -253,6 +267,7 @@ awful.screen.connect_for_each_screen(
 			{ -- right widgets
 				layout = wibox.layout.fixed.horizontal,
 
+				udisks.widget,
 				separator,
 				env.wrapper(wibox.widget.systray(true), "systray"),
 				--separator,

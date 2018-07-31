@@ -9,6 +9,8 @@ local beautiful = require("beautiful")
 
 local redflat = require("redflat")
 
+local appnames = require("configs/alias-config")
+
 -- Initialize tables and vars for module
 -----------------------------------------------------------------------------------------------------------------------
 local hotkeys = { mouse = {}, raw = {}, keys = {}, fake = {} }
@@ -157,7 +159,7 @@ local function client_numkey(i, mod, action)
 		mod, "#" .. i + 9,
 		function ()
 			if client.focus then
-				local tag = get_or_add_tag(client.focus.screen, i, nil)
+				local tag = get_or_add_tag(client.focus.screen, i, appnames.short[client.focus.class])
 				if tag then action(tag) end
 			end
 		end
