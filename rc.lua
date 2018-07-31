@@ -210,7 +210,7 @@ awful.screen.connect_for_each_screen(
 		env.wallpaper(s)
 
 		-- tags
-		awful.tag.add("1", {
+		awful.tag.add("1 MAIN", {
 			layout              = awful.layout.suit.fair,
 			screen              = s,
 			selected            = true,

@@ -295,9 +295,9 @@ theme.gauge.monitor.double = {
 -- Tag
 ------------------------------------------------------------
 theme.gauge.tag.blue = {
-	width    = 50,
+	width    = 80,
 	font     = theme.cairo_fonts.tag,
-	point    = { width = 40, height = 3, gap = 27, dx = 5 },
+	point    = { width = 64, height = 3, gap = 27, dx = 5 },
 	text_gap = 20,
 	color    = theme.color
 }

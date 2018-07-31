@@ -80,6 +80,7 @@ local function toggle_placement(env)
 	redflat.float.notify:show({ text = (env.set_slave and "Slave" or "Master") .. " placement" })
 end
 
+-- finds the forst tag that starts with name
 local function tag_starts_with(tags, name)
 	for _, t in ipairs(tags) do
 		if t.name:sub(1, #name) == name then
@@ -88,14 +89,19 @@ local function tag_starts_with(tags, name)
 	end
 end
 
+-- extracts the number from a tag name
+local function tagname_to_num(name)
+	return tonumber(string.match(name, "%d+"))
+end
+
 -- gets the correct tag or creates it
-local function get_or_add_tag(s, i)
+local function get_or_add_tag(s, i, name)
 	-- volatile tags
 	local tag = tag_starts_with(s.tags, tostring(i))
 
 	if not tag then
 		-- tag doesn't exist, create and move it second to last
-		tag = awful.tag.add(tostring(i), {
+		tag = awful.tag.add(tostring(i) .. " " .. name, {
 			layout              = awful.layout.suit.tile,
 			screen              = s,
 			gap_single_client   = false,
@@ -109,7 +115,7 @@ local function get_or_add_tag(s, i)
 
 		-- sort newest tag into place
 		for j = #tags - 2, 1, -1 do
-			if (tonumber(tag.name) < tonumber(tags[j].name)) then
+			if (tagname_to_num(tag.name) < tagname_to_num(tags[j].name)) then
 				tag:swap(tags[j])
 			else
 				break
@@ -121,16 +127,16 @@ local function get_or_add_tag(s, i)
 end
 
 -- add new tag
-function global_add_tag()
+function global_add_tag(name)
 	local s = awful.screen.focused()
 	local tags = s.tags
 	for i = 1, #tags do
 		local is = tostring(i)
 		if tags[i].name:sub(1, #is) ~= is then
-			return get_or_add_tag(s, i)
+			return get_or_add_tag(s, i, name)
 		end
 	end
-	return get_or_add_tag(s, #s.tags)
+	return get_or_add_tag(s, #s.tags, name)
 end
 
 -- numeric keys function builders
@@ -139,7 +145,7 @@ local function tag_numkey(i, mod, action)
 		mod, "#" .. i + 9,
 		function ()
 			local screen = awful.screen.focused()
-			local tag = get_or_add_tag(screen, i)
+			local tag = get_or_add_tag(screen, i, nil)
 			if tag then action(tag) end
 		end
 	)
@@ -150,7 +156,7 @@ local function client_numkey(i, mod, action)
 		mod, "#" .. i + 9,
 		function ()
 			if client.focus then
-				local tag = get_or_add_tag(client.focus.screen, i)
+				local tag = get_or_add_tag(client.focus.screen, i, nil)
 				if tag then action(tag) end
 			end
 		end

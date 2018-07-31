@@ -13,4 +13,10 @@ appnames["st-256color"]          = "st"
 appnames["Sublime_text"]         = "Sublime"
 appnames["TelegramDesktop"]      = "TG"
 
+appnames.short = {}
+appnames.short["Chromium"]       = "WEB"
+appnames.short["Eclipse"]        = "DEV"
+appnames.short["qBittorrent"]    = "QBIT"
+appnames.short["Sublime_text"]   = "DEV"
+
 return appnames

@@ -6,6 +6,7 @@
 local awful = require("awful")
 local beautiful = require("beautiful")
 local redtitle = require("redflat.titlebar")
+local appnames = require("configs/alias-config")
 
 -- Initialize tables and vars for module
 -----------------------------------------------------------------------------------------------------------------------
@@ -22,8 +23,8 @@ rules.base_properties = {
 	minimized         = false,
 	callback          = function(client)
 		local tag = awful.screen.focused().selected_tag
-		if tag.name == "1" or #tag:clients() > 1 then
-			tag = global_add_tag()
+		if tag.index == 1 or #tag:clients() > 1 then
+			tag = global_add_tag(appnames.short[client.class])
 		end
 		client:move_to_tag(tag)
 		tag:view_only()
