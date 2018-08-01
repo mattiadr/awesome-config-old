@@ -48,19 +48,6 @@ function menu:init(args)
 		{ "Awesome lib",    env.fm .. " /usr/share/awesome/lib", micon("folder-bookmarks") }
 	}
 
-	-- Places submenu
-	------------------------------------------------------------
-	--[[local placesmenu = {
-		{ "Documents", env.fm .. " Documents",  micon("folder-documents") },
-		{ "Downloads", env.fm .. " Downloads",  micon("folder-download")  },
-		{ "Music",     env.fm .. " Music",      micon("folder-music")     },
-		{ "Pictures",  env.fm .. " Pictures",   micon("folder-pictures")  },
-		{ "Videos",    env.fm .. " Videos",     micon("folder-videos")    },
-		separator,
-		{ "Media",     env.fm .. " /mnt/media", micon("folder-bookmarks") },
-		{ "Storage",   env.fm .. " /opt",       micon("folder-bookmarks") },
-	}]]
-
 	-- Exit submenu
 	------------------------------------------------------------
 	local exitmenu = {
@@ -75,7 +62,6 @@ function menu:init(args)
 		items = {
 			{ "Awesome",      awesomemenu,                  micon("awesome") },
 			{ "Applications", appmenu,                      micon("distributor-logo") },
-			--{ "Places",       placesmenu,                   micon("folder_home"), key = "c" },
 			separator,
 			{ "Chromium",     "chromium",                   micon("chrome") },
 			{ "ranger",       env.terminal .. " -e ranger", micon("folder") },

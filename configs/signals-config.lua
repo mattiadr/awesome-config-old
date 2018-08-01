@@ -54,16 +54,6 @@ function signals:init(args)
 		end
 	)
 
-	-- add missing borders to windows that get unmaximized
-	--[[client.connect_signal(
-		"property::maximized",
-		function(c)
-			if not c.maximized then
-				c.border_width = beautiful.border_width
-			end
-		end
-	)]]
-
 	-- don't allow maximized windows move/resize themselves
 	client.connect_signal(
 		"request::geometry", fixed_maximized_geometry
