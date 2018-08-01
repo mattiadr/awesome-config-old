@@ -81,8 +81,6 @@ taglist.buttons = awful.util.table.join(
 	awful.button({         }, 2, awful.tag.viewtoggle),
 	awful.button({         }, 3, function(t) redflat.widget.layoutbox:toggle_menu(t) end),
 	awful.button({ env.mod }, 3, function(t) if client.focus then client.focus:toggle_tag(t) end end)
-	--awful.button({         }, 4, function(t) awful.tag.viewnext(t.screen) end),
-	--awful.button({         }, 5, function(t) awful.tag.viewprev(t.screen) end)
 )
 
 -- Tasklist
@@ -96,8 +94,6 @@ tasklist.buttons = awful.util.table.join(
 	awful.button({ }, 1, redflat.widget.tasklist.action.select),
 	awful.button({ }, 2, redflat.widget.tasklist.action.close),
 	awful.button({ }, 3, redflat.widget.tasklist.action.menu)
-	--awful.button({ }, 4, redflat.widget.tasklist.action.switch_next),
-	--awful.button({ }, 5, redflat.widget.tasklist.action.switch_prev)
 )
 
 -- Textclock widget
@@ -116,83 +112,16 @@ layoutbox.buttons = awful.util.table.join(
 	awful.button({ }, 5, function () awful.layout.inc(-1) end)
 )
 
---[[
--- Tray widget
---------------------------------------------------------------------------------
-local tray = {}
-tray.widget = redflat.widget.minitray()
-
-tray.buttons = awful.util.table.join(
-	awful.button({}, 1, function() redflat.widget.minitray:toggle() end)
-)
-]]
-
 -- PA volume control
 --------------------------------------------------------------------------------
 local volume = {}
 volume.widget = redflat.widget.pulse(nil, { widget = redflat.gauge.audio.red.new })
 
--- activate player widget
---redflat.float.player:init({ name = env.player })
-
 volume.buttons = awful.util.table.join(
 	awful.button({ }, 4, function() redflat.widget.pulse:change_volume()                end),
 	awful.button({ }, 5, function() redflat.widget.pulse:change_volume({ down = true }) end),
 	awful.button({ }, 1, function() redflat.widget.pulse:mute()                         end)
-	--awful.button({ }, 3, function() redflat.float.player:show()                         end),
-	--awful.button({ }, 1, function() redflat.float.player:action("PlayPause")            end),
-	--awful.button({ }, 8, function() redflat.float.player:action("Previous")             end),
-	--awful.button({ }, 9, function() redflat.float.player:action("Next")                 end)
 )
-
--- System resource monitoring widgets
---------------------------------------------------------------------------------
-local sysmon = { widget = {}, buttons = {}, icon = {} }
-
--- icons
-sysmon.icon.battery = redflat.util.table.check(beautiful, "icon.widget.battery")
---sysmon.icon.network = redflat.util.table.check(beautiful, "icon.widget.wireless")
---sysmon.icon.cpuram = redflat.util.table.check(beautiful, "icon.widget.monitor")
-
--- battery
---[[sysmon.widget.battery = redflat.widget.sysmon(
-	{ func = redflat.system.pformatted.bat(25), arg = "BAT0" },
-	{ timeout = 30, widget = redflat.gauge.icon.single, monitor = { is_vertical = true, icon = sysmon.icon.battery } }
-)]]
-
--- network speed
---[[sysmon.widget.network = redflat.widget.net(
-	{
-		interface = "wlp3s0",
-		alert = { up = 4 * 1024^2, down = 4 * 1024^2 },
-		speed = { up = 5 * 1024^2, down = 5 * 1024^2 },
-		autoscale = false
-	},
-	{ timeout = 2, widget = redflat.gauge.monitor.double, monitor = { icon = sysmon.icon.network } }
-)]]
-
--- CPU and RAM usage
---[[local cpu_storage = { cpu_total = {}, cpu_active = {} }
-
-local cpuram_func = function()
-	local cpu_usage = redflat.system.cpu_usage(cpu_storage).total
-	local mem_usage = redflat.system.memory_info().usep
-
-	return {
-		text = "CPU: " .. cpu_usage .. "%  " .. "RAM: " .. mem_usage .. "%",
-		value = { cpu_usage / 100,  mem_usage / 100},
-		alert = cpu_usage > 80 or mem_usage > 70
-	}
-end
-
-sysmon.widget.cpuram = redflat.widget.sysmon(
-	{ func = cpuram_func },
-	{ timeout = 2,  widget = redflat.gauge.monitor.double, monitor = { icon = sysmon.icon.cpuram } }
-)
-
-sysmon.buttons.cpuram = awful.util.table.join(
-	awful.button({ }, 1, function() redflat.float.top:show("cpu") end)
-)]]
 
 -- Battery widget
 --------------------------------------------------------------------------------
@@ -209,7 +138,7 @@ local BAT0 = battery_widget({
 	alert_title = "Battery low!",
 })
 
--- Usisks_old widget
+-- Usisks widget
 --------------------------------------------------------------------------------
 local udisks = require("user/widgets/udisks-widget")
 udisks.filemanager = env.fm
@@ -270,37 +199,16 @@ awful.screen.connect_for_each_screen(
 				udisks.widget,
 				separator,
 				env.wrapper(wibox.widget.systray(true), "systray"),
-				--separator,
-				--env.wrapper(mail.widget, "mail", mail.buttons),
-				--separator,
-				--env.wrapper(kbindicator.widget, "keyboard", kbindicator.buttons),
 				separator,
 				env.wrapper(volume.widget, "volume", volume.buttons),
-				--separator,
-				--env.wrapper(sysmon.widget.network, "network"),
-				--separator,
-				--env.wrapper(sysmon.widget.cpuram, "cpuram", sysmon.buttons.cpuram),
 				separator,
 				env.wrapper(textclock.widget, "textclock"),
 				separator,
-				--env.wrapper(sysmon.widget.battery, "battery"),
 				env.wrapper(BAT0.widget, "battery"),
-				--separator,
-				--env.wrapper(tray.widget, "tray", tray.buttons),
 			},
 		}
 	end
 )
-
--- Desktop widgets
------------------------------------------------------------------------------------------------------------------------
---local desktop = require("configs/desktop-config") -- load file with desktop widgets configuration
---desktop:init({ env = env })
-
--- Active screen edges
------------------------------------------------------------------------------------------------------------------------
---local edges = require("configs/edges-config") -- load file with edges configuration
---edges:init()
 
 -- Key bindings
 -----------------------------------------------------------------------------------------------------------------------
@@ -311,11 +219,6 @@ hotkeys:init({ env = env, menu = mymenu.mainmenu })
 -----------------------------------------------------------------------------------------------------------------------
 local rules = require("configs/rules-config") -- load file with rules configuration
 rules:init({ hotkeys = hotkeys})
-
--- Titlebar setup
------------------------------------------------------------------------------------------------------------------------
---local titlebar = require("configs/titlebar-config") -- load file with titlebar configuration
---titlebar:init()
 
 -- Base signal set for awesome wm
 -----------------------------------------------------------------------------------------------------------------------
