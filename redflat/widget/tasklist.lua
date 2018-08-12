@@ -177,7 +177,7 @@ local function tagmenu_update(c, menu, submenu_index, style)
 			local l = awful.layout.getname(awful.tag.getproperty(t, "layout"))
 
 			for _, index in ipairs(submenu_index) do
-				if menu.items[index].child.items[k].icon then
+				if menu.items[index].child.items[k] and menu.items[index].child.items[k].icon then
 					menu.items[index].child.items[k].icon:set_image(style.layout_icon[l] or style.layout_icon.unknown)
 				end
 			end
@@ -190,7 +190,7 @@ local function tagmenu_update(c, menu, submenu_index, style)
 				                   or style.micon.blank
 
 				for _, index in ipairs(submenu_index) do
-					if menu.items[index].child.items[k].right_icon then
+					if menu.items[index].child.items[k] and menu.items[index].child.items[k].right_icon then
 						menu.items[index].child.items[k].right_icon:set_image(check_icon)
 					end
 				end
