@@ -1,8 +1,11 @@
 local naughty = require("naughty")
 
+critical_no_timeout = naughty.config.presets.critical
+critical_no_timeout.timeout = 0
+
 if awesome.startup_errors then
 	naughty.notify({
-		preset = naughty.config.presets.critical,
+		preset = critical_no_timeout,
 		title  = "Oops, there were errors during startup!",
 		text   = awesome.startup_error
 	})
@@ -17,7 +20,7 @@ do
 			in_error = true
 
 			naughty.notify({
-				preset  = naughty.config.presets.critical,
+				preset  = critical_no_timeout,
 				title   = "Oops, an error happened!",
 				text    = err
 			})

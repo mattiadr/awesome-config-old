@@ -744,7 +744,7 @@ theme.naughty.base = {
 }
 
 theme.naughty.normal = {}
-theme.naughty.critical = { timeout = 0, border_color = theme.color.main }
+theme.naughty.critical = { timeout = 5, border_color = theme.color.main }
 theme.naughty.low = { timeout = 3 }
 
 -- Default awesome theme vars
