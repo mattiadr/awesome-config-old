@@ -2,6 +2,7 @@
 --                                                  Environment config                                               --
 -----------------------------------------------------------------------------------------------------------------------
 
+
 local awful = require("awful")
 local gears = require("gears")
 local beautiful = require("beautiful")
@@ -54,11 +55,31 @@ end
 
 -- Wallpaper setup
 --------------------------------------------------------------------------------
+local last_used = nil
+
 env.wallpaper = function(s)
 	if beautiful.wallpaper then
-		if awful.util.file_readable(beautiful.wallpaper) then
+		if gears.filesystem.file_readable(beautiful.wallpaper) then
+			-- is file
 			gears.wallpaper.maximized(beautiful.wallpaper, s, true)
+			awful.spawn.with_shell("convert -scale 1920x1080 -blur 0x4 \"" .. beautiful.wallpaper .. "\" /tmp/i3lock_img.png")
+		elseif gears.filesystem.dir_readable(beautiful.wallpaper) then
+			-- is directory, choose random
+			local files = {}
+			for file in io.popen('ls -A "' .. beautiful.wallpaper .. '"'):lines() do
+				table.insert(files, file)
+			end
+			for i, v in ipairs(files) do
+				if v == last_used then
+					table.remove(files, i)
+					break
+				end
+			end
+			last_used = files[math.random(#files)]
+			gears.wallpaper.maximized(beautiful.wallpaper .. last_used)
+			awful.spawn.with_shell("convert -scale 1920x1080 -blur 0x4 \"" .. beautiful.wallpaper .. last_used .. "\" /tmp/i3lock_img.png")
 		else
+			-- isn't file or dir, might me color string
 			gears.wallpaper.set(beautiful.color.bg)
 		end
 	end

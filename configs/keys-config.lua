@@ -31,6 +31,16 @@ local qlaunch = redflat.float.qlaunch
 -- Key support functions
 -----------------------------------------------------------------------------------------------------------------------
 
+local function lock_screen()
+	if type(beautiful.wallpaper) == "string" then
+		if string.sub(beautiful.wallpaper, 1, 1) == "#" then
+			awful.spawn.with_shell("i3lock -p default -c " .. beautiful.wallpaper)
+		else
+			awful.spawn.with_shell("i3lock -p default -i /tmp/i3lock_img.png")
+		end
+	end
+end
+
 -- change window focus by history
 local function focus_to_previous()
 	awful.client.focus.history.previous()
@@ -707,8 +717,12 @@ function hotkeys:init(args)
 			{ description = "Show hotkeys helper", group = "Main" }
 		},
 		{
-			{ env.mod }, "F2", function () redflat.service.navigator:run() end,
+			{ env.mod }, "F2", function() redflat.service.navigator:run() end,
 			{ description = "Window control mode", group = "Main" }
+		},
+		{
+			{ env.mod }, "F12", lock_screen,
+			{ description = "Lock Screen", group = "Main" }
 		},
 		{
 			{ env.mod }, "c", function() redflat.float.keychain:activate(keyseq, "User") end,

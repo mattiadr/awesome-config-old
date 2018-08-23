@@ -39,7 +39,7 @@ theme.useless_gap         = 3  -- useless gap
 
 theme.cellnum = { x = 96, y = 58 } -- grid layout property
 
-theme.wallpaper = theme.path .. "/wallpapers/capra.png" -- wallpaper file
+theme.wallpaper = theme.path .. "/wallpapers/" -- wallpaper file
 
 -- Fonts
 ------------------------------------------------------------
