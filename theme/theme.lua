@@ -762,7 +762,7 @@ theme.fg_urgent     = theme.color.highlight
 theme.fg_minimize   = theme.color.highlight
 
 theme.border_normal = theme.color.wibox
-theme.border_focus  = theme.color.gray
+theme.border_focus  = theme.color.main
 theme.border_marked = theme.color.main
 
 -- font
