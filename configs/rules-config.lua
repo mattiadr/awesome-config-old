@@ -44,8 +44,12 @@ rules.borderless = {
 
 rules.floating_any = {
 	type = { "dialog" },
-	class = { "Nm-connection-editor" },
+	class = {
+		"Nm-connection-editor",
+		"Qalculate-gtk",
+	},
 	role = { "pop-up" },
+	name = { "Event Tester" },
 }
 
 rules.minor = {

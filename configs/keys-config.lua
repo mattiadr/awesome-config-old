@@ -246,6 +246,7 @@ local stash_pop = function()
 	if #stash_FILO > 0 then
 		local t = awful.screen.focused().selected_tags
 		stash_FILO[#stash_FILO]:tags(t)
+		client.focus = stash_FILO[#stash_FILO]
 		stash_FILO[#stash_FILO] = nil
 	end
 end
@@ -912,6 +913,10 @@ function hotkeys:init(args)
 		},
 		{
 			{}, "XF86MonBrightnessDown", function() brightness({ step = 5, down = true }) end,
+			{} -- hidden key
+		},
+		{
+			{}, "XF86Calculator", function() awful.spawn.with_shell("qalculate-gtk") end,
 			{} -- hidden key
 		},
 
