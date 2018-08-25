@@ -919,6 +919,10 @@ function hotkeys:init(args)
 			{}, "XF86Calculator", function() awful.spawn.with_shell("qalculate-gtk") end,
 			{} -- hidden key
 		},
+		{
+			{}, "XF86Sleep", lock_screen,
+			{} -- hidden key
+		},
 
 	}
 

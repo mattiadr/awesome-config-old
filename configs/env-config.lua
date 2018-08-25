@@ -57,12 +57,16 @@ end
 --------------------------------------------------------------------------------
 local last_used = nil
 
+local function convert_wallpaper(wallpaper)
+	awful.spawn.with_shell("imlib2_blur 5 1920 1080 \"" .. wallpaper .. "\" /tmp/i3lock_img.png")
+end
+
 env.wallpaper = function(s)
 	if beautiful.wallpaper then
 		if gears.filesystem.file_readable(beautiful.wallpaper) then
 			-- is file
 			gears.wallpaper.maximized(beautiful.wallpaper, s, true)
-			awful.spawn.with_shell("convert -scale 1920x1080 -blur 0x4 \"" .. beautiful.wallpaper .. "\" /tmp/i3lock_img.png")
+			convert_wallpaper(beautiful.wallpaper)
 		elseif gears.filesystem.dir_readable(beautiful.wallpaper) then
 			-- is directory, choose random
 			local files = {}
@@ -77,7 +81,7 @@ env.wallpaper = function(s)
 			end
 			last_used = files[math.random(#files)]
 			gears.wallpaper.maximized(beautiful.wallpaper .. last_used)
-			awful.spawn.with_shell("convert -scale 1920x1080 -blur 0x4 \"" .. beautiful.wallpaper .. last_used .. "\" /tmp/i3lock_img.png")
+			convert_wallpaper(beautiful.wallpaper .. last_used)
 		else
 			-- isn't file or dir, might me color string
 			gears.wallpaper.set(beautiful.color.bg)
