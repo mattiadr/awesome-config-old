@@ -278,6 +278,7 @@ function hotkeys:init(args)
 	local args = args or {}
 	local env = args.env
 	local mainmenu = args.menu
+	local powermenu = args.powermenu
 
 	self.mouse.root = (awful.util.table.join(
 		awful.button({ }, 3, function () mainmenu:toggle() end)
@@ -920,7 +921,11 @@ function hotkeys:init(args)
 			{} -- hidden key
 		},
 		{
-			{}, "XF86Sleep", lock_screen,
+			{}, "XF86Sleep", function() lock_screen(); awful.spawn.with_shell("systemctl suspend") end,
+			{} -- hidden key
+		},
+		{
+			{}, "XF86PowerOff", function() powermenu:show() end,
 			{} -- hidden key
 		},
 

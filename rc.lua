@@ -213,7 +213,7 @@ awful.screen.connect_for_each_screen(
 -- Key bindings
 -----------------------------------------------------------------------------------------------------------------------
 local hotkeys = require("configs/keys-config") -- load file with hotkeys configuration
-hotkeys:init({ env = env, menu = mymenu.mainmenu })
+hotkeys:init({ env = env, menu = mymenu.mainmenu, powermenu = mymenu.powermenu })
 
 -- Rules
 -----------------------------------------------------------------------------------------------------------------------

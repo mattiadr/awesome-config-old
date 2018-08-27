@@ -72,9 +72,19 @@ function menu:init(args)
 		}
 	})
 
+	-- Power menu
+	------------------------------------------------------------
+	self.powermenu = redflat.menu({ theme = theme,
+		items = {
+			{ "Shutdown",     "shutdown now",      micon("system-shutdown")       },
+			{ "Reboot",       "reboot",            micon("gnome-session-reboot")  },
+			{ "Log Out",      awesome.quit,        micon("exit")                  },
+			{ "Suspend",      "systemctl suspend", micon("gnome-session-suspend") },
+		}
+	})
+
 	-- Menu panel widget
 	------------------------------------------------------------
-
 	self.widget = redflat.gauge.svgbox(icon, nil, color)
 	self.buttons = awful.util.table.join(
 		awful.button({ }, 1, function () self.mainmenu:toggle() end)
