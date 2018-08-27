@@ -250,7 +250,7 @@ theme.service.dfparser = {
 -- Menu config
 -----------------------------------------------------------------------------------------------------------------------
 theme.menu = {
-	border_width = 4,
+	border_width = 0,
 	screen_gap   = theme.useless_gap + theme.border_width,
 	height       = 32,
 	width        = 250,
