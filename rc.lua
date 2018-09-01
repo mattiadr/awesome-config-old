@@ -4,10 +4,13 @@
 
 -- print
 -----------------------------------------------------------------------------------------------------------------------
+local naughty = require("naughty")
+
 function printn(obj)
 	local naughty = require("naughty")
 	naughty.notify({
-		title = tostring(obj)
+		preset = naughty.config.presets.critical,
+		title = tostring(obj),
 	})
 end
 
@@ -100,6 +103,14 @@ tasklist.buttons = awful.util.table.join(
 --------------------------------------------------------------------------------
 local textclock = {}
 textclock.widget = redflat.widget.textclock({ timeout = 10, timeformat = "%H:%M - %d/%m", dateformat = "%a, %d %B %Y" })
+
+local calendar = require("user/widgets/calendar")
+calendar({
+	page_title = "%a, %d %B %Y",
+	day_id     = "%Y-%m-%d",
+	week_head  = "",
+	week_col   = "",
+}):attach(textclock.widget)
 
 -- Layoutbox configure
 --------------------------------------------------------------------------------
