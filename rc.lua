@@ -104,6 +104,8 @@ tasklist.buttons = awful.util.table.join(
 local textclock = {}
 textclock.widget = redflat.widget.textclock({ timeout = 10, timeformat = "%H:%M - %d/%m", dateformat = "%a, %d %B %Y" })
 
+-- Calendar widget
+--------------------------------------------------------------------------------
 local calendar = require("user/widgets/calendar")
 calendar({
 	page_title = "%a, %d %B %Y",
@@ -136,7 +138,7 @@ volume.buttons = awful.util.table.join(
 
 -- Battery widget
 --------------------------------------------------------------------------------
-local battery_widget = require("user/widgets/battery-widget")
+local battery_widget = require("user/widgets/battery")
 local BAT0 = battery_widget({
 	adapter = "BAT0",
 	listen = false,
@@ -151,7 +153,7 @@ local BAT0 = battery_widget({
 
 -- Usisks widget
 --------------------------------------------------------------------------------
-local udisks = require("user/widgets/udisks-widget")
+local udisks = require("user/widgets/udisks")
 udisks.filemanager = env.fm
 
 -- Screen setup
