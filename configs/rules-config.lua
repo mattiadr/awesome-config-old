@@ -49,7 +49,10 @@ rules.floating_any = {
 		"Qalculate-gtk",
 	},
 	role = { "pop-up" },
-	name = { "Event Tester" },
+	name = {
+		"Event Tester",
+		"htop",
+	},
 }
 
 rules.minor = {
@@ -103,12 +106,6 @@ function rules:init(args)
 			rule_any   = self.minor,
 			properties = {
 				callback     = function() end, -- used to disable default callback
-			},
-		},
-		{ -- normal
-			rule_any   = { type = { "normal" }},
-			properties = {
-				placement    = awful.placement.no_overlap + awful.placement.no_offscreen,
 			},
 		},
 	}
