@@ -2,7 +2,9 @@
 --                                                  Environment config                                               --
 -----------------------------------------------------------------------------------------------------------------------
 
-
+-- Grab environment
+local os = os
+local math = math
 local awful = require("awful")
 local gears = require("gears")
 local beautiful = require("beautiful")
@@ -60,6 +62,8 @@ local last_used = nil
 local function convert_wallpaper(wallpaper)
 	awful.spawn.with_shell("imlib2_blur 5 1920 1080 \"" .. wallpaper .. "\" /tmp/i3lock_img.png")
 end
+
+math.randomseed(os.time())
 
 env.wallpaper = function(s)
 	if beautiful.wallpaper then
