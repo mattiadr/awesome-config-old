@@ -13,6 +13,8 @@ local naughty = require("naughty")
 
 local redflat = require("redflat")
 
+local convert_wallpaper = require("user.util.screen-lock").convert_wallpaper
+
 -- Initialize tables and vars for module
 -----------------------------------------------------------------------------------------------------------------------
 local env = {}
@@ -58,10 +60,6 @@ end
 -- Wallpaper setup
 --------------------------------------------------------------------------------
 local last_used = nil
-
-local function convert_wallpaper(wallpaper)
-	awful.spawn.with_shell("imlib2_blur 5 1920 1080 \"" .. wallpaper .. "\" /tmp/i3lock_img.png")
-end
 
 math.randomseed(os.time())
 
