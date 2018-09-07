@@ -4,9 +4,10 @@
 
 -- Grab environment
 local beautiful = require("beautiful")
-local redflat = require("redflat")
 local awful = require("awful")
 local naughty = require("naughty")
+
+local redflat = require("redflat")
 
 
 -- Initialize tables and vars for module
@@ -44,8 +45,8 @@ function menu:init(args)
 	local awesomemenu = {
 		{ "Restart",        awesome.restart,                     micon("gnome-session-reboot") },
 		separator,
-		{ "Awesome config", env.fm .. " .config/awesome",        micon("folder-bookmarks") },
-		{ "Awesome lib",    env.fm .. " /usr/share/awesome/lib", micon("folder-bookmarks") }
+		{ "Awesome config", env.fm .. " .config/awesome",        micon("folder-bookmarks")     },
+		{ "Awesome lib",    env.fm .. " /usr/share/awesome/lib", micon("folder-bookmarks")     },
 	}
 
 	-- Exit submenu
@@ -60,15 +61,15 @@ function menu:init(args)
 	------------------------------------------------------------
 	self.mainmenu = redflat.menu({ theme = theme,
 		items = {
-			{ "Awesome",      awesomemenu,                  micon("awesome") },
+			{ "Awesome",      awesomemenu,                  micon("awesome")          },
 			{ "Applications", appmenu,                      micon("distributor-logo") },
 			separator,
-			{ "Chromium",     "chromium",                   micon("chrome") },
-			{ "ranger",       env.terminal .. " -e ranger", micon("folder") },
-			{ "htop",         env.terminal .. " -e htop",   micon("emacs") },
+			{ "Chromium",     "chromium",                   micon("chrome")           },
+			{ "ranger",       env.terminal .. " -e ranger", micon("folder")           },
+			{ "htop",         env.terminal .. " -e htop",   micon("emacs")            },
 			separator,
-			{ "Exit",         exitmenu,                     micon("exit") },
-			{ "Shutdown",     "shutdown now",               micon("system-shutdown") }
+			{ "Exit",         exitmenu,                     micon("exit")             },
+			{ "Shutdown",     "shutdown now",               micon("system-shutdown")  },
 		}
 	})
 
@@ -87,7 +88,7 @@ function menu:init(args)
 	------------------------------------------------------------
 	self.widget = redflat.gauge.svgbox(icon, nil, color)
 	self.buttons = awful.util.table.join(
-		awful.button({ }, 1, function () self.mainmenu:toggle() end)
+		awful.button({ }, 1, function() self.mainmenu:toggle() end)
 	)
 end
 

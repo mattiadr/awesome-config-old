@@ -4,15 +4,15 @@
 
 -- Grab environment
 -----------------------------------------------------------------------------------------------------------------------
-local capi      = { dbus = dbus }
-local lgi       = require 'lgi'
-local Gio       = lgi.require 'Gio'
-local GLib      = lgi.require 'GLib'
+local capi = { dbus = dbus }
+local lgi = require 'lgi'
+local Gio = lgi.require 'Gio'
+local GLib = lgi.require 'GLib'
 
-local wibox     = require("wibox")
-local awful     = require("awful")
+local wibox = require("wibox")
+local awful = require("awful")
 local beautiful = require("beautiful")
-local naughty   = require("naughty")
+local naughty = require("naughty")
 
 local tooltip = require("redflat.float.tooltip")
 

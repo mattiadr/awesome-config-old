@@ -25,7 +25,7 @@ local function fixed_maximized_geometry(c, context)
 			x = c.screen.workarea.x,
 			y = c.screen.workarea.y,
 			height = c.screen.workarea.height - 2 * c.border_width,
-			width = c.screen.workarea.width - 2 * c.border_width
+			width = c.screen.workarea.width - 2 * c.border_width,
 		})
 	end
 end
@@ -55,9 +55,7 @@ function signals:init(args)
 	)
 
 	-- don't allow maximized windows move/resize themselves
-	client.connect_signal(
-		"request::geometry", fixed_maximized_geometry
-	)
+	client.connect_signal("request::geometry", fixed_maximized_geometry)
 
 	-- enable sloppy focus, so that focus follows mouse
 	if env.sloppy_focus then
@@ -67,7 +65,7 @@ function signals:init(args)
 	-- hilight border of focused window
 	-- can be disabled since focus indicated by titlebars in current config
 	if env.color_border_focus then
-		client.connect_signal("focus",   function(c) c.border_color = beautiful.border_focus end)
+		client.connect_signal("focus",   function(c) c.border_color = beautiful.border_focus  end)
 		client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 	end
 

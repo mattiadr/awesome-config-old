@@ -1,4 +1,6 @@
--- Battery widget
+------------------------------------------------------------------------------------------------------------------------
+--                                                   Battery widget                                                   --
+------------------------------------------------------------------------------------------------------------------------
 
 local awful = require("awful")
 local gears = require("gears")
@@ -64,22 +66,22 @@ end
 local battery_widget = {}
 local sysfs_names = {
     charging = {
-        present   = "present",
-        state     = "status",
-        rate      = "current_now",
-        charge    = "charge_now",
-        capacity  = "charge_full",
-        design    = "charge_full_design",
-        percent   = "capacity",
+        present  = "present",
+        state    = "status",
+        rate     = "current_now",
+        charge   = "charge_now",
+        capacity = "charge_full",
+        design   = "charge_full_design",
+        percent  = "capacity",
     },
     discharging = {
-        present   = "present",
-        state     = "status",
-        rate      = "power_now",
-        charge    = "energy_now",
-        capacity  = "energy_full",
-        design    = "energy_full_design",
-        percent   = "capacity"
+        present  = "present",
+        state    = "status",
+        rate     = "power_now",
+        charge   = "energy_now",
+        capacity = "energy_full",
+        design   = "energy_full_design",
+        percent  = "capacity",
     },
 }
 
@@ -178,8 +180,7 @@ function battery_widget:get_state()
         percent   = tonumber(read_trim(bat.."/"..sysfs.percent)),
     }
 
-    r.ac_state = tonumber(read_trim(pow.."/AC/online") or
-                          read_trim(pow.."/ACAD/online"))
+    r.ac_state = tonumber(read_trim(pow.."/AC/online") or read_trim(pow.."/ACAD/online"))
 
     if r.state == "unknown" then
         r.state = "charged"
@@ -234,14 +235,14 @@ function battery_widget:update()
         ctx.minutes = math.floor((ctx.time_left - ctx.hours) * 60)
         if ctx.hours > 0
             then ctx.time_text = ctx.hours .. "h " .. ctx.minutes .. "m"
-            else ctx.time_text =                      ctx.minutes .. "m"
+            else ctx.time_text = ctx.minutes .. "m"
         end
         ctx.time_est = ctx.time_text
     end
 
     -- capacity text
     if ctx.capacity and ctx.design then
-        ctx.capacity_percent = round(ctx.capacity/ctx.design*100)
+        ctx.capacity_percent = round(ctx.capacity / ctx.design*100)
     end
 
     -- for use in functions

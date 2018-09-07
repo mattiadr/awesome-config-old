@@ -1,3 +1,5 @@
+local io = io
+
 local naughty = require("naughty")
 
 local print = {}

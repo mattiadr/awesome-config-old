@@ -34,11 +34,6 @@ env:init()
 local layouts = require("configs/layout-config") -- load file with tile layouts setup
 layouts:init()
 
--- Main menu configuration
------------------------------------------------------------------------------------------------------------------------
-local mymenu = require("configs/menu-config") -- load file with menu configuration
-mymenu:init({ env = env })
-
 -- Panel widgets
 -----------------------------------------------------------------------------------------------------------------------
 
@@ -51,11 +46,11 @@ local separator = redflat.gauge.separator.vertical()
 local taglist = {}
 taglist.style = { separator = separator, widget = redflat.gauge.tag.blue.new, show_tip = false }
 taglist.buttons = awful.util.table.join(
-	awful.button({         }, 1, function(t) t:view_only() end),
+	awful.button({         }, 1, function(t) t:view_only()                                        end),
 	awful.button({ env.mod }, 1, function(t) if client.focus then client.focus:move_to_tag(t) end end),
-	awful.button({         }, 2, awful.tag.viewtoggle),
-	awful.button({         }, 3, function(t) redflat.widget.layoutbox:toggle_menu(t) end),
-	awful.button({ env.mod }, 3, function(t) if client.focus then client.focus:toggle_tag(t) end end)
+	awful.button({         }, 2, awful.tag.viewtoggle                                                ),
+	awful.button({         }, 3, function(t) redflat.widget.layoutbox:toggle_menu(t)              end),
+	awful.button({ env.mod }, 3, function(t) if client.focus then client.focus:toggle_tag(t) end  end)
 )
 
 -- Tasklist
@@ -67,14 +62,18 @@ tasklist.style = { appnames = require("configs/alias-config") }
 
 tasklist.buttons = awful.util.table.join(
 	awful.button({ }, 1, redflat.widget.tasklist.action.select),
-	awful.button({ }, 2, redflat.widget.tasklist.action.close),
-	awful.button({ }, 3, redflat.widget.tasklist.action.menu)
+	awful.button({ }, 2, redflat.widget.tasklist.action.close ),
+	awful.button({ }, 3, redflat.widget.tasklist.action.menu  )
 )
 
 -- Textclock widget
 --------------------------------------------------------------------------------
 local textclock = {}
-textclock.widget = redflat.widget.textclock({ timeout = 10, timeformat = "%H:%M - %d/%m", dateformat = "%a, %d %B %Y" })
+textclock.widget = redflat.widget.textclock({
+	timeout    = 10,
+	timeformat = "%H:%M - %d/%m",
+	dateformat = "%a, %d %B %Y",
+})
 
 -- Floating Calendar
 --------------------------------------------------------------------------------
@@ -86,15 +85,20 @@ calendar({
 	week_col   = "",
 }):attach(textclock.widget)
 
+-- Main menu configuration
+-----------------------------------------------------------------------------------------------------------------------
+local mymenu = require("configs/menu-config") -- load file with menu configuration
+mymenu:init({ env = env })
+
 -- Layoutbox configure
 --------------------------------------------------------------------------------
 local layoutbox = {}
 
 layoutbox.buttons = awful.util.table.join(
-	awful.button({ }, 1, function () mymenu.mainmenu:toggle() end),
+	awful.button({ }, 1, function () mymenu.mainmenu:toggle()                                        end),
 	awful.button({ }, 3, function () redflat.widget.layoutbox:toggle_menu(mouse.screen.selected_tag) end),
-	awful.button({ }, 4, function () awful.layout.inc( 1) end),
-	awful.button({ }, 5, function () awful.layout.inc(-1) end)
+	awful.button({ }, 4, function () awful.layout.inc( 1)                                            end),
+	awful.button({ }, 5, function () awful.layout.inc(-1)                                            end)
 )
 
 -- PA volume control
@@ -103,24 +107,23 @@ local volume = {}
 volume.widget = redflat.widget.pulse(nil, { widget = redflat.gauge.audio.red.new })
 
 volume.buttons = awful.util.table.join(
+	awful.button({ }, 1, function() redflat.widget.pulse:mute()                         end),
 	awful.button({ }, 4, function() redflat.widget.pulse:change_volume()                end),
-	awful.button({ }, 5, function() redflat.widget.pulse:change_volume({ down = true }) end),
-	awful.button({ }, 1, function() redflat.widget.pulse:mute()                         end)
+	awful.button({ }, 5, function() redflat.widget.pulse:change_volume({ down = true }) end)
 )
 
 -- Battery widget
 --------------------------------------------------------------------------------
 local battery_widget = require("user/widget/battery")
 local BAT0 = battery_widget({
-	adapter = "BAT0",
-	listen = false,
-	timeout = 30,
-	widget_text = "${AC_BAT}${color_on}${percent}%${color_off}",
-	widget_font = "monospace",
-	--tooltip_text = "${time_est} remaining\nCapacity: ${capacity_percent}%",
+	adapter         = "BAT0",
+	listen          = false,
+	timeout         = 30,
+	widget_text     = "${AC_BAT}${color_on}${percent}%${color_off}",
+	widget_font     = "monospace",
 	alert_threshold = 15,
-	alert_timeout = 10,
-	alert_title = "Battery low!",
+	alert_timeout   = 10,
+	alert_title     = "Battery low!",
 })
 
 -- Usisks widget
@@ -139,13 +142,13 @@ awful.screen.connect_for_each_screen(
 
 		-- tags
 		awful.tag.add("1 MAIN", {
-			layout              = awful.layout.suit.fair,
-			screen              = s,
-			selected            = true,
+			layout   = awful.layout.suit.fair,
+			screen   = s,
+			selected = true,
 		})
 		awful.tag.add("TG", {
-			layout              = awful.layout.suit.max,
-			screen              = s,
+			layout   = awful.layout.suit.max,
+			screen   = s,
 		})
 
 		-- layoutbox widget

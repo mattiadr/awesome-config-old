@@ -4,6 +4,7 @@
 
 -- Grab environment
 local table = table
+
 local awful = require("awful")
 local beautiful = require("beautiful")
 

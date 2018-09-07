@@ -3,6 +3,8 @@
 -----------------------------------------------------------------------------------------------------------------------
 
 -- Grab environment
+local io = io
+
 local awful = require("awful")
 
 -- Initialize tables and vars for module

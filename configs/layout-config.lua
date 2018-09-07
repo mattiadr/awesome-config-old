@@ -4,6 +4,7 @@
 
 -- Grab environment
 local awful = require("awful")
+
 local redflat = require("redflat")
 
 -- Initialize tables and vars for module
