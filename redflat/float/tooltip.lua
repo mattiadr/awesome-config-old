@@ -32,7 +32,7 @@ local function default_style()
 	local style = {
 		margin       = { 5, 5, 3, 3 },
 		timeout      = 1,
-		font  = "Sans 12",
+		font         = "Sans 12",
 		border_width = 2,
 		color        = { border = "#404040", text = "#aaaaaa", wibox = "#202020" }
 	}
@@ -67,7 +67,7 @@ function tooltip.new(args, style)
 
 	-- Tooltip size configurator
 	--------------------------------------------------------------------------------
-	 function ttp:set_geometry()
+	function ttp:set_geometry()
 		local geom = self.wibox:geometry()
 		local n_w, n_h = self.widget:get_preferred_size()
 		if geom.width ~= n_w or geom.height ~= n_h then

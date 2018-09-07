@@ -714,6 +714,16 @@ theme.float.decoration.field = {
 	color = theme.color
 }
 
+-- Calendar
+------------------------------------------------------------
+theme.float.calendar = {
+	margin       = { 6, 6, 6, 6 },
+	timeout      = 2,
+	font         = theme.fonts.clock,
+	border_width = 2,
+	color        = theme.color
+}
+
 
 -- Titlebar
 -----------------------------------------------------------------------------------------------------------------------
