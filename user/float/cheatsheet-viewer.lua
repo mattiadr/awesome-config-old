@@ -117,7 +117,14 @@ local function build_markup(cheatsheet, style, query)
 				-- add description
 				line = line .. style.delim .. value.description
 
-				local clr = string.match(query, "%w") and (string.match(line, "%f[%w]" .. query)) and style.color.main or style.color.text
+				local function match(str, sub)
+					return string.match(str, "%f[%w]" .. sub)
+				end
+
+				local clr = style.color.text
+				if string.match(query, "%w") and (match(value.cmd, query) or match(value.description, query)) then
+					clr = style.color.main
+				end
 				line = string.format("<span color='%s'>%s</span>", clr, line)
 				coltxt = coltxt .. line .. "\n"
 			end
