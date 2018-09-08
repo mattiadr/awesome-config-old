@@ -194,9 +194,20 @@ end
 --------------------------------------------------------------------------------
 local function sort_by_query(t, query)
 	l = string.len(query)
-	local function s(a, b)
-		return string.lower(string.sub(a.Name, 1, l)) == query and string.lower(string.sub(b.Name, 1, l)) ~= query
+
+	local function starts(e)
+		return string.lower(string.sub(e.Name, 1, l)) == query
 	end
+
+	local function s(a, b)
+		local r = starts(a)
+		if r == starts(b) then
+			return string.lower(a.Name) < string.lower(b.Name)
+		else
+			return r
+		end
+	end
+
 	table.sort(t, s)
 end
 
