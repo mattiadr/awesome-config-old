@@ -316,10 +316,10 @@ end
 function apprunner:show()
 	if not self.wibox then
 		self:init()
-	else
-		list_filtrate("")
-		self.applist:set_select(1)
 	end
+	
+	list_filtrate("")
+	self.applist:set_select(1)
 
 	redutil.placement.centered(self.wibox, nil, mouse.screen.workarea)
 	self.wibox.visible = true
