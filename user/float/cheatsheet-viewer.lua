@@ -104,18 +104,18 @@ local function build_markup(cheatsheet, style, query)
 			-- set group title
 			coltxt = coltxt .. string.format(
 				"<span font='%s' color='%s'>%s</span>\n",
-				style.titlefont, style.color.gray, group.group
+				style.titlefont, style.color.gray, awful.util.escape(group.group)
 			)
 
 			-- add various commands
 			for _, value in ipairs(group) do
-				local line = string.format("<span font='%s'>%s</span>", style.keyfont, value.cmd)
+				local line = string.format("<span font='%s'>%s</span>", style.keyfont, awful.util.escape(value.cmd))
 				
 				-- align keys
 				line = line .. string.rep(" ", max_cmd - value.cmd:len())
 
 				-- add description
-				line = line .. style.delim .. value.description
+				line = line .. style.delim .. awful.util.escape(value.description)
 
 				local function match(str, sub)
 					return str:match("%f[%w]" .. sub)

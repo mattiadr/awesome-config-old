@@ -222,13 +222,13 @@ local function sort_by_query(t, query)
 	l = query:len()
 
 	local function starts(e)
-		return e.Name:sub(1, l):lower() == query
+		return e.name:sub(1, l):lower() == query
 	end
 
 	local function s(a, b)
 		local r = starts(a)
 		if r == starts(b) then
-			return a.Name:lower() < b.Name:lower()
+			return a.name:lower() < b.name:lower()
 		else
 			return r
 		end
