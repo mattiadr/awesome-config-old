@@ -1,8 +1,8 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                                 Cheatsheet viewer                                                 --
+--                                              Cheatsheet viewer widget                                             --
 -----------------------------------------------------------------------------------------------------------------------
--- Menu insipired from reflat.float.apprunner
--- Cheatsheet inspired from redflat.float.hotkeys
+-- Widget with list of cheatsheets (cmd, description pairs)
+-- Inspired from redflat.float.hotkeys
 -----------------------------------------------------------------------------------------------------------------------
 
 -- Grab environment
@@ -94,8 +94,8 @@ local function build_markup(cheatsheet, style, query)
 		local max_cmd = 0
 		for _, group in ipairs(column) do
 			for _, value in ipairs(group) do
-				if string.len(value.cmd) > max_cmd then
-					max_cmd = string.len(value.cmd)
+				if value.cmd:len() > max_cmd then
+					max_cmd = value.cmd:len()
 				end
 			end
 		end
@@ -112,17 +112,17 @@ local function build_markup(cheatsheet, style, query)
 				local line = string.format("<span font='%s'>%s</span>", style.keyfont, value.cmd)
 				
 				-- align keys
-				line = line .. string.rep(" ", max_cmd - string.len(value.cmd))
+				line = line .. string.rep(" ", max_cmd - value.cmd:len())
 
 				-- add description
 				line = line .. style.delim .. value.description
 
 				local function match(str, sub)
-					return string.match(str, "%f[%w]" .. sub)
+					return str:match("%f[%w]" .. sub)
 				end
 
 				local clr = style.color.text
-				if string.match(query, "%w") and (match(value.cmd, query) or match(value.description, query)) then
+				if query:match("%w") and (match(value.cmd, query) or match(value.description, query)) then
 					clr = style.color.main
 				end
 				line = string.format("<span color='%s'>%s</span>", clr, line)

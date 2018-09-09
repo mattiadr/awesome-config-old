@@ -164,7 +164,7 @@ awful.screen.connect_for_each_screen(
 		s.panel = awful.wibar({ position = "bottom", screen = s, height = beautiful.panel_height or 36 })
 
 		-- add widgets to the wibox
-		s.panel:setup {
+		s.panel:setup({
 			layout = wibox.layout.align.horizontal,
 			{ -- left widgets
 				layout = wibox.layout.fixed.horizontal,
@@ -194,7 +194,7 @@ awful.screen.connect_for_each_screen(
 				separator,
 				env.wrapper(BAT0.widget, "battery"),
 			},
-		}
+		})
 	end
 )
 

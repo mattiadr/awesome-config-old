@@ -12,8 +12,7 @@ local redflat = require("redflat")
 
 local appnames = require("configs/alias-config")
 local lock_screen = require("user/util/screen-lock").lock_screen
-local cheatsheet = require("user/float/cheatsheet-viewer")
-local cheatsheets = require("user/cheatsheets")
+local cheatsheet = require("user/float/cheatsheet-selector")
 
 -- Initialize tables and vars for module
 -----------------------------------------------------------------------------------------------------------------------
@@ -717,8 +716,8 @@ function hotkeys:init(args)
 			{ description = "Window control mode", group = "Main" }
 		},
 		{
-			{ env.mod }, "F3", function() cheatsheet:show(cheatsheets.git) end,
-			{ description = "Show cheatsheet", group = "Main" }
+			{ env.mod }, "F3", function() cheatsheet:show() end,
+			{ description = "Show cheatsheets", group = "Main" }
 		},
 		{
 			{ env.mod }, "F12", lock_screen,

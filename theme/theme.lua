@@ -724,7 +724,22 @@ theme.float.calendar = {
 	color        = theme.color
 }
 
--- Hotkeys helper
+-- Cheatsheet selector
+------------------------------------------------------------
+theme.float.cheatsheet_selector = {
+	location      = theme.homedir .. "/conf-files/cheatsheets",
+	itemnum       = 4,
+	geometry      = { width = 300, height = 300 },
+	border_margin = { 24, 24, 24, 24 },
+	title_height  = 48,
+	prompt_height = 35,
+	border_width  = 2,
+	name_font     = theme.fonts.title,
+	name_margin   = { 10, 10, 0, 0 },
+	color         = theme.color,
+}
+
+-- Cheatsheet viewer
 ------------------------------------------------------------
 theme.float.cheatsheet_viewer = {
 	border_margin = { 20, 20, 8, 10 },
