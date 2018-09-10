@@ -83,6 +83,21 @@ local function parse(cheatsheet)
 	return cols
 end
 
+local function line_match(v, query)
+	if not query:match("[^:%s]") then return false end
+
+	query = query:lower()
+	-- escape special characters
+	query = query:gsub("[%(%)%.%%%+%-%*%?%[%]%^%$]", "%%%1")
+
+	-- if query starts with ":" then substitute it with a frontier pattern
+	if query:sub(1, 1) == ":" then
+		query = "%f[%w%p]" .. query:sub(2)
+	end
+
+	return v.cmd:lower():match(query) or v.description:lower():match(query)
+end
+
 -- Convert cheatsheet to markup
 --------------------------------------------------------------------------------
 local function build_markup(cheatsheet, style, query)
@@ -117,14 +132,8 @@ local function build_markup(cheatsheet, style, query)
 				-- add description
 				line = line .. style.delim .. awful.util.escape(value.description)
 
-				local function match(str, sub)
-					return str:match("%f[%w]" .. sub)
-				end
-
-				local clr = style.color.text
-				if query:match("%w") and (match(value.cmd, query) or match(value.description, query)) then
-					clr = style.color.main
-				end
+				-- set color
+				local clr = line_match(value, query) and style.color.main or style.color.text
 				line = string.format("<span color='%s'>%s</span>", clr, line)
 				coltxt = coltxt .. line .. "\n"
 			end
@@ -255,7 +264,7 @@ function cs_viewer:show(cheatsheet)
 
 	-- prompt
 	return awful.prompt.run({
-		prompt = "",
+		prompt = ":",
 		textbox = self.textbox,
 		done_callback = function() self:hide() end,
 		changed_callback = function(query) self:highlight(query, false) end,
