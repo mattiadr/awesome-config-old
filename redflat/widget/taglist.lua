@@ -26,6 +26,8 @@ local redutil = require("redflat.util")
 local basetag = require("redflat.gauge.tag")
 local tooltip = require("redflat.float.tooltip")
 
+local tagconf = require("configs/tag-config")
+
 -- Initialize tables and vars for module
 -----------------------------------------------------------------------------------------------------------------------
 local taglist = { filter = {}, mt = {} , queue = setmetatable({}, { __mode = 'k' }) }
@@ -55,15 +57,19 @@ local function get_state(t)
 	for _, c in pairs(client_list) do
 		state.focus     = state.focus or client.focus == c
 		state.urgent    = state.urgent or c.urgent
+		--[[ remove this
 		if not c.skip_taskbar then
 			table.insert(state.list, { focus = client.focus == c, urgent = c.urgent, minimized = c.minimized })
 		end
+		--]]
 	end
 
 	state.active = t.selected
 	state.occupied = #client_list > 0 and not (#client_list == 1 and state.focus)
 	state.text = string.upper(t.name)
 	state.layout = awful.tag.getproperty(t, "layout")
+
+	state.list = tagconf:get_tab_states(t)
 
 	return state
 end
@@ -79,7 +85,7 @@ end
 local function filtrate_tags(screen, filter)
 	local tags = {}
 	for _, t in ipairs(screen.tags) do
-		if not awful.tag.getproperty(t, "hide") and filter(t) then
+		if t.always_show or not t.hide and filter(t) then
 			table.insert(tags, t)
 		end
 	end

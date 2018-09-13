@@ -11,6 +11,8 @@ local awful = require("awful")
 local wibox = require("wibox")
 local beautiful = require("beautiful")
 
+local tagconf = require("configs/tag-config")
+
 require("awful.autofocus")
 
 -- User modules
@@ -140,22 +142,27 @@ awful.screen.connect_for_each_screen(
 		-- wallpaper
 		env.wallpaper(s)
 
+		tagconf:init(s)
 		-- tags
+		--[[
 		awful.tag.add("1 MAIN", {
-			layout   = awful.layout.suit.fair,
-			screen   = s,
-			selected = true,
+			layout      = awful.layout.suit.fair,
+			screen      = s,
+			selected    = true,
+			always_show = true,
 		})
 		awful.tag.add("TG", {
-			layout   = awful.layout.suit.max,
-			screen   = s,
+			layout      = awful.layout.suit.max,
+			screen      = s,
+			always_show = true,
 		})
+		--]]
 
 		-- layoutbox widget
 		layoutbox[s] = redflat.widget.layoutbox({ screen = s })
 
 		-- taglist widget
-		taglist[s] = redflat.widget.taglist({ screen = s, buttons = taglist.buttons, hint = env.tagtip }, taglist.style)
+		taglist[s] = redflat.widget.taglist({ screen = s, filter = redflat.widget.taglist.filter.noempty, hint = env.tagtip, buttons = taglist.buttons }, taglist.style)
 
 		-- tasklist widget
 		tasklist[s] = redflat.widget.tasklist({ screen = s, buttons = tasklist.buttons }, tasklist.style)

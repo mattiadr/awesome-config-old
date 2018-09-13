@@ -23,6 +23,7 @@ rules.base_properties = {
 	screen            = awful.screen.preferred,
 	titlebars_enabled = false,
 	minimized         = false,
+	--[[
 	callback          = function(client)
 		local tag = awful.screen.focused().selected_tag
 		if tag.index == 1 or #tag:clients() > 1 then
@@ -31,6 +32,7 @@ rules.base_properties = {
 		client:move_to_tag(tag)
 		tag:view_only()
 	end
+	]]
 }
 
 rules.borderless = {

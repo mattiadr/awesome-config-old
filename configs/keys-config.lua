@@ -13,6 +13,7 @@ local redflat = require("redflat")
 local appnames = require("configs/alias-config")
 local lock_screen = require("user/util/screen-lock").lock_screen
 local cheatsheet = require("user/float/cheatsheet-selector")
+local tagconf = require("configs/tag-config")
 
 -- Initialize tables and vars for module
 -----------------------------------------------------------------------------------------------------------------------
@@ -85,6 +86,7 @@ local function toggle_placement(env)
 	redflat.float.notify:show({ text = (env.set_slave and "Slave" or "Master") .. " placement" })
 end
 
+--[[
 -- finds the forst tag that starts with name
 local function tag_starts_with(tags, name)
 	for _, t in ipairs(tags) do
@@ -144,6 +146,7 @@ function global_add_tag(name)
 	end
 	return get_or_add_tag(s, #s.tags, name)
 end
+--]]
 
 -- numeric keys function builders
 local function tag_numkey(i, mod, action)
@@ -967,10 +970,16 @@ function hotkeys:init(args)
 	for i = 1, 10 do
 		self.keys.root = awful.util.table.join(
 			self.keys.root,
+			awful.key({ env.mod },                     "#" .. i + 9, function() tagconf:view_only(i) end),
+			awful.key({ env.mod, "Control" },          "#" .. i + 9, function() tagconf:viewtoggle(i) end),
+			awful.key({ env.mod, "Shift" },            "#" .. i + 9, function() tagconf:client_move_to_tag(client.focus, i, true) end),
+			awful.key({ env.mod, "Control", "Shift" }, "#" .. i + 9, function() tagconf:client_toggle_tag(client.focus, i) end)
+			--[[
 			tag_numkey(i,    { env.mod },                     function(t) t:view_only()                             end),
 			tag_numkey(i,    { env.mod, "Control" },          function(t) awful.tag.viewtoggle(t)                   end),
 			client_numkey(i, { env.mod, "Shift" },            function(t) client.focus:move_to_tag(t) t:view_only() end),
 			client_numkey(i, { env.mod, "Control", "Shift" }, function(t) client.focus:toggle_tag(t)                end)
+			--]]
 		)
 	end
 
