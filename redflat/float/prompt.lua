@@ -69,6 +69,7 @@ end
 -- Run method for prompt widget
 -- Wibox appears on call and hides after command entered
 -----------------------------------------------------------------------------------------------------------------------
+pn = require("user/util/print").n
 function floatprompt:run()
 	if not self.wibox then self:init() end
 	redutil.placement.centered(self.wibox, nil, mouse.screen.workarea)
@@ -87,7 +88,7 @@ function floatprompt:run()
 		end,
 		history_path = awful.util.getdir("cache") .. "/history",
 		history_max = 30,
-		completion_callback = awful.completion.shell,
+		completion_callback = function(command, cur_pos, ncomp) return awful.completion.shell(command, cur_pos, ncomp, "zsh") end,
 		done_callback = function () if not self.info then self.wibox.visible = false end end,
 	})
 end
