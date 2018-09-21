@@ -10,6 +10,7 @@ local redtitle = require("redflat.titlebar")
 
 local appnames = require("configs/alias-config")
 local tagconf = require("configs/tag-config")
+local merge_rules = require("user/util/table").merge_rules
 
 -- Initialize tables and vars for module
 -----------------------------------------------------------------------------------------------------------------------
@@ -89,7 +90,7 @@ function rules:init(args)
 
 	-- Set tagconf rules
 	--------------------------------------------------------------------------------
-	tagconf:set_rules_any(self.minor)
+	tagconf:set_rules_any(merge_rules(self.minor, self.floating_any))
 end
 
 -- End
