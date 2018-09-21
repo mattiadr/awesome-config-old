@@ -86,75 +86,12 @@ local function toggle_placement(env)
 	redflat.float.notify:show({ text = (env.set_slave and "Slave" or "Master") .. " placement" })
 end
 
---[[
--- finds the forst tag that starts with name
-local function tag_starts_with(tags, name)
-	for _, t in ipairs(tags) do
-		if t.name:sub(1, #name) == name then
-			return t
-		end
-	end
-end
-
--- extracts the number from a tag name
-local function tagname_to_num(name)
-	return tonumber(string.match(name, "%d+"))
-end
-
--- gets the correct tag or creates it
-local function get_or_add_tag(s, i, name)
-	-- volatile tags
-	local tag = tag_starts_with(s.tags, tostring(i))
-
-	if not tag then
-		-- tag doesn't exist, create and move it second to last
-		local tagname = name and tostring(i) .. " " .. name or tostring(i)
-		tag = awful.tag.add(tagname, {
-			layout              = awful.layout.suit.tile,
-			screen              = s,
-			gap_single_client   = false,
-			master_width_factor = 0.75,
-			volatile            = true,
-		})
-
-		-- swap last (newest tag) with second to last (telegram tag)
-		local tags = s.tags
-		tag:swap(tags[#tags - 1])
-
-		-- sort newest tag into place
-		for j = #tags - 2, 1, -1 do
-			if (tagname_to_num(tag.name) < tagname_to_num(tags[j].name)) then
-				tag:swap(tags[j])
-			else
-				break
-			end
-		end
-	end
-
-	return tag
-end
-
--- add new tag
-function global_add_tag(name)
-	local s = awful.screen.focused()
-	local tags = s.tags
-	for i = 1, #tags do
-		local is = tostring(i)
-		if tags[i].name:sub(1, #is) ~= is then
-			return get_or_add_tag(s, i, name)
-		end
-	end
-	return get_or_add_tag(s, #s.tags, name)
-end
---]]
-
 -- numeric keys function builders
 local function tag_numkey(i, mod, action)
 	return awful.key(
 		mod, "#" .. i + 9,
 		function ()
-			local screen = awful.screen.focused()
-			local tag = screen.tags[i]
+			local tag = awful.screen.focused().tags[i]
 			if tag then action(tag) end
 		end
 	)
@@ -170,6 +107,29 @@ local function client_numkey(i, mod, action)
 			end
 		end
 	)
+end
+
+local tag_numkey_nomod = function(t)
+	local tag = awful.screen.focused().selected_tag
+
+	if tag ~= t then
+		t:view_only()
+	else
+		tagconf:switch_tab(tag)
+	end
+end
+
+local tag_numkey_shift = function(t)
+	local tag = awful.screen.focused().selected_tag
+
+	if tag ~= t then
+		if client.focus then
+			client.focus:move_to_tag(t)
+			t:view_only()
+		end
+	else
+		tagconf:switch_tab(tag, -1)
+	end
 end
 
 -- volume functions
@@ -188,7 +148,6 @@ local volume_mute  = function() redflat.widget.pulse:mute() end
 -- brightness functions
 local brightness = function(args)
 	redflat.float.brightness:change_with_xbacklight(args) -- use xbacklight utility
-	-- redflat.float.brightness:change_with_gsd(args) -- use gnome settings deamon
 end
 
 -- horizontal scroll function
@@ -785,22 +744,6 @@ function hotkeys:init(args)
 			{ env.mod }, "Escape", awful.tag.history.restore,
 			{ description = "Go previos tag", group = "Tag navigation" }
 		},
-		{
-			{ env.mod }, "t", function() tagconf:switch_tab(mouse.screen.selected_tag) end,
-			{ description = "Switch to next tab", group = "Tag navigation" }
-		},
-		{
-			{ env.mod, "Shift" }, "t", function() tagconf:switch_tab(mouse.screen.selected_tag, -1) end,
-			{ description = "Switch to previous tab", group = "Tag navigation" }
-		},
-		{
-			{ env.mod, "Control" }, "t", function() tagconf:client_to_tab(mouse.screen.selected_tag, client.focus, 1) end,
-			{ description = "Move client to next tab", group = "Tag navigation" }
-		},
-		{
-			{ env.mod, "Control", "Shift" }, "t", function() tagconf:client_to_tab(mouse.screen.selected_tag, client.focus, -1) end,
-			{ description = "Move client to previous tab", group = "Tag navigation" }
-		},
 		
 		--[[{
 			{ env.mod }, "a", nil, function() appswitcher:show({ filter = current }) end,
@@ -970,6 +913,14 @@ function hotkeys:init(args)
 			{ env.mod, "Control" }, "o", function(c) c.ontop = not c.ontop end,
 			{ description = "Toggle keep on top", group = "Client keys" }
 		},
+		{
+			{ env.mod }, "t", function(c) tagconf:client_to_tab(mouse.screen.selected_tag, c, 1) end,
+			{ description = "Move client to next tab", group = "Client keys" }
+		},
+		{
+			{ env.mod, "Shift" }, "t", function(c) tagconf:client_to_tab(mouse.screen.selected_tag, c, -1) end,
+			{ description = "Move client to previous tab", group = "Client keys" }
+		},
 	}
 
 	self.keys.root = redflat.util.key.build(self.raw.root)
@@ -982,10 +933,10 @@ function hotkeys:init(args)
 	for i = 1, 10 do
 		self.keys.root = awful.util.table.join(
 			self.keys.root,
-			tag_numkey(i,    { env.mod },                     function(t) t:view_only()                             end),
-			tag_numkey(i,    { env.mod, "Control" },          function(t) awful.tag.viewtoggle(t)                   end),
-			client_numkey(i, { env.mod, "Shift" },            function(t) client.focus:move_to_tag(t) t:view_only() end),
-			client_numkey(i, { env.mod, "Control", "Shift" }, function(t) client.focus:toggle_tag(t)                end)
+			tag_numkey(i,    { env.mod },                     tag_numkey_nomod                          ),
+			tag_numkey(i,    { env.mod, "Control" },          function(t) awful.tag.viewtoggle(t)    end),
+			tag_numkey(i,    { env.mod, "Shift" },            tag_numkey_shift                          ),
+			client_numkey(i, { env.mod, "Control", "Shift" }, function(t) client.focus:toggle_tag(t) end)
 		)
 	end
 
