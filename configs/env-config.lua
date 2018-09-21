@@ -75,7 +75,7 @@ env.wallpaper = function(s)
 		elseif gears.filesystem.dir_readable(beautiful.wallpaper) then
 			-- is directory, choose random
 			local files = {}
-			for file in io.popen('ls -A "' .. beautiful.wallpaper .. '"'):lines() do
+			for file in io.popen('find "' .. beautiful.wallpaper .. '" -type f'):lines() do
 				table.insert(files, file)
 			end
 			for i, v in ipairs(files) do
@@ -85,8 +85,8 @@ env.wallpaper = function(s)
 				end
 			end
 			last_used = files[math.random(#files)]
-			gears.wallpaper.maximized(beautiful.wallpaper .. last_used)
-			convert_wallpaper(beautiful.wallpaper .. last_used)
+			gears.wallpaper.maximized(last_used)
+			convert_wallpaper(last_used)
 		else
 			-- isn't file or dir, might me color string
 			gears.wallpaper.set(beautiful.color.bg)
