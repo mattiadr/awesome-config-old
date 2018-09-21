@@ -190,7 +190,7 @@ pulse.startup_updater:connect_signal("timeout",
 		counter = counter + 1
 		pulse_def_sink = redutil.read.output("pacmd dump|perl -ane 'print $F[1] if /set-default-sink/'")
 		pulse:update_volume()
-		if pulse_def_sink:match("\\S") or counter > pulse.startup_time then pulse.startup_updater:stop() end
+		if pulse_def_sink:match("%S") or counter > pulse.startup_time then pulse.startup_updater:stop() end
 	end
 )
 pulse.startup_updater:start()

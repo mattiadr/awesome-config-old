@@ -19,7 +19,6 @@ local redutil = require("redflat.util")
 local decoration = require("redflat.float.decoration")
 
 local cs_viewer = require("user/float/cheatsheet-viewer")
-local printn = require("user/util/print").n
 
 -- Initialize tables and vars for module
 -----------------------------------------------------------------------------------------------------------------------
