@@ -108,6 +108,7 @@ volume.widget = redflat.widget.pulse(nil, { widget = redflat.gauge.audio.red.new
 
 volume.buttons = awful.util.table.join(
 	awful.button({ }, 1, function() redflat.widget.pulse:mute()                         end),
+	awful.button({ }, 3, function() awful.spawn.with_shell("pavucontrol-qt")            end),
 	awful.button({ }, 4, function() redflat.widget.pulse:change_volume()                end),
 	awful.button({ }, 5, function() redflat.widget.pulse:change_volume({ down = true }) end)
 )
