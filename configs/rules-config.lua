@@ -40,6 +40,11 @@ rules.floating_any = {
 	},
 }
 
+rules.vlc_fix = {
+	class = "vlc",
+	type = "utility"
+}
+
 -- these will not trigger the creation of a new tab
 rules.minor = {
 	class = {
@@ -81,7 +86,7 @@ function rules:init(args)
 			},
 		},
 		{ -- vlc console fix
-			rule = { class = "vlc", type = "utility" },
+			rule = self.vlc_fix,
 			properties = {
 				floating = true,
 				border_width = 0,
@@ -97,6 +102,7 @@ function rules:init(args)
 	-- Set tagconf rules
 	--------------------------------------------------------------------------------
 	tagconf:set_rules_any(merge_rules(self.minor, self.floating_any))
+	tagconf:add_specific_rule(self.vlc_fix)
 end
 
 -- End
