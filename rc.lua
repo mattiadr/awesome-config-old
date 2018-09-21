@@ -142,21 +142,44 @@ awful.screen.connect_for_each_screen(
 		-- wallpaper
 		env.wallpaper(s)
 
-		tagconf:init(s)
 		-- tags
-		--[[
 		awful.tag.add("1 MAIN", {
 			layout      = awful.layout.suit.fair,
 			screen      = s,
 			selected    = true,
 			always_show = true,
 		})
+		tagconf:set_tabbed(
+			awful.tag.add("2", {
+				layout = awful.layout.suit.tile,
+				screen = s,
+				gap_single_client   = false,
+				master_width_factor = 0.75,
+				always_show = true,
+			})
+		)
+		tagconf:set_tabbed(
+			awful.tag.add("3", {
+				layout = awful.layout.suit.tile,
+				screen = s,
+				gap_single_client   = false,
+				master_width_factor = 0.75,
+				always_show = true,
+			})
+		)
+		tagconf:set_tabbed(
+			awful.tag.add("4", {
+				layout = awful.layout.suit.tile,
+				screen = s,gap_single_client   = false,
+				master_width_factor = 0.75,
+				always_show = true,
+			})
+		)
 		awful.tag.add("TG", {
 			layout      = awful.layout.suit.max,
 			screen      = s,
 			always_show = true,
 		})
-		--]]
 
 		-- layoutbox widget
 		layoutbox[s] = redflat.widget.layoutbox({ screen = s })
