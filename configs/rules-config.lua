@@ -33,15 +33,6 @@ rules.base_properties = {
 	end
 }
 
-rules.borderless = {
-	class = {
-		"Chromium",
-		"Eclipse",
-		"qBittorrent",
-		"Sublime_text",
-	},
-}
-
 rules.floating_any = {
 	type = { "dialog" },
 	class = {
@@ -85,12 +76,6 @@ function rules:init(args)
 				tag         = "TG",
 				switchtotag = false,
 				callback    = function() end, -- used to disable default callback
-			},
-		},
-		{ -- borderless
-			rule_any   = self.borderless,
-			properties = {
-				border_width = 0,
 			},
 		},
 		{ -- floating

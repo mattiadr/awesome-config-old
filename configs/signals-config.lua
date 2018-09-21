@@ -69,6 +69,24 @@ function signals:init(args)
 		client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 	end
 
+	-- if the client occupies all the workarea then remove borders, else add them
+	client.connect_signal("property::size", function(c)
+		local wa = c.screen.workarea
+		if c.border_width > 0 then
+			if c.width == wa.width - 2 * c.border_width and c.height == wa.height - 2 * c.border_width then
+				c.width = c.width + 2 * c.border_width
+				c.height = c.height + 2 * c.border_width
+				c.border_width = 0
+			end
+		else
+			if c.width < wa.width - 2 * c.border_width or c.height < wa.height - 2 * c.border_width then
+				c.border_width = beautiful.border_width
+				c.width = c.width - 2 * c.border_width
+				c.height = c.height - 2 * c.border_width
+			end
+		end
+	end)
+
 	-- wallpaper update on screen geometry change
 	screen.connect_signal("property::geometry", env.wallpaper)
 
