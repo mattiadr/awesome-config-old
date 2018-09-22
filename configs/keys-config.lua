@@ -14,6 +14,7 @@ local appnames = require("configs/alias-config")
 local lock_screen = require("user/util/screen-lock").lock_screen
 local cheatsheet = require("user/float/cheatsheet-selector")
 local tagconf = require("configs/tag-config")
+local rules = require("configs/rules-config")
 
 -- Initialize tables and vars for module
 -----------------------------------------------------------------------------------------------------------------------

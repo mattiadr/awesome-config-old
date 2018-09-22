@@ -17,11 +17,4 @@ appnames["Sublime_text"]         = "Sublime"
 appnames["TelegramDesktop"]      = "TG"
 appnames["vlc"]                  = "VLC"
 
-appnames.short = {}
-appnames.short["Chromium"]       = "WEB"
-appnames.short["Eclipse"]        = "DEV"
-appnames.short["qBittorrent"]    = "QBIT"
-appnames.short["Sublime_text"]   = "DEV"
-appnames.short["vlc"]            = "VLC"
-
 return appnames
