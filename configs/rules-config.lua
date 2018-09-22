@@ -86,6 +86,8 @@ rules.minor = {
 -- Utility functions
 -----------------------------------------------------------------------------------------------------------------------
 
+-- Build rule from props table
+--------------------------------------------------------------------------------
 local function build_rule(props)
 	local ret = {}
 
@@ -101,7 +103,7 @@ local function build_rule(props)
 	return ret
 end
 
--- Create tag
+-- Create tag from props table
 --------------------------------------------------------------------------------
 local function create_tag(props, screen)
 	local args = props.args or {}
@@ -153,12 +155,13 @@ function rules:init(args)
 		properties = {
 			floating     = true,
 			placement    = awful.placement.centered,
+			border_width = beautiful.border_width,
 		},
 	})
 	table.insert(self.rules, { -- vlc console fix
 		rule = self.vlc_fix,
 		properties = {
-			floating = true,
+			floating     = true,
 			border_width = 0,
 		},
 	})
