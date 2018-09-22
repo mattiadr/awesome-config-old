@@ -153,18 +153,14 @@ end
 
 -- horizontal scroll function
 local toggle_hor_scroll = function()
-	local cmd = [[xinput list-props "AlpsPS/2 ALPS DualPoint TouchPad"]]
+	local cmd = 'xinput list-props "AlpsPS/2 ALPS DualPoint TouchPad"'
 	awful.spawn.with_line_callback(cmd, {
 		stdout = function(line)
 			if not line:find("libinput Horizontal Scroll Enabled") then return end
 
-			if line:match("0$") then
-				awful.spawn.with_shell([[xinput set-prop "AlpsPS/2 ALPS DualPoint TouchPad" "libinput Horizontal Scroll Enabled" 1]])
-				awful.spawn.with_shell([[notify-send "Horizontal scroll Enabled"]])
-			else
-				awful.spawn.with_shell([[xinput set-prop "AlpsPS/2 ALPS DualPoint TouchPad" "libinput Horizontal Scroll Enabled" 0]])
-				awful.spawn.with_shell([[notify-send "Horizontal scroll Disabled"]])
-			end
+			local m = line:match("0$")
+			awful.spawn.with_shell('xinput set-prop "AlpsPS/2 ALPS DualPoint TouchPad" "libinput Horizontal Scroll Enabled" ' .. (m and "1" or "0"))
+			awful.spawn.with_shell('notify-send "Horizontal scroll ' .. (m and "Enabled" or "Disabled") .. '"')
 		end
 	})
 end
@@ -174,18 +170,11 @@ local function scrot(sel, clipboard)
 	local s = ""
 	if sel then s = "-s " end
 
-	local name
-	local notif
-	if clipboard then
-		name = "/tmp/scrot.png"
-		notif = "clipboard"
-	else
-		name = "~/images/scrot/%Y-%m-%d_$wx$h_scrot.png"
-		notif = "~/images/scrot/"
-	end
+	local name = clipboard and "/tmp/scrot.png" or "~/images/scrot/%Y-%m-%d_$wx$h_scrot.png"
+	local notif = clipboard and "clipboard" or "~/images/scrot/"
 
-	local cmd = string.format("sleep 0.2 ; scrot -z -q 100 %s%s --exec 'xclip -i -selection c -t image/png < $f' && notify-send 'scrot' 'Screenshot taken to %s'", s, name, notif)
-	awful.spawn.with_shell(cmd)
+	local cmd = "sleep 0.2 ; scrot -z -q 100 %s%s --exec 'xclip -i -selection c -t image/png < $f' && notify-send 'scrot' 'Screenshot taken to %s'"
+	awful.spawn.with_shell(string.format(cmd, s, name, notif))
 end
 
 -- stash functions
