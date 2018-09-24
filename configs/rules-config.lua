@@ -14,7 +14,9 @@ local merge_rules = require("user/util/table").merge_rules
 
 -- Initialize tables and vars for module
 -----------------------------------------------------------------------------------------------------------------------
-local rules = {}
+local rules = {
+	unnamed_tags = { first = nil, last = 10 }
+}
 
 rules.tags = {
 	{
@@ -55,6 +57,20 @@ rules.base_properties = {
 	screen            = awful.screen.preferred,
 	titlebars_enabled = false,
 	minimized         = false,
+	callback          = function(client)
+		if not tagconf.is_minor(client) then
+			for i = rules.unnamed_tags.first, rules.unnamed_tags.last do
+				local tag = awful.screen.focused().tags[i]
+				local clients = tag:clients()
+				if not tagconf.has_master(clients) then
+					client:move_to_tag(tag)
+					awful.client.setmaster(client)
+					tag:view_only()
+					break
+				end
+			end
+		end
+	end,
 }
 
 rules.floating_any = {
@@ -98,6 +114,7 @@ local function build_rule(props)
 	ret.properties = {
 		tag         = props.name,
 		switchtotag = true,
+		callback    = function() end, -- disable default callback
 	}
 
 	return ret
@@ -183,7 +200,8 @@ function rules:tag_setup(screen)
 		create_tag(v, screen)
 	end
 
-	for i = 5, 10 do
+	self.unnamed_tags.first = #screen.tags + 1
+	for i = self.unnamed_tags.first, self.unnamed_tags.last do
 			create_tag({
 			name   = tostring(i),
 			layout = awful.layout.suit.tile,

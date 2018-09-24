@@ -8,8 +8,6 @@ local table = table
 
 local awful = require("awful")
 
-local pn = require("user/util/print").n
-
 -- Initialize tables and vars for module
 -----------------------------------------------------------------------------------------------------------------------
 local tagconf = {
@@ -40,7 +38,7 @@ end
 
 -- Checks if the client matches any minor rule
 --------------------------------------------------------------------------------
-local function is_minor(c)
+function tagconf.is_minor(c)
 	for _, v in ipairs(tagconf.rules) do
 		if awful.rules.match(c, v) then return true end
 	end
@@ -50,9 +48,9 @@ end
 
 -- Check if a list has a client that isn't minor
 --------------------------------------------------------------------------------
-local function has_master(tab)
+function tagconf.has_master(tab)
 	for _, v in ipairs(tab) do
-		if not is_minor(v) then return true end
+		if not tagconf.is_minor(v) then return true end
 	end
 	return false
 end
@@ -85,7 +83,7 @@ function tagconf:set_tabbed(real_tag)
 	real_tag:connect_signal("tagged", function(t, c)
 		if self.disable_signal or not c then return end
 
-		if not is_minor(c) then
+		if not tagconf.is_minor(c) then
 			-- set c as master
 			awful.client.setmaster(c)
 			-- put all current clients except c into current tab
@@ -108,7 +106,7 @@ function tagconf:set_tabbed(real_tag)
 			local new_tab = nil
 			for i = 0, #tabs-1 do
 				local j = curr_tab+i > #tabs and curr_tab+i-#tabs or curr_tab+i
-				if not has_master(tabs[j]) then
+				if not tagconf.has_master(tabs[j]) then
 					new_tab = j
 					break
 				end
