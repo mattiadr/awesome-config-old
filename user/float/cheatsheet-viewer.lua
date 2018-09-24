@@ -264,7 +264,6 @@ function cs_viewer:show(cheatsheet)
 
 	-- prompt
 	return awful.prompt.run({
-		prompt = ":",
 		textbox = self.textbox,
 		done_callback = function() self:hide() end,
 		changed_callback = function(query) self:highlight(query, false) end,
