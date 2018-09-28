@@ -732,7 +732,7 @@ function hotkeys:init(args)
 		},
 		{
 			{ env.mod }, "Escape", awful.tag.history.restore,
-			{ description = "Go previos tag", group = "Tag navigation" }
+			{ description = "Go last viewed tag", group = "Tag navigation" }
 		},
 		
 		--[[{
@@ -942,7 +942,7 @@ function hotkeys:init(args)
 	self.fake.numkeys = {
 		{
 			{ env.mod }, "1..0", nil,
-			{ description = "Switch to tag", group = "Numeric keys", keyset = numkeys }
+			{ description = "Switch to tag / next tab", group = "Numeric keys", keyset = numkeys }
 		},
 		{
 			{ env.mod, "Control" }, "1..0", nil,
@@ -950,7 +950,7 @@ function hotkeys:init(args)
 		},
 		{
 			{ env.mod, "Shift" }, "1..0", nil,
-			{ description = "Move focused client to tag", group = "Numeric keys", keyset = numkeys }
+			{ description = "Move focused client to tag  / Switch to prev tab", group = "Numeric keys", keyset = numkeys }
 		},
 		{
 			{ env.mod, "Control", "Shift" }, "1..0", nil,

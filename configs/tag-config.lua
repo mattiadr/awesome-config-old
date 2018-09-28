@@ -83,56 +83,57 @@ function tagconf:set_tabbed(real_tag)
 	real_tag:connect_signal("tagged", function(t, c)
 		if self.disable_signal or not c then return end
 
-		if not tagconf.is_minor(c) then
-			-- set c as master
-			awful.client.setmaster(c)
-			-- put all current clients except c into current tab
-			local curr_tab = nil
-			for i, tab in ipairs(tabs) do
-				if tab.selected then
-					curr_tab = i
-					break
-				end
+		-- ignore minor clients
+		if tagconf.is_minor(c) then return end
+
+		-- set c as master
+		awful.client.setmaster(c)
+		-- put all current clients except c into current tab
+		local curr_tab = nil
+		for i, tab in ipairs(tabs) do
+			if tab.selected then
+				curr_tab = i
+				break
 			end
-
-			-- empty current tab
-			for i, _ in ipairs(tabs[curr_tab]) do tabs[curr_tab][i] = nil end
-			-- all except c into current tab
-			for _, v in ipairs(t:clients()) do
-				if c ~= v then table.insert(tabs[curr_tab], v) end
-			end
-
-			-- choose and insert c into the appropriate tab
-			local new_tab = nil
-			for i = 0, #tabs-1 do
-				local j = curr_tab+i > #tabs and curr_tab+i-#tabs or curr_tab+i
-				if not tagconf.has_master(tabs[j]) then
-					new_tab = j
-					break
-				end
-			end
-
-			-- we don't need to switch tab
-			if new_tab == curr_tab then return end
-
-			-- deselect current tab
-			tabs[curr_tab].selected = false
-
-			-- create new tab if needed
-			if new_tab then
-				curr_tab = new_tab
-			else
-				table.insert(tabs, curr_tab, {})
-			end
-			-- add c to the new tab
-			table.insert(tabs[curr_tab], 1, c)
-
-			-- select current tab
-			tabs[curr_tab].selected = true
-
-			-- set clients for real_tag
-			t:clients({ unpack(tabs[curr_tab]) })
 		end
+
+		-- empty current tab
+		for i, _ in ipairs(tabs[curr_tab]) do tabs[curr_tab][i] = nil end
+		-- all except c into current tab
+		for _, v in ipairs(t:clients()) do
+			if c ~= v then table.insert(tabs[curr_tab], v) end
+		end
+
+		-- choose and insert c into the appropriate tab
+		local new_tab = nil
+		for i = 0, #tabs-1 do
+			local j = curr_tab+i > #tabs and curr_tab+i-#tabs or curr_tab+i
+			if not tagconf.has_master(tabs[j]) then
+				new_tab = j
+				break
+			end
+		end
+
+		-- we don't need to switch tab
+		if new_tab == curr_tab then return end
+
+		-- deselect current tab
+		tabs[curr_tab].selected = false
+
+		-- create new tab if needed
+		if new_tab then
+			curr_tab = new_tab
+		else
+			table.insert(tabs, curr_tab, {})
+		end
+		-- add c to the new tab
+		table.insert(tabs[curr_tab], 1, c)
+
+		-- select current tab
+		tabs[curr_tab].selected = true
+
+		-- set clients for real_tag
+		t:clients({ unpack(tabs[curr_tab]) })
 	end)
 
 	-- when a client gets untagged remove any empty tabs
@@ -225,7 +226,13 @@ function tagconf:client_to_tab(real_tag, c, dir, switch_to_tab)
 
 	-- create new tab if needed
 	if #tabs <= 1 then
-		curr_tab = dir == 1 and 2 or 1
+		if dir == 1 then
+			curr_tab = 2
+			old_tab = 1
+		else
+			curr_tab = 1
+			old_tab = 2
+		end
 		table.insert(tabs, curr_tab, {})
 	else
 		curr_tab = curr_tab + dir
