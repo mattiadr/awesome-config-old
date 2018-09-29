@@ -235,7 +235,6 @@ theme.service.navigator.keytip["usermap"] = { geometry = { width = 1400, height 
 theme.service.dfparser = {
 	desktop_file_dirs = {
 		'/usr/share/applications/',
-		'/usr/local/share/applications/',
 		'~/.local/share/applications',
 	},
 	icons = {
