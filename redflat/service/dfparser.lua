@@ -37,6 +37,7 @@ local function default_style()
 	local style = {
 		icons             = { custom_only = false, scalable_only = false, df_icon = nil, theme = nil },
 		desktop_file_dirs = { "/usr/share/applications/" },
+		dir_override      = false,
 		wm_name           = nil,
 	}
 
@@ -269,7 +270,8 @@ local function parse_dir(dir, style)
 
 		for file in string.gmatch(files, "[^\n]+") do
 			local program = parse(file, style)
-			if program then table.insert(programs, program) end
+			if style.dir_override then file = file:match("([^/]+)%.desktop$") end
+			if program then programs[file] = program end
 		end
 
 		cache[req] = programs
@@ -312,14 +314,15 @@ function dfparser.menu(style)
 
 	-- Find all visible menu items
 	--------------------------------------------------------------------------------
-	local prog_list = {}
+	local programs = {}
 	for _, path in ipairs(style.desktop_file_dirs) do
-		local programs = parse_dir(path, style)
+		programs = redutil.table.merge(programs, parse_dir(path, style))
+	end
 
-		for _, prog in ipairs(programs) do
-			if prog.show and prog.Name and prog.cmdline then
-				table.insert(prog_list, prog)
-			end
+	local prog_list = {}
+	for _, prog in pairs(programs) do
+		if prog.show and prog.Name and prog.cmdline then
+			table.insert(prog_list, prog)
 		end
 	end
 
@@ -366,17 +369,18 @@ end
 function dfparser.icon_list(style)
 
 	local style = redutil.table.merge(default_style(), style or {})
-	local list = {}
 
+	local programs = {}
 	for _, path in ipairs(style.desktop_file_dirs) do
-		local programs = parse_dir(path, style)
+		programs = redutil.table.merge(programs, parse_dir(path, style))
+	end
 
-		for _, prog in ipairs(programs) do
-			if prog.Icon and prog.Exec then
-				local key = string.match(prog.Exec, "[%a%d%.%-/]+")
-				if string.find(key, "/") then key = string.match(key, "[%a%d%.%-]+$") end
-				list[key] = prog.icon_path
-			end
+	local list = {}
+	for _, prog in pairs(programs) do
+		if prog.Icon and prog.Exec then
+			local key = string.match(prog.Exec, "[%a%d%.%-/]+")
+			if string.find(key, "/") then key = string.match(key, "[%a%d%.%-]+$") end
+			list[key] = prog.icon_path
 		end
 	end
 
@@ -391,15 +395,16 @@ end
 function dfparser.program_list(style)
 
 	local style = redutil.table.merge(default_style(), style or {})
-	local prog_list = {}
 
+	local programs = {}
 	for _, path in ipairs(style.desktop_file_dirs) do
-		local programs = parse_dir(path, style)
+		programs = redutil.table.merge(programs, parse_dir(path, style))
+	end
 
-		for _, prog in ipairs(programs) do
-			if prog.show and prog.Name and prog.cmdline then
-				table.insert(prog_list, prog)
-			end
+	local prog_list = {}
+	for _, prog in pairs(programs) do
+		if prog.show and prog.Name and prog.cmdline then
+			table.insert(prog_list, prog)
 		end
 	end
 

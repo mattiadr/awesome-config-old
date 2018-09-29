@@ -237,6 +237,7 @@ theme.service.dfparser = {
 		'/usr/share/applications/',
 		'~/.local/share/applications',
 	},
+	dir_override = true,
 	icons = {
 		df_icon       = theme.homedir .. "/.icons/ACYLS/scalable/mimetypes/application-x-executable.svg",
 		theme         = theme.homedir .. "/.icons/ACYLS",
