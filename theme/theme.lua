@@ -519,6 +519,7 @@ theme.widget.tasklist.winmenu.icon = {
 	close                = theme.path .. "/common/window_control/close.svg",
 	minimize             = theme.path .. "/common/window_control/minimize.svg",
 	maximized            = theme.path .. "/common/window_control/maximized.svg",
+	next_tab             = theme.path .. "/common/window_control/next_tab.svg",
 }
 
 -- Client menu

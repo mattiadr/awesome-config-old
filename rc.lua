@@ -50,7 +50,10 @@ local separator = redflat.gauge.separator.vertical()
 local taglist = {}
 taglist.style = { separator = separator, widget = redflat.gauge.tag.blue.new, show_tip = false }
 taglist.buttons = awful.util.table.join(
-	awful.button({         }, 1, function(t) t:view_only()                                        end),
+	awful.button({         }, 1, function(t)
+		local tag = awful.screen.focused().selected_tag
+		if tag ~= t then t:view_only() else tagconf:switch_tab(t) end
+	end),
 	awful.button({ env.mod }, 1, function(t) if client.focus then client.focus:move_to_tag(t) end end),
 	awful.button({         }, 2, awful.tag.viewtoggle                                                ),
 	awful.button({         }, 3, function(t) redflat.widget.layoutbox:toggle_menu(t)              end),
@@ -101,7 +104,7 @@ local layoutbox = {}
 layoutbox.buttons = awful.util.table.join(
 	awful.button({ }, 1, function () mymenu.mainmenu:toggle()                                        end),
 	awful.button({ }, 3, function () redflat.widget.layoutbox:toggle_menu(mouse.screen.selected_tag) end),
-	awful.button({ }, 4, function () awful.layout.inc( 1)                                            end),
+	awful.button({ }, 4, function () awful.layout.inc(1)                                             end),
 	awful.button({ }, 5, function () awful.layout.inc(-1)                                            end)
 )
 
