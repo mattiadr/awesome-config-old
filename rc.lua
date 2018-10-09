@@ -129,7 +129,7 @@ local BAT0 = battery_widget({
 	timeout         = 30,
 	widget_text     = "${AC_BAT}${color_on}${percent}%${color_off}",
 	widget_font     = "monospace",
-	alert_threshold = 15,
+	alert_threshold = 25,
 	alert_timeout   = 10,
 	alert_title     = "Battery low!",
 })
