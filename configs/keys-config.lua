@@ -16,6 +16,8 @@ local cheatsheet = require("user/float/cheatsheet-selector")
 local tagconf = require("configs/tag-config")
 local rules = require("configs/rules-config")
 
+local hist = require("user/util/history")
+
 -- Initialize tables and vars for module
 -----------------------------------------------------------------------------------------------------------------------
 local hotkeys = { mouse = {}, raw = {}, keys = {}, fake = {} }
@@ -43,7 +45,7 @@ local function focus_to_previous()
 end
 
 -- change window focus by direction
-local focus_switch_byd = function(dir)
+local function focus_switch_byd(dir)
 	return function()
 		awful.client.focus.bydirection(dir)
 		if client.focus then client.focus:raise() end
@@ -110,7 +112,7 @@ local function client_numkey(i, mod, action)
 	)
 end
 
-local tag_numkey_nomod = function(t)
+local function tag_numkey_nomod(t)
 	local tag = awful.screen.focused().selected_tag
 
 	if tag ~= t then
@@ -120,7 +122,7 @@ local tag_numkey_nomod = function(t)
 	end
 end
 
-local tag_numkey_shift = function(t)
+local function tag_numkey_shift(t)
 	local tag = awful.screen.focused().selected_tag
 
 	if tag ~= t then
@@ -134,25 +136,25 @@ local tag_numkey_shift = function(t)
 end
 
 -- volume functions
-local volume_raise = function()
+local function volume_raise()
 	redflat.widget.pulse:mute(false)
 	redflat.widget.pulse:change_volume({ show_notify = true })
 end
 
-local volume_lower = function()
+local function volume_lower()
 	redflat.widget.pulse:mute(false)
 	redflat.widget.pulse:change_volume({ show_notify = true, down = true })
 end
 
-local volume_mute  = function() redflat.widget.pulse:mute() end
+local function volume_mute() redflat.widget.pulse:mute() end
 
 -- brightness functions
-local brightness = function(args)
+local function brightness(args)
 	redflat.float.brightness:change_with_xbacklight(args) -- use xbacklight utility
 end
 
 -- horizontal scroll function
-local toggle_hor_scroll = function()
+local function toggle_hor_scroll()
 	local cmd = 'xinput list-props "AlpsPS/2 ALPS DualPoint TouchPad"'
 	awful.spawn.with_line_callback(cmd, {
 		stdout = function(line)
@@ -180,14 +182,14 @@ end
 -- stash functions
 local stash_FILO = {}
 
-local stash_push = function()
+local function stash_push()
 	local c = client.focus
 	if not c then return end
 	table.insert(stash_FILO, c)
 	c:tags({})
 end
 
-local stash_pop = function()
+local function stash_pop()
 	if #stash_FILO > 0 then
 		local t = awful.screen.focused().selected_tags
 		stash_FILO[#stash_FILO]:tags(t)
@@ -196,13 +198,7 @@ local stash_pop = function()
 	end
 end
 
--- right bottom corner position
-local rb_corner = function()
-	return { x = screen[mouse.screen].workarea.x + screen[mouse.screen].workarea.width,
-	         y = screen[mouse.screen].workarea.y + screen[mouse.screen].workarea.height }
-end
-
-local telegram_key = function()
+local function telegram_key()
 	local tags = awful.screen.focused().tags
 	local t = awful.screen.focused().selected_tag
 
@@ -731,7 +727,7 @@ function hotkeys:init(args)
 			{ description = "View next tag", group = "Tag navigation" }
 		},
 		{
-			{ env.mod }, "Escape", awful.tag.history.restore,
+			{ env.mod }, "Escape", hist.previous,
 			{ description = "Go last viewed tag", group = "Tag navigation" }
 		},
 		
