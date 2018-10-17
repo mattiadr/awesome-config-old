@@ -10,7 +10,6 @@ local beautiful = require("beautiful")
 
 local redflat = require("redflat")
 
-local appnames = require("configs/alias-config")
 local lock_screen = require("user/util/screen-lock").lock_screen
 local cheatsheet = require("user/float/cheatsheet-selector")
 local tagconf = require("configs/tag-config")
