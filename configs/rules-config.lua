@@ -78,7 +78,13 @@ function rules:init(args)
 			properties = {
 				floating     = true,
 				placement    = awful.placement.centered,
-				--border_width = self.base_properties.border_width,
+			},
+		},
+		{ -- vlc console fix
+			rule = { class = "vlc", type = "utility" },
+			properties = {
+				floating = true,
+				border_width = 0,
 			},
 		},
 	}

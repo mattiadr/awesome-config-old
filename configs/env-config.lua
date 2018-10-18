@@ -31,7 +31,7 @@ function env:init()
 	self.mod = "Mod4"
 	self.fm = "st -e ranger"
 	self.home = os.getenv("HOME")
-	self.themedir = awful.util.get_configuration_dir() .. "themes/"
+	self.themedir = awful.util.get_configuration_dir() .. "theme/"
 
 	self.sloppy_focus = true
 	self.color_border = true
