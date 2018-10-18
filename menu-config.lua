@@ -67,7 +67,7 @@ function menu:init(args)
 		{ "Reboot",          "reboot",                    micon("gnome-session-reboot")  },
 		{ "Switch user",     "dm-tool switch-to-greeter", micon("gnome-session-switch")  },
 		{ "Suspend",         "systemctl suspend" ,        micon("gnome-session-suspend") },
-		{ "Log out",         awesome.quit,                micon("exit")                },
+		{ "Log out",         awesome.quit,                micon("exit")                  },
 	}
 
 	-- Main menu

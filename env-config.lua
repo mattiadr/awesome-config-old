@@ -16,18 +16,17 @@ local env = {}
 
 -- Build hotkeys depended on config parameters
 -----------------------------------------------------------------------------------------------------------------------
-function env:init(args)
-
-	-- init vars
-	local args = args or {}
-	local theme = args.theme or "colorless"
+function env:init()
 
 	-- environment vars
-	self.terminal = args.terminal or "x-terminal-emulator"
-	self.mod = args.mod or "Mod4"
-	self.fm = args.fm or "nautilus"
+	self.terminal = "st"
+	self.mod = "Mod4"
+	self.fm = "ranger" -- "st -e ranger"
+	--self.mail = args.mail or "evolution"
+	--self.player = args.player or "Lollypop"
+	--self.upgrades = args.upgrades or "bash -c 'pacman -Qu | grep -v ignored | wc -l'"
 	self.home = os.getenv("HOME")
-	self.themedir = awful.util.get_configuration_dir() .. "themes/" .. theme
+	self.themedir = awful.util.get_configuration_dir() .. "themes/"
 
 	self.sloppy_focus = false
 	self.color_border = false
@@ -49,6 +48,7 @@ function env:init(args)
 		naughty.config.presets.critical.height, naughty.config.presets.critical.width = nil, nil
 	end
 end
+
 
 -- Common functions
 -----------------------------------------------------------------------------------------------------------------------

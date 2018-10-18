@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                                   Green theme                                                     --
+--                                                   Blue theme                                                      --
 -----------------------------------------------------------------------------------------------------------------------
 local awful = require("awful")
 
@@ -9,14 +9,14 @@ local wa = mouse.screen.workarea
 -- Color scheme
 -----------------------------------------------------------------------------------------------------------------------
 theme.color = {
-	main      = "#127e1f",
+	main      = "#064E71",
 	gray      = "#575757",
 	bg        = "#161616",
 	bg_second = "#181818",
 	wibox     = "#202020",
 	icon      = "#a0a0a0",
 	text      = "#aaaaaa",
-	urgent    = "#a21e17",
+	urgent    = "#B32601",
 	highlight = "#e0e0e0",
 
 	border    = "#404040",
@@ -28,13 +28,13 @@ theme.color = {
 
 -- Common
 -----------------------------------------------------------------------------------------------------------------------
-theme.path = awful.util.get_configuration_dir() .. "themes/green"
+theme.path = awful.util.get_configuration_dir() .. "theme"
 theme.homedir = os.getenv("HOME")
 
 -- Main config
 ------------------------------------------------------------
 
-theme.panel_height        = 40 -- panel height
+theme.panel_height        = 36 -- panel height
 theme.border_width        = 4  -- window border width
 theme.useless_gap         = 4  -- useless gap
 
@@ -66,6 +66,7 @@ theme.fonts = {
 }
 
 theme.cairo_fonts = {
+	tag         = { font = "Play", size = 16, face = 1 }, -- tag widget font
 	appswitcher = { font = "Play", size = 20, face = 1 }, -- appswitcher widget font
 	navigator   = {
 		title = { font = "Play", size = 28, face = 1, slant = 0 }, -- window navigation title font
@@ -120,11 +121,11 @@ theme.desktop.common.dashbar = {
 -- Barpack
 ------------------------------------------------------------
 theme.desktop.common.barpack = {
-	label_style = { width = 68, draw = "by_width" },
-	text_style  = { width = 94, draw = "by_edges" },
+	label_style = { width = 80, draw = "by_width" },
+	text_style  = { width = 92, draw = "by_edges" },
 	line_height = theme.desktop.line_height,
-	text_gap    = 14,
-	label_gap   = 14,
+	text_gap    = 22,
+	label_gap   = 16,
 	color       = theme.desktop.color
 }
 
@@ -147,10 +148,11 @@ theme.desktop.speedmeter = {
 -- CPU and memory
 ------------------------------------------------------------
 theme.desktop.multim = {
-	corner       = { width = 32, corner = { num = 10, line = 3 }, plaindash = true },
+	corner       = { width = 34, corner = { height = 17, num = 10, line = 4 } },
 	state_height = 58,
-	prog_height  = 70,
+	prog_height  = 80,
 	image_gap    = 16,
+	image        = theme.path .. "/desktop/bstar.svg",
 	color        = theme.desktop.color
 }
 
@@ -166,7 +168,7 @@ theme.desktop.sline = {
 	digit_num = 2,
 	lbox      = { draw = "by_width", width = 50 },
 	rbox      = { draw = "by_edges", width = 60 },
-	icon      = theme.path .. "/desktop/fire.svg",
+	icon      = theme.path .. "/desktop/star.svg",
 	iwidth    = 142,
 	color     = theme.desktop.color
 }
@@ -174,9 +176,9 @@ theme.desktop.sline = {
 -- Widgets placement
 --------------------------------------------------------------------------------
 theme.desktop.grid = {
-	width  = { 480, 480, 480 },
-	height = { 180, 150, 150, 138, 18 },
-	edge   = { width = { 80, 80 }, height = { 50, 50 } }
+	width  = { 520, 520, 520 },
+	height = { 180, 160, 160, 138, 18 },
+	edge   = { width = { 60, 60 }, height = { 40, 40 } }
 }
 
 theme.desktop.places = {
@@ -275,39 +277,39 @@ theme.gauge.separator = {
 	color  = theme.color
 }
 
--- Monitor
+-- Icon indicator
 ------------------------------------------------------------
-theme.gauge.monitor.dash = {
-	width    = 10,
-	line     = { num = 5, width = 3 },
-	color    = theme.color
+theme.gauge.icon.single = {
+	color  = theme.color
 }
 
--- Double icon indicator
+-- Monitor
 --------------------------------------------------------------
-theme.gauge.icon.double = {
-	icon1       = theme.path .. "/widget/down.svg",
-	icon2       = theme.path .. "/widget/up.svg",
-	is_vertical = true,
-	igap        = -6,
-	color       = theme.color
+theme.gauge.monitor.double = {
+	width    = 90,
+	line     = { v_gap = 6 },
+	dmargin  = { 10, 0, 0, 0 },
+	color    = theme.color
 }
 
 -- Tag
 ------------------------------------------------------------
-theme.gauge.tag.green = {
-	width    = 44,
-	margin   = { 0, 0, 8, 8 },
+theme.gauge.tag.blue = {
+	width    = 103,
+	font     = theme.cairo_fonts.tag,
+	point    = { width = 80, height = 3, gap = 27, dx = 5 },
+	text_gap = 20,
 	color    = theme.color
 }
 
 -- Task
 ------------------------------------------------------------
-theme.gauge.task.green = {
-	width    = 40,
-	df_icon  = theme.homedir .. "/.icons/ACYLS/scalable/mimetypes/application-x-executable.svg",
-	-- counter  = { font = "Play 10", mask = " %d " },
-	margin   = { 0, 0, 2, 2 },
+theme.gauge.task.blue = {
+	width    = 70,
+	show_min = true,
+	font     = theme.cairo_fonts.tag,
+	point    = { width = 70, height = 3, gap = 27, dx = 5 },
+	text_gap = 20,
 	color    = theme.color
 }
 
@@ -317,22 +319,18 @@ theme.gauge.graph.dots = {
 	column_num   = { 3, 5 }, -- { min, max }
 	row_num      = 3,
 	dot_size     = 5,
-	dot_gap_h    = 5,
+	dot_gap_h    = 4,
 	color        = theme.color
 }
 
 -- Volume indicator
 ------------------------------------------------------------
-theme.gauge.audio.red = {
-	icon = {
-		ready = theme.path .. "/widget/audio.svg",
-		mute  = theme.path .. "/widget/mute.svg"
-	},
-	color = {
-		main = theme.color.main,
-		icon = theme.color.icon,
-		mute = theme.color.urgent,
-	}
+theme.gauge.audio.blue = {
+	width   = 75,
+	dash    = { bar = { num = 5, width = 4 }, color = theme.color },
+	dmargin = { 10, 0, 2, 2 },
+	icon    = theme.path .. "/widget/headphones.svg",
+	color = { icon = theme.color.icon, mute = theme.color.urgent },
 }
 
 
@@ -343,17 +341,16 @@ theme.widget = {}
 -- individual margins for palnel widgets
 ------------------------------------------------------------
 theme.widget.wrapper = {
+	layoutbox   = { 12, 10, 6, 6 },
 	textclock   = { 10, 10, 0, 0 },
-	volume      = { 12, 10, 3, 3 },
-	network     = { 6, 6, 8, 8 },
-	cpu         = { 10, 2, 8, 8 },
-	ram         = { 2, 2, 8, 8 },
-	battery     = { 2, 10, 8, 8 },
-	keyboard    = { 10, 10, 5, 5 },
-	mail        = { 10, 10, 5, 5 },
-	tray        = { 10, 12, 8, 8 },
-	taglist     = { 6, 6, 0, 0 },
-	tasklist    = { 14, 0, 0, 0 }, -- centering tasklist widget
+	volume      = { 10, 10, 5, 5 },
+	network     = { 10, 10, 5, 5 },
+	cpuram      = { 10, 10, 5, 5 },
+	keyboard    = { 10, 10, 4, 4 },
+	mail        = { 10, 10, 4, 4 },
+	battery     = { 8, 10, 7, 7 },
+	tray        = { 8, 8, 7, 7 },
+	tasklist    = { 4, 0, 0, 0 }, -- centering tasklist widget
 }
 
 -- Pulseaudio volume control
@@ -470,18 +467,11 @@ theme.widget.layoutbox.name_alias = {
 	cornersw          = "Corner SW",
 }
 
--- tag icons
-theme.gauge.tag.green.icon = theme.widget.layoutbox.icon
-
 -- Tasklist
 ------------------------------------------------------------
 theme.widget.tasklist = {
-	custom_icon = true,
-	need_group  = false,
-	task        = theme.gauge.task.green,
-	-- parser      = { icons = {
-	-- 	theme   = theme.homedir .. "/.icons/ACYLS-circle",
-	-- }},
+	char_digit  = 5,
+	task        = theme.gauge.task.blue
 }
 
 -- main
@@ -519,18 +509,9 @@ theme.widget.tasklist.winmenu.icon = {
 	maximized            = theme.path .. "/common/window_control/maximized.svg",
 }
 
--- icon aliases
-theme.widget.tasklist.iconnames = {}
-theme.widget.tasklist.iconnames["jetbrains-pycharm-ce"] = "pycharm"
-
-
--- Floating widgets
------------------------------------------------------------------------------------------------------------------------
-theme.float = { decoration = {} }
-
 -- Client menu
 ------------------------------------------------------------
-theme.float.clientmenu = {
+theme.widget.clientmenu = {
 	micon          = theme.icon,
 	color          = theme.color,
 	actionline     = { height = 28 },
@@ -540,6 +521,11 @@ theme.float.clientmenu = {
 	tagmenu        = theme.widget.tasklist.winmenu.tagmenu,
 	icon           = theme.widget.tasklist.winmenu.icon,
 }
+
+
+-- Floating widgets
+-----------------------------------------------------------------------------------------------------------------------
+theme.float = { decoration = {} }
 
 -- Audio player
 ------------------------------------------------------------

@@ -5,7 +5,6 @@
 -- Grab environment
 local awful = require("awful")
 local redflat = require("redflat")
-local beautiful = require("beautiful")
 
 -- Initialize tables and vars for module
 -----------------------------------------------------------------------------------------------------------------------
@@ -14,35 +13,24 @@ local layouts = {}
 
 -- Build  table
 -----------------------------------------------------------------------------------------------------------------------
-function layouts:init(args)
-	local args = args or {}
+function layouts:init()
 
 	-- layouts list
 	local layset = {
 		awful.layout.suit.floating,
+		redflat.layout.grid,
 		awful.layout.suit.tile,
-		awful.layout.suit.tile.left,
-		awful.layout.suit.tile.bottom,
-		awful.layout.suit.tile.top,
 		awful.layout.suit.fair,
-		awful.layout.suit.corner.nw,
-		awful.layout.suit.corner.ne,
-		awful.layout.suit.corner.sw,
-		awful.layout.suit.corner.se,
-		awful.layout.suit.spiral,
-		awful.layout.suit.magnifier,
+		redflat.layout.map,
 		awful.layout.suit.max,
 		awful.layout.suit.max.fullscreen,
-		redflat.layout.grid,
-		redflat.layout.map,
 	}
 
 	awful.layout.layouts = layset
 end
 
 -- some advanced layout settings
-redflat.layout.map.notification = true
-redflat.layout.map.notification_style = { icon = redflat.util.table.check(beautiful, "widget.layoutbox.icon.usermap") }
+redflat.layout.map.notification = false
 
 
 -- connect alternatve moving handler to allow using custom handler per layout
@@ -67,6 +55,28 @@ end)
 client.connect_signal("untagged", function(c, t)
 	if redflat.layout.map.data[t] then redflat.layout.map.clean_client(c) end
 end)
+
+
+-- user map layout preset
+-- preset can be defined for individual tags, but this should be done after tag initialization
+
+-- redflat.layout.map.base_construct = function(wa)
+-- 	local tree = { set = {}, active = 1, autoaim = true }
+
+-- 	tree.set[1] = redflat.layout.map.construct_itempack({}, wa, false)
+-- 	tree.set[2] = redflat.layout.map.base_set_new_pack({}, wa, true, tree.set[1])
+-- 	tree.set[3] = redflat.layout.map.base_set_new_pack({}, wa, true, tree.set[1])
+-- 	tree.set[4] = redflat.layout.map.base_set_new_pack({}, wa, true, tree.set[1])
+
+-- 	function tree:aim()
+-- 		for i = 2, 4 do if #self.set[i].items == 0 then return i end end
+-- 		local active = #self.set[4].items >= #self.set[2].items and 2 or 4
+-- 		return active
+-- 	end
+
+-- 	return tree
+-- end
+
 
 -- End
 -----------------------------------------------------------------------------------------------------------------------
