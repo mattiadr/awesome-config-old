@@ -122,7 +122,7 @@ function pulse:update_volume()
 
 	if v then
 		local pv = string.match(v, "0x%x+")
-		if pv then volume = math.floor(tonumber(pv) * 100 / volmax) end
+		if pv then volume = math.ceil(tonumber(pv) * 100 / volmax) end
 	end
 
 	if m ~= nil and string.find(m, "no", -4) then
