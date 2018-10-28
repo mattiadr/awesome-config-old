@@ -46,6 +46,13 @@ rules.tags = {
 		args     = {},
 		rule_any = { name = { "ranger" } },
 	},
+	{
+		name     = "5 TEST",
+		layout   = require("user/layout/tabbed"),
+		tabbed   = false,
+		args     = { gap_single_client = false, master_width_factor = 0.75, always_show = true },
+		rule_any = { name = { "abcdef" } },
+	},
 }
 
 rules.base_properties = {
