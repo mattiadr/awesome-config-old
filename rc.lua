@@ -78,7 +78,7 @@ tasklist.buttons = awful.util.table.join(
 local textclock = {}
 textclock.widget = redflat.widget.textclock({
 	timeout    = 10,
-	timeformat = "%H:%M - %d/%m",
+	timeformat = "%d/%m - %H:%M",
 	dateformat = "%a, %d %B %Y",
 })
 
