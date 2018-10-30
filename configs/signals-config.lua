@@ -7,6 +7,7 @@ local awful = require("awful")
 local beautiful = require("beautiful")
 
 local hist = require("user/util/history")
+local tagconf = require("configs/tag-config")
 
 -- Initialize tables and vars for module
 -----------------------------------------------------------------------------------------------------------------------
@@ -114,11 +115,13 @@ function signals:init(args)
 	end)
 
 	-- return to previous tag when current is empty
+	--[[
 	tag.connect_signal("untagged", function(t)
 		if not t.always_show and #t:clients() == 0 then
 			hist.previous()
 		end
 	end)
+	]]
 end
 
 -- End
