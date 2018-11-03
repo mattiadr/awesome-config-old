@@ -48,7 +48,7 @@ rules.tags = {
 	},
 	{
 		name     = "5 TEST",
-		layout   = require("user/layout/tabbed"),
+		layout   = require("user/layout/tabbed")(awful.layout.suit.tile),
 		tabbed   = false,
 		args     = { gap_single_client = false, master_width_factor = 0.75, always_show = true },
 		rule_any = { name = { "abcdef" } },
