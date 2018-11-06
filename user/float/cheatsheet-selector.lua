@@ -17,6 +17,7 @@ local gears = require("gears")
 
 local redutil = require("redflat.util")
 local decoration = require("redflat.float.decoration")
+local redtip = require("redflat.float.hotkeys")
 
 local cs_viewer = require("user/float/cheatsheet-viewer")
 
@@ -61,6 +62,7 @@ local function default_style()
 		name_font        = "Sans 12",
 		name_margin      = { 4, 4, 4, 4 },
 		border_width     = 2,
+		keytip           = { geometry = { width = 400, height = 300 } },
 		color            = { border = "#575757", text = "#aaaaaa", highlight = "#eeeeee", main = "#b1222b",
 		                     bg = "#161616", bg_second = "#181818", wibox = "#202020", icon = "a0a0a0" }
 	}
@@ -294,6 +296,7 @@ function cs_selector:init()
 	--------------------------------------------------------------------------------
 	local style = default_style()
 	self.itemnum = style.itemnum
+	self.keytip = style.keytip
 	
 	-- get full cheatsheet list
 	cheatsheets.all = parse_all_files(style.location)
@@ -351,6 +354,7 @@ function cs_selector:show()
 
 	redutil.placement.centered(self.wibox, nil, mouse.screen.workarea)
 	self.wibox.visible = true
+	redtip:set_pack("Cheatsheets", self.keys.all, self.keytip.column, self.keytip.geometry)
 
 	return awful.prompt.run({
 		prompt = "",
@@ -364,6 +368,7 @@ end
 
 function cs_selector:hide()
 	self.wibox.visible = false
+	redtip:remove_pack()
 end
 
 -- Set user hotkeys
