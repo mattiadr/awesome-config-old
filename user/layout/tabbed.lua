@@ -6,8 +6,15 @@ local laycommon = require("redflat.layout.common")
 local tabbed = {}
 
 local function is_master(rules, client)
-	return awful.rules.matches(client, rules.master) or
-	       not awful.rules.matches(client, rules.minor)
+	for _, r in ipairs(rules.master) do
+		if awful.rules.matches(client, r) then return true end
+	end
+
+	for _, r in ipairs(rules.minor) do
+		if awful.rules.matches(client, r) then return false end
+	end
+
+	return true
 end
 
 -- checks if the given tab contains a master client
@@ -136,7 +143,7 @@ local function arrange(data, param)
 				insert_master(data, data.curr_tab, cl)
 			else
 				insert_client(data, data.curr_tab, cl)
-				sort_clients(data.curr_tab)
+				sort_clients(data, data.curr_tab)
 			end
 		end
 	end

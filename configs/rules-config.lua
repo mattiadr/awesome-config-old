@@ -9,77 +9,17 @@ local beautiful = require("beautiful")
 local redtitle = require("redflat.titlebar")
 
 local appnames = require("configs/alias-config")
-local tagconf = require("configs/tag-config")
-local merge_rules = require("user/util/table").merge_rules
+local lay_tabbed = require("user/layout/tabbed")
 
 -- Initialize tables and vars for module
 -----------------------------------------------------------------------------------------------------------------------
 local rules = {
-	unnamed_tags = { first = nil, last = 10 }
+	unnamed_tags = { first = nil, last = 10 },
+	tabbed = {},
 }
 
-rules.tags = {
-	{
-		name     = "1 TERM",
-		layout   = awful.layout.suit.fair,
-		tabbed   = false,
-		args     = { selected = true, always_show = true },
-	},
-	{
-		name     = "2 WEB",
-		layout   = awful.layout.suit.tile,
-		tabbed   = true,
-		args     = { gap_single_client = false, master_width_factor = 0.75 },
-		rule_any = { class = { "Chromium" } },
-	},
-	{
-		name     = "3 DEV",
-		layout   = awful.layout.suit.tile,
-		tabbed   = true,
-		args     = { gap_single_client = false, master_width_factor = 0.75 },
-		rule_any = { class = { "Sublime_text" } },
-	},
-	{
-		name     = "4 FILE",
-		layout   = awful.layout.suit.fair,
-		tabbed   = false,
-		args     = {},
-		rule_any = { name = { "ranger" } },
-	},
-	{
-		name     = "5 TEST",
-		layout   = require("user/layout/tabbed")(awful.layout.suit.tile),
-		tabbed   = false,
-		args     = { gap_single_client = false, master_width_factor = 0.75, always_show = true },
-		rule_any = { name = { "abcdef" } },
-	},
-}
-
-rules.base_properties = {
-	border_width      = beautiful.border_width,
-	border_color      = beautiful.border_normal,
-	focus             = awful.client.focus.filter,
-	raise             = true,
-	size_hints_honor  = false,
-	screen            = awful.screen.preferred,
-	titlebars_enabled = false,
-	minimized         = false,
-	--[[callback          = function(client)
-		if not tagconf.is_minor(client) then
-			for i = rules.unnamed_tags.first, rules.unnamed_tags.last do
-				local tag = awful.screen.focused().tags[i]
-				local clients = tag:clients()
-				if not tagconf.has_master(clients) then
-					client:move_to_tag(tag)
-					awful.client.setmaster(client)
-					tag:view_only()
-					break
-				end
-			end
-		end
-	end,]]
-}
-
+-- Generic rules
+--------------------------------------------------------------------------------
 rules.floating_any = {
 	type = { "dialog" },
 	class = {
@@ -98,11 +38,64 @@ rules.vlc_fix = {
 	type = "utility"
 }
 
--- these will not trigger the creation of a new tab
-rules.minor = {
-	class = {
-		"st-256color",
-		"TelegramDesktop",
+-- Tabbed layout rules
+--------------------------------------------------------------------------------
+rules.tabbed.master = {
+	{
+		rule_any = { name = { "ranger" } }
+	},
+}
+
+rules.tabbed.minor = {
+	{
+		rule_any = { class = { "st-256color" } },
+	},
+	{
+		rule_any = rules.floating_any,
+	},
+	{
+		rule = rules.vlc_fix,
+	},
+}
+
+-- Common properties
+--------------------------------------------------------------------------------
+rules.base_properties = {
+	border_width      = beautiful.border_width,
+	border_color      = beautiful.border_normal,
+	focus             = awful.client.focus.filter,
+	raise             = true,
+	size_hints_honor  = false,
+	screen            = awful.screen.preferred,
+	titlebars_enabled = false,
+	minimized         = false,
+}
+
+-- Tags tables
+--------------------------------------------------------------------------------
+rules.tags = {
+	{
+		name     = "1 TERM",
+		layout   = awful.layout.suit.fair,
+		args     = { selected = true, always_show = true },
+	},
+	{
+		name     = "2 WEB",
+		layout   = lay_tabbed(awful.layout.suit.tile, rules.tabbed.master, rules.tabbed.minor),
+		args     = { gap_single_client = false, master_width_factor = 0.75 },
+		rule_any = { class = { "Chromium" } },
+	},
+	{
+		name     = "3 DEV",
+		layout   = lay_tabbed(awful.layout.suit.tile, rules.tabbed.master, rules.tabbed.minor),
+		args     = { gap_single_client = false, master_width_factor = 0.75 },
+		rule_any = { class = { "Sublime_text" } },
+	},
+	{
+		name     = "4 FILE",
+		layout   = awful.layout.suit.fair,
+		args     = {},
+		rule_any = { name = { "ranger" } },
 	},
 }
 
@@ -118,10 +111,12 @@ local function build_rule(props)
 
 	ret.rule       = props.rule
 	ret.rule_any   = props.rule_any
+	ret.except     = props.except
+	ret.except_any = props.except_any
+
 	ret.properties = {
 		tag         = props.name,
 		switchtotag = true,
-		callback    = function() end, -- disable default callback
 	}
 
 	return ret
@@ -135,11 +130,7 @@ local function create_tag(props, screen)
 	args.screen = screen
 	args.layout = props.layout
 
-	local tag = awful.tag.add(props.name, args)
-
-	if props.tabbed then
-		tagconf:set_tabbed(tag)
-	end
+	awful.tag.add(props.name, args)
 end
 
 -- Build rule table
@@ -193,11 +184,6 @@ function rules:init(args)
 	-- Set awful rules
 	--------------------------------------------------------------------------------
 	awful.rules.rules = self.rules
-
-	-- Set tagconf rules
-	--------------------------------------------------------------------------------
-	tagconf:set_rules_any(merge_rules(self.minor, self.floating_any))
-	tagconf:add_specific_rule(self.vlc_fix)
 end
 
 -- Tag setup
@@ -211,8 +197,7 @@ function rules:tag_setup(screen)
 	for i = self.unnamed_tags.first, self.unnamed_tags.last do
 			create_tag({
 			name   = tostring(i),
-			layout = awful.layout.suit.tile,
-			tabbed = true,
+			layout = lay_tabbed(awful.layout.suit.tile, self.tabbed.master, self.tabbed.minor),
 			args   = { gap_single_client = false, master_width_factor = 0.75 },
 		}, screen)
 	end
