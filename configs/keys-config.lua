@@ -12,8 +12,6 @@ local redflat = require("redflat")
 
 local lock_screen = require("user/util/screen-lock").lock_screen
 local cheatsheet = require("user/float/cheatsheet-selector")
-local tagconf = require("configs/tag-config")
-local rules = require("configs/rules-config")
 
 local hist = require("user/util/history")
 
@@ -116,8 +114,8 @@ local function tag_numkey_nomod(t)
 
 	if tag ~= t then
 		t:view_only()
-	else
-		tagconf:switch_tab(tag)
+	elseif t.layout.switch_tab then
+		t.layout:switch_tab(t)
 	end
 end
 
@@ -129,8 +127,16 @@ local function tag_numkey_shift(t)
 			client.focus:move_to_tag(t)
 			t:view_only()
 		end
-	else
-		tagconf:switch_tab(tag, -1)
+	elseif t.layout.switch_tab then
+		t.layout:switch_tab(t, true)
+	end
+end
+
+local function tag_client_to_tab(client, add_new_tab, reverse)
+	local t = mouse.screen.selected_tag
+
+	if t.layout.client_to_tab then
+		t.layout:client_to_tab(client, add_new_tab, reverse)
 	end
 end
 
@@ -899,12 +905,20 @@ function hotkeys:init(args)
 			{ description = "Toggle keep on top", group = "Client keys" }
 		},
 		{
-			{ env.mod }, "t", function(c) tagconf:client_to_tab(mouse.screen.selected_tag, c, 1) end,
+			{ env.mod }, "t", function(c) tag_client_to_tab(c, false, false) end,
 			{ description = "Move client to next tab", group = "Client keys" }
 		},
 		{
-			{ env.mod, "Shift" }, "t", function(c) tagconf:client_to_tab(mouse.screen.selected_tag, c, -1) end,
+			{ env.mod, "Shift" }, "t", function(c) tag_client_to_tab(c, false, true) end,
 			{ description = "Move client to previous tab", group = "Client keys" }
+		},
+		{
+			{ env.mod, "Control" }, "t", function(c) tag_client_to_tab(c, true, false) end,
+			{ description = "Move client to new next tab", group = "Client keys" }
+		},
+		{
+			{ env.mod, "Control", "Shift" }, "t", function(c) tag_client_to_tab(c, true, true) end,
+			{ description = "Move client to new previous tab", group = "Client keys" }
 		},
 	}
 

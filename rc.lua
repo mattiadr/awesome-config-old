@@ -11,8 +11,6 @@ local awful = require("awful")
 local wibox = require("wibox")
 local beautiful = require("beautiful")
 
-local tagconf = require("configs/tag-config")
-
 require("awful.autofocus")
 
 -- User modules
@@ -52,7 +50,7 @@ taglist.style = { separator = separator, widget = redflat.gauge.tag.blue.new, sh
 taglist.buttons = awful.util.table.join(
 	awful.button({         }, 1, function(t)
 		local tag = awful.screen.focused().selected_tag
-		if tag ~= t then t:view_only() else tagconf:switch_tab(t) end
+		if tag ~= t then t:view_only() elseif t.layout.switch_tab then t.layout:switch_tab(t) end
 	end),
 	awful.button({ env.mod }, 1, function(t) if client.focus then client.focus:move_to_tag(t) end end),
 	awful.button({         }, 2, awful.tag.viewtoggle                                                ),

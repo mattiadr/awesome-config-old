@@ -33,8 +33,6 @@ local redmenu = require("redflat.menu")
 local svgbox = require("redflat.gauge.svgbox")
 local dfparser = require("redflat.service.dfparser")
 
-local tagconf = require("configs/tag-config")
-
 -- Initialize tables and vars for module
 -----------------------------------------------------------------------------------------------------------------------
 local redtasklist = { filter = {}, winmenu = {}, tasktip = {}, action = {}, mt = {}, }
@@ -465,7 +463,8 @@ function redtasklist.winmenu:init(style)
 		if style.hide_action[action] then self.menu:hide() end
 	end
 
-	local next_tab = function() tagconf:client_to_tab(last.screen.selected_tag, last.client, 1); self.menu:hide() end
+	local next_tab = function() local l = last.screen.selected_tag.layout; if l.client_to_tab then l:client_to_tab(last.client, false, false) end end
+	local new_tab  = function() local l = last.screen.selected_tag.layout; if l.client_to_tab then l:client_to_tab(last.client, true, false) end; self.menu:hide() end
 	local close    = function() last.client:kill(); self.menu:hide() end
 	local minimize = function() last.client.minimized = not last.client.minimized; self.hide_check("min") end
 	-- local maximize = function() last.client.maximized = not last.client.maximized; self.hide_check("max")end
@@ -550,9 +549,10 @@ function redtasklist.winmenu:init(style)
 			{ "Move to tag", { items = movemenu_items, theme = style.tagmenu } },
 			{ "Add to tag",  { items = addmenu_items,  theme = style.tagmenu } },
 
-			{ "To next tab", next_tab, nil, style.icon.next_tab or style.icon.unknown  },
-			{ "Minimize",    minimize, nil, style.icon.minimize or style.icon.unknown },
-			{ "Close",       close,    nil, style.icon.close or style.icon.unknown    },
+			{ "To next tab",     next_tab, nil, style.icon.next_tab or style.icon.unknown },
+			{ "To new next tab", new_tab,  nil, style.icon.next_tab or style.icon.unknown },
+			{ "Minimize",        minimize, nil, style.icon.minimize or style.icon.unknown },
+			{ "Close",           close,    nil, style.icon.close or style.icon.unknown    },
 			menusep,
 			{ widget = stateline }
 		}

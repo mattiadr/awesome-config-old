@@ -26,8 +26,6 @@ local redutil = require("redflat.util")
 local basetag = require("redflat.gauge.tag")
 local tooltip = require("redflat.float.tooltip")
 
-local tagconf = require("configs/tag-config")
-
 -- Initialize tables and vars for module
 -----------------------------------------------------------------------------------------------------------------------
 local taglist = { filter = {}, mt = {} , queue = setmetatable({}, { __mode = 'k' }) }
@@ -69,7 +67,12 @@ local function get_state(t)
 	state.text = string.upper(t.name)
 	state.layout = awful.tag.getproperty(t, "layout")
 
-	state.list = tagconf:get_tab_states(t)
+	-- use layout state if exists
+	if type(state.layout.get_state) == "function" then
+		state.list = state.layout:get_state(t.selected)
+	else
+		state.list = { { focus = t.selected } }
+	end
 
 	return state
 end
@@ -174,7 +177,7 @@ function taglist.new(args, style)
 	}
 	local client_signals = {
 		"focus",  "unfocus",  "property::urgent",
-		"tagged", "untagged", "unmanage"
+		"tagged", "untagged", "manage", "unmanage"
 	}
 
 	for _, sg in ipairs(tag_signals) do awful.tag.attached_connect_signal(nil, sg, ut) end

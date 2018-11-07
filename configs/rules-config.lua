@@ -64,7 +64,7 @@ rules.base_properties = {
 	screen            = awful.screen.preferred,
 	titlebars_enabled = false,
 	minimized         = false,
-	callback          = function(client)
+	--[[callback          = function(client)
 		if not tagconf.is_minor(client) then
 			for i = rules.unnamed_tags.first, rules.unnamed_tags.last do
 				local tag = awful.screen.focused().tags[i]
@@ -77,7 +77,7 @@ rules.base_properties = {
 				end
 			end
 		end
-	end,
+	end,]]
 }
 
 rules.floating_any = {
