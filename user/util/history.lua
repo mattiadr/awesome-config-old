@@ -10,7 +10,7 @@ function hist.previous()
 	repeat
 		awful.tag.history.restore(s, 1)
 		stop = stop - 1
-	until ((s.selected_tag ~= curr_tag and s.selected_tag.name ~= "TG") or stop <= 0)
+	until ((s.selected_tag ~= curr_tag and not s.selected_tag.non_numeric) or stop <= 0)
 	-- switch twice to reinsert tags into history
 	local new_tag = s.selected_tag
 	curr_tag:view_only()

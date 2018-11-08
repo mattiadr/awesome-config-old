@@ -115,7 +115,7 @@ function signals:init(args)
 
 	-- return to previous tag when current is empty
 	tag.connect_signal("untagged", function(t)
-		if not t.non_numeric and #t:clients() == 0 then
+		if not t.always_show and #t:clients() == 0 then
 			hist.previous()
 		end
 	end)
