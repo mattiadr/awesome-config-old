@@ -206,6 +206,7 @@ function rules:tag_setup(screen)
 		layout      = awful.layout.suit.max,
 		screen      = s,
 		always_show = true,
+		non_numeric = true,
 	})
 end
 
