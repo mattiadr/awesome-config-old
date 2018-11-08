@@ -158,18 +158,49 @@ local function arrange(data, param)
 	-- empty param.clients
 	param.clients = {}
 
-	-- reinsert clients into param
+	-- hide clients not in current tab
 	for cl, tab in pairs(data.managed_clients) do
-		if tab == data.curr_tab then
-			cl.hidden = false
-			table.insert(param.clients, cl)
-		else
-			cl.hidden = true
-		end
+		cl.hidden = not (tab == data.curr_tab)
 	end
 
+	-- reinsert clients into param
+	for _, cl in ipairs(data.curr_tab.clients) do
+		table.insert(param.clients, cl)
+	end
+
+	-- save old_gap to use later
+	local old_gap = param.useless_gap
+
+	-- adapt parameters to new clients
+	local s = awful.screen.focused()
+	local t = s.selected_tag
+
+	local gap_single_client = true
+	if t and t.gap_single_client ~= nil then
+		gap_single_client = t.gap_single_client
+	end
+
+	local min_clients = gap_single_client and 1 or 2
+	local useless_gap = t and (#param.clients >= min_clients and t.gap or 0) or 0
+
+	param.useless_gap = useless_gap
+	param.workarea = s:get_bounding_geometry({
+		honor_padding  = true,
+		honor_workarea = true,
+		margins        = useless_gap,
+	})
+
 	-- call original layout arrange function
-	return data.layout.arrange(param)
+	data.layout.arrange(param)
+
+	-- update geometries to correct gap
+	local gap_diff = useless_gap - old_gap
+	for c, g in pairs(param.geometries) do
+		g.width = g.width - gap_diff * 2
+		g.height = g.height - gap_diff * 2
+		g.x = g.x + gap_diff
+		g.y = g.y + gap_diff
+	end
 end
 
 function tabbed:new(layout, master_rules, minor_rules)
