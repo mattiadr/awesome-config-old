@@ -173,11 +173,11 @@ function taglist.new(args, style)
 	local tag_signals = {
 		"property::selected",  "property::icon", "property::hide",
 		"property::activated", "property::name", "property::screen",
-		"property::index", "property::layout"
+		"property::index", "property::layout", "tagged"
 	}
 	local client_signals = {
 		"focus",  "unfocus",  "property::urgent",
-		"tagged", "untagged", "manage", "unmanage"
+		"tagged", "untagged", "unmanage"
 	}
 
 	for _, sg in ipairs(tag_signals) do awful.tag.attached_connect_signal(nil, sg, ut) end

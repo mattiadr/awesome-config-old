@@ -62,12 +62,30 @@ end
 
 -- removes a client from a tab
 local function remove_client(data, tab, client)
-	for i, v in ipairs(tab.clients) do
-		if v == client then
-			table.remove(tab.clients, i)
-			break
+	if not data.managed_clients[client] then return end
+
+	if tab then
+		-- remove from given tab
+		for i, v in ipairs(tab.clients) do
+			if v == client then
+				table.remove(tab.clients, i)
+				break
+			end
+		end
+	else
+		-- search all tabs
+		for t in tab_iterator(data.first_tab) do
+			for i, v in ipairs(t.clients) do
+				if v == client then
+					table.remove(t.clients, i)
+					-- set tab to delete it if needed
+					tab = t
+					break
+				end
+			end
 		end
 	end
+
 	data.managed_clients[client] = nil
 
 	if #tab.clients == 0 and tab ~= tab.next then
@@ -291,8 +309,14 @@ function tabbed:new(layout, master_rules, minor_rules)
 		self.data.curr_tab = new_tab
 
 		-- force refresh
-		client:emit_signal("manage")
+		for _, t in ipairs(client:tags()) do
+			t:emit_signal("tagged")
+		end
 	end
+
+	client.connect_signal("untagged", function(c, t)
+		remove_client(lay.data, nil, c)
+	end)
 
 	-- get missing values from original layout
 	return setmetatable(lay, {
