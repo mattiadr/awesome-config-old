@@ -694,6 +694,7 @@ theme.float.notify = {
 	border_width = 0,
 	icon         = theme.icon.warning,
 	color        = theme.color,
+	timeout      = 3,
 	progressbar  = { color = theme.color },
 	set_position = function()
 		return { x = mouse.screen.workarea.x + mouse.screen.workarea.width, y = mouse.screen.workarea.y }
