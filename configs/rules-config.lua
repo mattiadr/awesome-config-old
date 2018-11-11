@@ -77,25 +77,27 @@ rules.tags = {
 	{
 		name     = "1 TERM",
 		layout   = awful.layout.suit.fair,
-		args     = { selected = true, always_show = true },
+		lay_args = { selected = true, always_show = true },
 	},
 	{
 		name     = "2 WEB",
 		layout   = lay_tabbed(awful.layout.suit.tile, rules.tabbed.master, rules.tabbed.minor),
-		args     = { gap_single_client = false, master_width_factor = 0.75 },
+		lay_args = { gap_single_client = false, master_width_factor = 0.75 },
 		rule_any = { class = { "Chromium" } },
 	},
 	{
 		name     = "3 DEV",
 		layout   = lay_tabbed(awful.layout.suit.tile, rules.tabbed.master, rules.tabbed.minor),
-		args     = { gap_single_client = false, master_width_factor = 0.75 },
+		lay_args = { gap_single_client = false, master_width_factor = 0.75 },
 		rule_any = { class = { "Sublime_text" } },
+		cl_props = { switchtotag = true },
 	},
 	{
 		name     = "4 FILE",
 		layout   = awful.layout.suit.fair,
-		args     = {},
+		lay_args = {},
 		rule_any = { name = { "ranger" } },
+		cl_props = { switchtotag = true },
 	},
 }
 
@@ -114,10 +116,11 @@ local function build_rule(props)
 	ret.except     = props.except
 	ret.except_any = props.except_any
 
-	ret.properties = {
-		tag         = props.name,
-		switchtotag = true,
-	}
+	local cl_props = props.cl_props or {}
+	-- set defaults
+	cl_props.tag = props.name
+
+	ret.properties = cl_props
 
 	return ret
 end
@@ -125,7 +128,7 @@ end
 -- Create tag from props table
 --------------------------------------------------------------------------------
 local function create_tag(props, screen)
-	local args = props.args or {}
+	local args = props.lay_args or {}
 	-- sey defaults
 	args.screen = screen
 	args.layout = props.layout
