@@ -183,7 +183,12 @@ local function arrange(data, param)
 
 	-- reinsert clients into param
 	for _, cl in ipairs(data.curr_tab.clients) do
-		table.insert(param.clients, cl)
+		if not cl.floating
+			and not cl.fullscreen
+			and not cl.maximized_vertical
+			and not cl.maximized_horizontal then
+			table.insert(param.clients, cl)
+		end
 	end
 
 	-- save old_gap to use later
