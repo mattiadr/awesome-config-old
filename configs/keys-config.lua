@@ -10,9 +10,10 @@ local beautiful = require("beautiful")
 
 local redflat = require("redflat")
 
+local rules = require("configs/rules-config")
+
 local lock_screen = require("user/util/screen-lock").lock_screen
 local cheatsheet = require("user/float/cheatsheet-selector")
-
 local hist = require("user/util/history")
 
 -- Initialize tables and vars for module
@@ -200,19 +201,6 @@ local function stash_pop()
 		stash_FILO[#stash_FILO]:tags(t)
 		client.focus = stash_FILO[#stash_FILO]
 		stash_FILO[#stash_FILO] = nil
-	end
-end
-
-local function telegram_key()
-	local tags = awful.screen.focused().tags
-	local t = awful.screen.focused().selected_tag
-
-	-- tags[#tags] is the last tag (telegram will always be the last tag)
-	if t == tags[#tags] then
-		awful.tag.history.restore()
-	else
-		tags[#tags]:view_only()
-		awful.spawn.with_shell("telegram-desktop")
 	end
 end
 
@@ -697,10 +685,6 @@ function hotkeys:init(args)
 			{ env.mod }, "e", function() awful.spawn(env.fm) end,
 			{ description = "Open ranger", group = "Applications" }
 		},
-		{
-			{ env.mod }, "x", function() awful.spawn(env.terminal .. " -e htop") end,
-			{ description = "Open htop", group = "Applications" }
-		},
 		--[[{
 			{ env.mod, "Mod1" }, "space", function() awful.spawn("clipflap --show") end,
 			{ description = "Clipboard manager", group = "Applications" }
@@ -874,8 +858,12 @@ function hotkeys:init(args)
 			{}, "XF86PowerOff", function() powermenu:show() end,
 			{} -- hidden key
 		},
-
 	}
+
+	-- Non numeric tag keys
+	--------------------------------------------------------------------------------
+	self.raw.nn_keys = rules:get_nn_keys(env)
+	self.raw.root = awful.util.table.join(self.raw.root, self.raw.nn_keys)
 
 	-- Client keys
 	--------------------------------------------------------------------------------
@@ -939,36 +927,26 @@ function hotkeys:init(args)
 		)
 	end
 
-	-- use mod + \ to toggle telegram
-	self.keys.root = awful.util.table.join(
-		self.keys.root,
-		awful.key({ env.mod }, "\\", telegram_key)
-	)
-
 	-- make fake keys with description special for key helper widget
 	local numkeys = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" }
 
 	self.fake.numkeys = {
 		{
 			{ env.mod }, "1..0", nil,
-			{ description = "Switch to tag / next tab", group = "Numeric keys", keyset = numkeys }
+			{ description = "Switch to tag / next tab", group = "Numeric Tags", keyset = numkeys }
 		},
 		{
 			{ env.mod, "Control" }, "1..0", nil,
-			{ description = "Toggle tag", group = "Numeric keys", keyset = numkeys }
+			{ description = "Toggle tag", group = "Numeric Tags", keyset = numkeys }
 		},
 		{
 			{ env.mod, "Shift" }, "1..0", nil,
-			{ description = "Move focused client to tag  / Switch to prev tab", group = "Numeric keys", keyset = numkeys }
+			{ description = "Move focused client to tag  / Switch to prev tab", group = "Numeric Tags", keyset = numkeys }
 		},
 		{
 			{ env.mod, "Control", "Shift" }, "1..0", nil,
-			{ description = "Toggle focused client on tag", group = "Numeric keys", keyset = numkeys }
+			{ description = "Toggle focused client on tag", group = "Numeric Tags", keyset = numkeys }
 		},
-		{
-			{ env.mod }, "\\", nil,
-			{ description = "Toggle Telegram", group = "Numeric keys" }
-		}
 	}
 
 	-- Hotkeys helper setup

@@ -27,15 +27,12 @@ rules.floating_any = {
 		"Qalculate-gtk",
 	},
 	role = { "pop-up" },
-	name = {
-		"Event Tester",
-		"htop",
-	},
+	name = { "Event Tester" },
 }
 
 rules.vlc_fix = {
 	class = "vlc",
-	type = "utility"
+	type = "utility",
 }
 
 -- Tabbed layout rules
@@ -69,9 +66,9 @@ rules.base_properties = {
 	minimized         = false,
 }
 
--- Tags tables
+-- Named Tags tables
 --------------------------------------------------------------------------------
-rules.tags = {
+rules.named_tags = {
 	{
 		name     = "1 TERM",
 		layout   = awful.layout.suit.fair,
@@ -96,6 +93,29 @@ rules.tags = {
 		lay_args = {},
 		rule_any = { class = { "ranger" } },
 		cl_props = { switchtotag = true },
+	},
+}
+
+-- Non Numeric Tags tables
+--------------------------------------------------------------------------------
+rules.nn_tags = {
+	{
+		name     = "HTOP",
+		layout   = awful.layout.suit.max,
+		rule_any = { class = { "htop" } },
+		cl_props = { switchtotag = true },
+		key      = "x",
+		desc     = "Toggle htop",
+		spawn    = function() awful.spawn("st -c htop -e htop") end,
+	},
+	{
+		name     = "TG",
+		layout   = awful.layout.suit.max,
+		lay_args = { always_show = true },
+		rule_any = { class = { "TelegramDesktop" } },
+		key      = "\\",
+		desc     = "Toggle Telegram",
+		spawn    = function() awful.spawn.with_shell("telegram-desktop") end,
 	},
 }
 
@@ -125,13 +145,48 @@ end
 
 -- Create tag from props table
 --------------------------------------------------------------------------------
-local function create_tag(props, screen)
+local function create_tag(props, screen, skip_if_exists)
+	if skip_if_exists and props.tag then return end
+
 	local args = props.lay_args or {}
 	-- sey defaults
 	args.screen = screen
 	args.layout = props.layout
 
-	awful.tag.add(props.name, args)
+	props.tag = awful.tag.add(props.name, args)
+end
+
+-- Create key from props table
+--------------------------------------------------------------------------------
+local function create_nn_key(env, props)
+	-- function called when key is pressed
+	local function toggle()
+		local t = awful.screen.focused().selected_tag
+
+		if t and t == props.tag then
+			awful.tag.history.restore()
+		else
+			props.tag:view_only()
+			-- find if app is alredy open
+			local ar = awful.rules
+			for _, c in ipairs(props.tag:clients()) do
+				if awful.rules.matches(c, props) then
+					c:raise()
+					return
+				end
+			end
+			-- if no clients match the rules, spawn
+			props.spawn()
+		end
+	end
+
+	-- create key
+	local key = {
+		{ env.mod }, props.key, toggle,
+		{ description = props.desc, group = "Non Numeric Tags" }
+	}
+
+	return key
 end
 
 -- Build rule table
@@ -152,21 +207,20 @@ function rules:init(args)
 		},
 	}
 
-	for _, v in ipairs(self.tags) do
+	-- named tags
+	for _, v in ipairs(self.named_tags) do
 		local rule = build_rule(v)
 		if rule then table.insert(self.rules, rule) end
 	end
 
-	table.insert(self.rules, { -- "TG"
-		rule_any   = {
-			class  = { "TelegramDesktop" }
-		},
-		properties = {
-			tag         = "TG",
-			switchtotag = false,
-		},
-	})
-	table.insert(self.rules, { -- floating
+	-- non numeric tags
+	for _, v in ipairs(self.nn_tags) do
+		local rule = build_rule(v)
+		if rule then table.insert(self.rules, rule) end
+	end
+
+	-- floating
+	table.insert(self.rules, {
 		rule_any   = args.floating_any or self.floating_any,
 		properties = {
 			floating     = true,
@@ -174,7 +228,9 @@ function rules:init(args)
 			border_width = beautiful.border_width,
 		},
 	})
-	table.insert(self.rules, { -- vlc console fix
+
+	-- vlc console fix
+	table.insert(self.rules, {
 		rule = self.vlc_fix,
 		properties = {
 			floating     = true,
@@ -189,26 +245,42 @@ end
 
 -- Tag setup
 -----------------------------------------------------------------------------------------------------------------------
-function rules:tag_setup(screen)
-	for _, v in ipairs(self.tags) do
+function rules:tag_setup(screen, skip_nn)
+	-- create named tags
+	for _, v in ipairs(self.named_tags) do
 		create_tag(v, screen)
 	end
 
+	-- create non named tags
 	self.unnamed_tags.first = #screen.tags + 1
 	for i = self.unnamed_tags.first, self.unnamed_tags.last do
-			create_tag({
+		create_tag({
 			name   = tostring(i),
 			layout = lay_tabbed(awful.layout.suit.tile, self.tabbed.master, self.tabbed.minor),
 			args   = { gap_single_client = false, master_width_factor = 0.75 },
 		}, screen)
 	end
 
-	awful.tag.add("TG", {
-		layout      = awful.layout.suit.max,
-		screen      = s,
-		always_show = true,
-		non_numeric = true,
-	})
+	-- create non numeric tags
+	for _, v in ipairs(self.nn_tags) do
+		-- create lay_args if doesn't exist and set non_numeric property to true
+		v.lay_args = v.lay_args or {}
+		v.lay_args.non_numeric = true
+		-- we skip if tag alredy exists to avoid creating it on multiple monitors
+		create_tag(v, screen, true)
+	end
+end
+
+-- Get table of keys to toggle non numeric tags
+-----------------------------------------------------------------------------------------------------------------------
+function rules:get_nn_keys(env)
+	local keys = {}
+
+	for _, v in ipairs(self.nn_tags) do
+		table.insert(keys, create_nn_key(env, v))
+	end
+
+	return keys
 end
 
 -- End

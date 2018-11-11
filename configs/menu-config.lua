@@ -61,15 +61,15 @@ function menu:init(args)
 	------------------------------------------------------------
 	self.mainmenu = redflat.menu({ theme = theme,
 		items = {
-			{ "Awesome",      awesomemenu,                micon("awesome")          },
-			{ "Applications", appmenu,                    micon("distributor-logo") },
+			{ "Awesome",      awesomemenu,                        micon("awesome")          },
+			{ "Applications", appmenu,                            micon("distributor-logo") },
 			separator,
-			{ "Chromium",     "chromium",                 micon("google-chrome")    },
-			{ "ranger",       env.fm,                     micon("folder")           },
-			{ "htop",         env.terminal .. " -e htop", micon("htop")             },
+			{ "Chromium",     "chromium",                         micon("google-chrome")    },
+			{ "ranger",       env.fm,                             micon("folder")           },
+			{ "htop",         env.terminal .. " -c htop -e htop", micon("htop")             },
 			separator,
-			{ "Exit",         exitmenu,                   micon("exit")             },
-			{ "Shutdown",     "shutdown now",             micon("system-shutdown")  },
+			{ "Exit",         exitmenu,                           micon("exit")             },
+			{ "Shutdown",     "shutdown now",                     micon("system-shutdown")  },
 		}
 	})
 
