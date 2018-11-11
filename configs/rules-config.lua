@@ -41,9 +41,7 @@ rules.vlc_fix = {
 -- Tabbed layout rules
 --------------------------------------------------------------------------------
 rules.tabbed.master = {
-	{
-		rule_any = { name = { "ranger" } }
-	},
+	-- empty
 }
 
 rules.tabbed.minor = {
@@ -96,7 +94,7 @@ rules.tags = {
 		name     = "4 FILE",
 		layout   = awful.layout.suit.fair,
 		lay_args = {},
-		rule_any = { name = { "ranger" } },
+		rule_any = { class = { "ranger" } },
 		cl_props = { switchtotag = true },
 	},
 }

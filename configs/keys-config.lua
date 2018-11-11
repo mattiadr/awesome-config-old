@@ -694,7 +694,7 @@ function hotkeys:init(args)
 			{ description = "Open Chromium", group = "Applications" }
 		},
 		{
-			{ env.mod }, "e", function() awful.spawn(env.terminal .. " -e ranger") end,
+			{ env.mod }, "e", function() awful.spawn(env.fm) end,
 			{ description = "Open ranger", group = "Applications" }
 		},
 		{

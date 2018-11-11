@@ -29,7 +29,7 @@ function env:init()
 	-- environment vars
 	self.terminal = "st"
 	self.mod = "Mod4"
-	self.fm = "st -e ranger"
+	self.fm = self.terminal .. " -c ranger -e ranger"
 	self.home = os.getenv("HOME")
 	self.themedir = awful.util.get_configuration_dir() .. "theme/"
 
