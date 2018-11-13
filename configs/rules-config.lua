@@ -255,9 +255,9 @@ function rules:tag_setup(screen, skip_nn)
 	self.unnamed_tags.first = #screen.tags + 1
 	for i = self.unnamed_tags.first, self.unnamed_tags.last do
 		create_tag({
-			name   = tostring(i),
-			layout = lay_tabbed(awful.layout.suit.tile, self.tabbed.master, self.tabbed.minor),
-			args   = { gap_single_client = false, master_width_factor = 0.75 },
+			name     = tostring(i),
+			layout   = lay_tabbed(awful.layout.suit.tile, self.tabbed.master, self.tabbed.minor),
+			lay_args = { gap_single_client = false, master_width_factor = 0.75 },
 		}, screen)
 	end
 

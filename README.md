@@ -2,10 +2,11 @@
 awesome-wm configuration I currently use
 
 Credits:
-- core configuration from https://github.com/worron/awesome-config
-- [widget/battery](user/widget/battery.lua) taken from https://github.com/deficient/battery-widget
-- [float/calendar](user/float/calendar.lua) modded from https://github.com/deficient/calendar
-- [widget/udisks](user/widget/udisks.lua) taken from https://github.com/mireq/awesome-udisks2-mount
+- core configuration forked from https://github.com/worron/awesome-config
+- [float/calendar](user/float/calendar.lua) forked from https://github.com/deficient/calendar
+- [util/inspect](user/util/inspect.lua) cloned from http://github.com/kikito/inspect.lua
+- [widget/battery](user/widget/battery.lua) forked from https://github.com/deficient/battery-widget
+- [widget/udisks](user/widget/udisks.lua) cloned from https://github.com/mireq/awesome-udisks2-mount
 
 Dependencies and other utilities:
 - i3lock
