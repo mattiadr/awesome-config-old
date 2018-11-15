@@ -16,6 +16,8 @@ local lock_screen = require("user/util/screen-lock").lock_screen
 local cheatsheet = require("user/float/cheatsheet-selector")
 local hist = require("user/util/history")
 
+local debugger = require("user/util/debugger")
+
 -- Initialize tables and vars for module
 -----------------------------------------------------------------------------------------------------------------------
 local hotkeys = { mouse = {}, raw = {}, keys = {}, fake = {} }
@@ -659,6 +661,10 @@ function hotkeys:init(args)
 		{
 			{ env.mod }, "F3", function() cheatsheet:show() end,
 			{ description = "Show cheatsheets", group = "Main" }
+		},
+		{
+			{ env.mod }, "F9", function() debugger:toggle() end,
+			{ description = "Show debugger", group = "Main" }
 		},
 		{
 			{ env.mod }, "F12", lock_screen,
