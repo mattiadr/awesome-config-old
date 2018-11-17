@@ -84,7 +84,6 @@ textclock.widget = redflat.widget.textclock({
 --------------------------------------------------------------------------------
 local calendar = require("user/float/calendar")
 calendar({
-	page_title = "%a, %d %B %Y",
 	day_id     = "%Y-%m-%d",
 	week_head  = "",
 	week_col   = "",

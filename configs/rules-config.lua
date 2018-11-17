@@ -89,7 +89,7 @@ rules.named_tags = {
 	},
 	{
 		name     = "4 FILE",
-		layout   = awful.layout.suit.fair,
+		layout   = awful.layout.suit.fair.horizontal,
 		lay_args = {},
 		rule_any = { class = { "ranger" } },
 		cl_props = { switchtotag = true },
