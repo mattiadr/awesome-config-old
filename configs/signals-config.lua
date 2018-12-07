@@ -115,23 +115,28 @@ function signals:init(args)
 
 	-- set opened_by property
 	tag.connect_signal("tagged", function(new_tag)
-		local old_tag = awful.screen.focused().selected_tag
+		local curr_tag = awful.screen.focused().selected_tag
 
-		if #new_tag:clients() == 1 and not new_tag.opened_by then
-			new_tag.opened_by = old_tag
+		if new_tag ~= curr_tag then
+			new_tag.opened_by = curr_tag
 		end
 	end)
 
 	-- return to opened_by tag when current is empty
-	tag.connect_signal("untagged", function(t)
-		local to = t
-
-		while #to:clients() == 0 and to.opened_by do
-			to = to.opened_by
+	tag.connect_signal("untagged", function(tag)
+		-- find previous non empty tag
+		-- tag                   -> needs to be non nil
+		-- tag ~= tag.opened_by  -> avoid infinite loops
+		-- tag.non_numeric       -> tag must be numeric
+		-- #tag:clients() == 0   -> tag must be non empty
+		-- not tag.always_show   -> except for always_show tags
+		while tag and tag ~= tag.opened_by and (tag.non_numeric or (#tag:clients() == 0 and not tag.always_show)) do
+			tag = tag.opened_by
 		end
 
-		if to ~= t then
-			to:view_only()
+		-- switch to tag and reset opened_by
+		if tag then
+			tag:view_only()
 		end
 	end)
 end
