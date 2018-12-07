@@ -79,6 +79,7 @@ rules.named_tags = {
 		layout   = lay_tabbed(awful.layout.suit.tile, rules.tabbed.master, rules.tabbed.minor),
 		lay_args = { gap_single_client = false, master_width_factor = 0.75 },
 		rule_any = { class = { "Chromium" } },
+		cl_props = { switchtotag = true },
 	},
 	{
 		name     = "3 DEV",

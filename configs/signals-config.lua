@@ -109,14 +109,29 @@ function signals:init(args)
 	end)
 
 	-- fix geometry not refreshed when untagged
-	tag.connect_signal("untagged", function(t)
-		t:emit_signal("tagged")
+	-- tag.connect_signal("untagged", function(t)
+	-- 	t:emit_signal("tagged")
+	-- end)
+
+	-- set opened_by property
+	tag.connect_signal("tagged", function(new_tag)
+		local old_tag = awful.screen.focused().selected_tag
+
+		if #new_tag:clients() == 1 and not new_tag.opened_by then
+			new_tag.opened_by = old_tag
+		end
 	end)
 
-	-- return to previous tag when current is empty
+	-- return to opened_by tag when current is empty
 	tag.connect_signal("untagged", function(t)
-		if not t.always_show and #t:clients() == 0 then
-			hist.non_empty()
+		local to = t
+
+		while #to:clients() == 0 and to.opened_by do
+			to = to.opened_by
+		end
+
+		if to ~= t then
+			to:view_only()
 		end
 	end)
 end
