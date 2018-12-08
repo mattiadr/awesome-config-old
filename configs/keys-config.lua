@@ -195,6 +195,9 @@ local function stash_push()
 	if not c then return end
 	table.insert(stash_FILO, c)
 	c:tags({})
+	for _, t in ipairs(awful.screen.focused().selected_tags) do
+		t:emit_signal("tagged")
+	end
 end
 
 local function stash_pop()

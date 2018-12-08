@@ -82,7 +82,13 @@ function debugger:init()
 
 	-- console widget
 	self.console = {}
-	self.console.context = setmetatable({ log = function(...) self:log(...) end }, { __index = _G })
+	-- console context (libs + log function)
+	self.console.context = setmetatable({
+		awful     = require("awful"),
+		beautiful = require("beautiful"),
+		log       = function(...) self:log(...) end,
+	}, { __index = _G })
+
 	self.console.context_widget = wibox.widget.textbox()
 	self.console.context_widget:set_text(context_to_text(self.console.context))
 
