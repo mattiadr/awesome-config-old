@@ -19,6 +19,7 @@ function autostart.run()
 	awful.spawn.with_shell("xcompmgr")
 	-- apps
 	awful.spawn.with_shell("telegram-desktop -startintray")
+	awful.spawn.with_shell("megasync")
 end
 
 -- Read and commads from file and spawn them
