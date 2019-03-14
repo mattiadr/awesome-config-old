@@ -43,7 +43,7 @@ rules.tabbed.master = {
 
 rules.tabbed.minor = {
 	{
-		rule_any = { class = { "st-256color" } },
+		rule_any = { class = { "St" } },
 	},
 	{
 		rule_any = rules.floating_any,
