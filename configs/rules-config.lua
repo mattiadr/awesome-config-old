@@ -170,12 +170,12 @@ local function create_nn_key(env, props)
 		if t and t == props.tag then
 			awful.tag.history.restore()
 		else
-			props.tag:view_only()
 			-- find if app is alredy open
 			local ar = awful.rules
 			for _, c in ipairs(props.tag:clients()) do
 				if awful.rules.matches(c, props) then
 					c:raise()
+					props.tag:view_only()
 					return
 				end
 			end
