@@ -27,7 +27,7 @@ rules.floating_any = {
 		"Qalculate-gtk",
 	},
 	role = { "pop-up" },
-	name = { "Event Tester" },
+	name = { "Event Tester", "Eclipse IDE Launcher " },
 }
 
 rules.vlc_fix = {
@@ -70,30 +70,33 @@ rules.base_properties = {
 --------------------------------------------------------------------------------
 rules.named_tags = {
 	{
-		name     = "1 TERM",
-		layout   = awful.layout.suit.fair,
-		lay_args = { selected = true, always_show = true },
+		name       = "1 TERM",
+		layout     = awful.layout.suit.fair,
+		lay_args   = { selected = true, always_show = true },
 	},
 	{
-		name     = "2 WEB",
-		layout   = lay_tabbed(awful.layout.suit.tile, rules.tabbed.master, rules.tabbed.minor),
-		lay_args = { gap_single_client = false, master_width_factor = 0.75 },
-		rule_any = { class = { "Chromium" } },
-		cl_props = { switchtotag = true },
+		name       = "2 WEB",
+		layout     = lay_tabbed(awful.layout.suit.tile, rules.tabbed.master, rules.tabbed.minor),
+		lay_args   = { gap_single_client = false, master_width_factor = 0.75 },
+		rule_any   = { class = { "Chromium" } },
+		except_any = rules.floating_any,
+		cl_props   = { switchtotag = true },
 	},
 	{
-		name     = "3 DEV",
-		layout   = lay_tabbed(awful.layout.suit.tile, rules.tabbed.master, rules.tabbed.minor),
-		lay_args = { gap_single_client = false, master_width_factor = 0.75 },
-		rule_any = { class = { "Sublime_text", "Eclipse" } },
-		cl_props = { switchtotag = true },
+		name       = "3 DEV",
+		layout     = lay_tabbed(awful.layout.suit.tile, rules.tabbed.master, rules.tabbed.minor),
+		lay_args   = { gap_single_client = false, master_width_factor = 0.75 },
+		rule_any   = { class = { "Sublime_text", "Eclipse" } },
+		except_any = rules.floating_any,
+		cl_props   = { switchtotag = true },
 	},
 	{
-		name     = "4 FILE",
-		layout   = awful.layout.suit.fair.horizontal,
-		lay_args = {},
-		rule_any = { class = { "ranger" } },
-		cl_props = { switchtotag = true },
+		name       = "4 FILE",
+		layout     = awful.layout.suit.fair.horizontal,
+		lay_args   = {},
+		rule_any   = { class = { "ranger" } },
+		except_any = rules.floating_any,
+		cl_props   = { switchtotag = true },
 	},
 }
 
