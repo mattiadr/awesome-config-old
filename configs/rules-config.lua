@@ -21,18 +21,20 @@ local rules = {
 -- Generic rules
 --------------------------------------------------------------------------------
 rules.floating_any = {
-	type = { "dialog" },
+	type = {
+		"dialog"
+	},
 	class = {
 		"Nm-connection-editor",
 		"Qalculate-gtk",
 	},
-	role = { "pop-up" },
-	name = { "Event Tester", "Eclipse IDE Launcher " },
-}
-
-rules.vlc_fix = {
-	class = "vlc",
-	type = "utility",
+	role = {
+		"pop-up"
+	},
+	name = {
+		"Eclipse IDE Launcher ",
+		"Event Tester",
+	},
 }
 
 -- Tabbed layout rules
@@ -235,11 +237,25 @@ function rules:init(args)
 
 	-- vlc console fix
 	table.insert(self.rules, {
-		rule = self.vlc_fix,
+		rule = {
+			class = "vlc",
+			type = "utility",
+		},
 		properties = {
 			floating     = true,
 			border_width = 0,
 		},
+	})
+
+	table.insert(self.rules, {
+		rule = {
+			class = "MEGAsync",
+		},
+		properties = {
+			floating     = true,
+			placement    = awful.placement.bottom_right,
+			border_width = 0,
+		}
 	})
 
 	-- Set awful rules
