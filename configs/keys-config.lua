@@ -180,7 +180,7 @@ local function scrot(sel, clipboard)
 	local s = ""
 	if sel then s = "-s " end
 
-	local name = clipboard and "/tmp/scrot.png" or "~/images/scrot/%Y-%m-%d_$wx$h_scrot.png"
+	local name = clipboard and "/tmp/scrot.png" or "~/images/scrot/%Y-%m-%d_%T_scrot.png"
 	local notif = clipboard and "clipboard" or "~/images/scrot/"
 
 	local cmd = "sleep 0.2 ; scrot -z -q 100 %s%s --exec 'xclip -i -selection c -t image/png < $f' && notify-send 'scrot' 'Screenshot taken to %s'"
@@ -728,7 +728,7 @@ function hotkeys:init(args)
 			{ env.mod }, "Escape", hist.previous,
 			{ description = "Go last viewed tag", group = "Tag navigation" }
 		},
-		
+
 		--[[{
 			{ env.mod }, "a", nil, function() appswitcher:show({ filter = current }) end,
 			{ description = "Switch to next with current tag", group = "Application switcher" }
