@@ -130,7 +130,7 @@ function signals:init(args)
 		-- tag.non_numeric       -> tag must be numeric
 		-- #tag:clients() == 0   -> tag must be non empty
 		-- not tag.always_show   -> except for always_show tags
-		while tag and tag ~= tag.opened_by and (tag.non_numeric or (#tag:clients() == 0 and not tag.always_show)) do
+		while tag and tag ~= tag.opened_by and #tag:clients() == 0 and (tag.non_numeric or not tag.always_show) do
 			tag = tag.opened_by
 		end
 
