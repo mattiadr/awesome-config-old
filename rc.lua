@@ -36,12 +36,28 @@ env:init()
 local layouts = require("configs/layout-config") -- load file with tile layouts setup
 layouts:init()
 
+-- Main menu configuration
+-----------------------------------------------------------------------------------------------------------------------
+local mymenu = require("configs/menu-config") -- load file with menu configuration
+mymenu:init({ env = env })
+
 -- Panel widgets
 -----------------------------------------------------------------------------------------------------------------------
 
 -- Separator
 --------------------------------------------------------------------------------
 local separator = redflat.gauge.separator.vertical()
+
+-- Layoutbox configure
+--------------------------------------------------------------------------------
+local layoutbox = {}
+
+layoutbox.buttons = awful.util.table.join(
+	awful.button({ }, 1, function () mymenu.mainmenu:toggle()                                        end),
+	awful.button({ }, 3, function () redflat.widget.layoutbox:toggle_menu(mouse.screen.selected_tag) end),
+	awful.button({ }, 4, function () awful.layout.inc(1)                                             end),
+	awful.button({ }, 5, function () awful.layout.inc(-1)                                            end)
+)
 
 -- Taglist widget
 --------------------------------------------------------------------------------
@@ -71,52 +87,6 @@ tasklist.buttons = awful.util.table.join(
 	awful.button({ }, 3, redflat.widget.tasklist.action.menu  )
 )
 
--- Textclock widget
---------------------------------------------------------------------------------
-local textclock = {}
-textclock.widget = redflat.widget.textclock({
-	timeout    = 10,
-	timeformat = "%d/%m - %H:%M",
-	dateformat = "%a, %d %B %Y",
-})
-
--- Floating Calendar
---------------------------------------------------------------------------------
-local calendar = require("user/float/calendar")
-calendar({
-	day_id     = "%Y-%m-%d",
-	week_head  = "",
-	week_col   = "",
-}):attach(textclock.widget)
-
--- Main menu configuration
------------------------------------------------------------------------------------------------------------------------
-local mymenu = require("configs/menu-config") -- load file with menu configuration
-mymenu:init({ env = env })
-
--- Layoutbox configure
---------------------------------------------------------------------------------
-local layoutbox = {}
-
-layoutbox.buttons = awful.util.table.join(
-	awful.button({ }, 1, function () mymenu.mainmenu:toggle()                                        end),
-	awful.button({ }, 3, function () redflat.widget.layoutbox:toggle_menu(mouse.screen.selected_tag) end),
-	awful.button({ }, 4, function () awful.layout.inc(1)                                             end),
-	awful.button({ }, 5, function () awful.layout.inc(-1)                                            end)
-)
-
--- PA volume control
---------------------------------------------------------------------------------
-local volume = {}
-volume.widget = redflat.widget.pulse(nil, { widget = redflat.gauge.audio.red.new })
-
-volume.buttons = awful.util.table.join(
-	awful.button({ }, 1, function() redflat.widget.pulse:mute()                         end),
-	awful.button({ }, 3, function() awful.spawn.with_shell("pavucontrol-qt")            end),
-	awful.button({ }, 4, function() redflat.widget.pulse:change_volume()                end),
-	awful.button({ }, 5, function() redflat.widget.pulse:change_volume({ down = true }) end)
-)
-
 -- Battery widget
 --------------------------------------------------------------------------------
 local battery_widget = require("user/widget/battery")
@@ -130,6 +100,36 @@ local BAT0 = battery_widget({
 	alert_timeout   = 10,
 	alert_title     = "Battery low!",
 })
+
+-- Textclock widget
+--------------------------------------------------------------------------------
+local textclock = {}
+textclock.widget = redflat.widget.textclock({
+	timeout    = 10,
+	timeformat = "%H:%M - %d/%m",
+	dateformat = "%a, %d %B %Y",
+})
+
+-- Floating Calendar
+--------------------------------------------------------------------------------
+local calendar = require("user/float/calendar")
+calendar({
+	day_id     = "%Y-%m-%d",
+	week_head  = "",
+	week_col   = "",
+}):attach(textclock.widget)
+
+-- PA volume control
+--------------------------------------------------------------------------------
+local volume = {}
+volume.widget = redflat.widget.pulse(nil, { widget = redflat.gauge.audio.red.new })
+
+volume.buttons = awful.util.table.join(
+	awful.button({ }, 1, function() redflat.widget.pulse:mute()                         end),
+	awful.button({ }, 3, function() awful.spawn.with_shell("pavucontrol-qt")            end),
+	awful.button({ }, 4, function() redflat.widget.pulse:change_volume()                end),
+	awful.button({ }, 5, function() redflat.widget.pulse:change_volume({ down = true }) end)
+)
 
 -- Usisks widget
 --------------------------------------------------------------------------------
