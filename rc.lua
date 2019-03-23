@@ -119,6 +119,16 @@ calendar({
 	week_col   = "",
 }):attach(textclock.widget)
 
+-- Software update indcator
+--------------------------------------------------------------------------------
+local upgrades_widget = require("user/widget/upgrades")
+
+local upgrades = {}
+upgrades.widget = upgrades_widget({
+	{ name = "pacman", check = [[bash -c 'checkupdates | wc -l']], upgrade = [[sudo pacman -Syu]] },
+	{ name = "cower",  check = [[bash -c '! cower -u | grep -v -P "(Checking)|(ignored)" | wc -l']], upgrade = [[cower -du]] },
+}, { terminal = env.terminal })
+
 -- PA volume control
 --------------------------------------------------------------------------------
 local volume = {}
@@ -186,6 +196,8 @@ awful.screen.connect_for_each_screen(
 				env.wrapper(wibox.widget.systray(true), "systray"),
 				separator,
 				env.wrapper(volume.widget, "volume", volume.buttons),
+				separator,
+				env.wrapper(upgrades.widget, "upgrades"),
 				separator,
 				env.wrapper(textclock.widget, "textclock"),
 				separator,

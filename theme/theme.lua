@@ -355,6 +355,7 @@ theme.widget.wrapper = {
 	layoutbox   = { 12, 10, 6, 6 },
 	textclock   = { 10, 10, 0, 0 },
 	volume      = { 10, 10, 5, 5 },
+	upgrades    = { 10, 10, 3, 3 },
 	network     = { 10, 10, 5, 5 },
 	cpuram      = { 10, 10, 5, 5 },
 	keyboard    = { 10, 10, 4, 4 },
@@ -401,8 +402,10 @@ theme.widget.keyboard.menu = {
 -- Upgrades
 ------------------------------------------------------------
 theme.widget.upgrades = {
+	icon        = theme.path .. "/widget/upgrades.svg",
 	notify      = { icon = theme.path .. "/widget/upgrades.svg" },
-	color       = theme.color
+	color       = theme.color,
+	firstrun    = true,
 }
 
 -- Mail
