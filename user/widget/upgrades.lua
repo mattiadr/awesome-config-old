@@ -67,7 +67,7 @@ function upgrades.new(pacmans, args, style)
 
 		for _, pm in ipairs(pacmans) do
 			total = total + pm.count
-			tt_text = (tt_text and tt_text .. "\n" or "") .. pm.name .. ": " .. c .. " updates"
+			tt_text = (tt_text and tt_text .. "\n" or "") .. pm.name .. ": " .. pm.count .. " updates"
 		end
 
 		object.tp:set_text(tt_text)
@@ -77,7 +77,7 @@ function upgrades.new(pacmans, args, style)
 	function object.update_all()
 		object.tp:set_text("Checking updates...")
 		for _, pm in ipairs(pacmans) do
-			awful.spawn.easy_async(pm.check, function (...) update_count(pm, ...) end)
+			awful.spawn.easy_async_with_shell(pm.check, function (...) update_count(pm, ...) end)
 		end
 	end
 
