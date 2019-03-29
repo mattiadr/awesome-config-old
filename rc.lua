@@ -125,8 +125,8 @@ local upgrades_widget = require("user/widget/upgrades")
 
 local upgrades = {}
 upgrades.widget = upgrades_widget({
-	{ name = "pacman", check = [[bash -c 'checkupdates | wc -l']], upgrade = [[sudo pacman -Syu]] },
-	{ name = "cower",  check = [[bash -c '! cower -u | grep -v -P "(Checking)|(ignored)" | wc -l']], upgrade = [[cower -du]] },
+	{ name = "pacman", check = [[checkupdates | wc -l]], upgrade = [[sudo pacman -Syu]] },
+	{ name = "cower",  check = [[cower -u | grep -v -P "(Checking)|(ignored)" | wc -l]], upgrade = [[cower -du]] },
 }, { terminal = env.terminal })
 
 -- PA volume control
