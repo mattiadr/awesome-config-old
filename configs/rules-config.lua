@@ -9,6 +9,7 @@ local beautiful = require("beautiful")
 local redtitle = require("redflat.titlebar")
 
 local appnames = require("configs/alias-config")
+local env = require("configs/env-config")
 local lay_tabbed = require("user/layout/tabbed")
 
 -- Initialize tables and vars for module
@@ -50,9 +51,6 @@ rules.tabbed.minor = {
 	{
 		rule_any = rules.floating_any,
 	},
-	{
-		rule = rules.vlc_fix,
-	},
 }
 
 -- Common properties
@@ -88,7 +86,7 @@ rules.named_tags = {
 		name       = "3 DEV",
 		layout     = lay_tabbed(awful.layout.suit.tile, rules.tabbed.master, rules.tabbed.minor),
 		lay_args   = { gap_single_client = false, master_width_factor = 0.75 },
-		rule_any   = { class = { "Sublime_text", "Eclipse" } },
+		rule_any   = { class = { "Sublime_text", "Eclipse", "MATLAB R2019a - academic use" } },
 		except_any = rules.floating_any,
 		cl_props   = { switchtotag = true },
 	},
@@ -112,7 +110,7 @@ rules.nn_tags = {
 		cl_props = { switchtotag = true },
 		key      = "x",
 		desc     = "Toggle htop",
-		spawn    = function() awful.spawn("st -c htop -e htop") end,
+		spawn    = function() awful.spawn(env.terminal .. " -c htop -e htop") end,
 	},
 	{
 		name     = "TG",
@@ -235,7 +233,7 @@ function rules:init(args)
 		},
 	})
 
-	-- vlc console fix
+	-- vlc console
 	table.insert(self.rules, {
 		rule = {
 			class = "vlc",
@@ -247,6 +245,7 @@ function rules:init(args)
 		},
 	})
 
+	-- MEGA floating window
 	table.insert(self.rules, {
 		rule = {
 			class = "MEGAsync",
@@ -255,6 +254,21 @@ function rules:init(args)
 			floating     = true,
 			placement    = awful.placement.bottom_right,
 			border_width = 0,
+		}
+	})
+
+	-- MATLAB
+	table.insert(self.rules, {
+		rule = {
+			class = "MATLAB R2019a - academic use",
+			type = "dialog"
+		},
+		properties = {
+			floating = true,
+			border_width = 0,
+			focus = false,
+			focusable = false,
+			placement = awful.placement.next_to_mouse
 		}
 	})
 
