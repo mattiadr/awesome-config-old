@@ -6,8 +6,6 @@
 local awful = require("awful")
 local beautiful = require("beautiful")
 
-local hist = require("user/util/history")
-
 -- Initialize tables and vars for module
 -----------------------------------------------------------------------------------------------------------------------
 local signals = {}
@@ -137,6 +135,22 @@ function signals:init(args)
 		-- switch to tag and reset opened_by
 		if tag then
 			tag:view_only()
+		end
+	end)
+
+	-- fix telegram media viewer close
+	client.connect_signal("manage", function(c)
+		if c.class == "TelegramDesktop" and c.name == "Media viewer" then
+			-- kill with escape
+			local keys = c:keys()
+			local new_key = awful.key({}, "Escape", function() c:kill() end)
+			awful.util.table.merge(keys, new_key)
+			c:keys(keys)
+			-- kill with click
+			local buttons = c:buttons()
+			local new_button = awful.button({}, 1, function() c:kill() end)
+			awful.util.table.merge(buttons, new_button)
+			c:buttons(buttons)
 		end
 	end)
 end
