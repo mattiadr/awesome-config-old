@@ -78,8 +78,6 @@ local function parse(rawkeys, columns)
 	local rk = {}
 	for _, k in ipairs(rawkeys) do if k[#k].description then table.insert(rk, k) end end
 
-	local p = math.ceil(#rk / columns)
-
 	-- dirty trick for raw sorting
 	--[[local sp = {}
 	for _, v in ipairs(rk) do
@@ -94,11 +92,44 @@ local function parse(rawkeys, columns)
 		end
 	end)]]
 
+	-- count total lines with titles
+	local lines = 0
+	local last_group = nil
+
+	for _, k in ipairs(rk) do
+		lines = lines + 1
+		if k[#k].group ~= last_group then
+			lines = lines + 2
+			last_group = k[#k].group
+		end
+	end
+
+	-- divide rk in chunks
+	local chunks = { {} }
+	local p = lines / columns
+	local n = 0
+	last_group = nil
+
+	for _, k in ipairs(rk) do
+		table.insert(chunks[#chunks], k)
+
+		n = n + 1
+		if k[#k].group ~= last_group then
+			n = n + 2
+			last_group = k[#k].group
+		end
+
+		if n > p then
+			table.insert(chunks, {})
+			last_group = nil
+			n = 0
+		end
+	end
+
 	-- split keys to columns
 	for i = 1, columns do
 		keys[i] = { groups = {}, length = nil, names = {} }
-		local chunk = { unpack(rk, 1, p) }
-		rk = { unpack(rk, p + 1) }
+		local chunk = chunks[i]
 
 		-- build key column
 		for _, v in ipairs(chunk) do
