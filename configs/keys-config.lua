@@ -717,11 +717,11 @@ function hotkeys:init(args)
 		},]]
 
 		{
-			{ env.mod }, "Left", awful.tag.viewprev,
+			{ env.mod }, "h", awful.tag.viewprev,
 			{ description = "View previous tag", group = "Tag navigation" }
 		},
 		{
-			{ env.mod }, "Right", awful.tag.viewnext,
+			{ env.mod }, "l", awful.tag.viewnext,
 			{ description = "View next tag", group = "Tag navigation" }
 		},
 		{
@@ -764,12 +764,12 @@ function hotkeys:init(args)
 		},]]
 
 		{
-			{ env.mod}, "Up", function() awful.layout.inc(1) end,
-			{ description = "Select next layout", group = "Layouts" }
+			{ env.mod }, "j", function() awful.layout.inc(-1) end,
+			{ description = "Select previous layout", group = "Layouts" }
 		},
 		{
-			{ env.mod }, "Down", function() awful.layout.inc(-1) end,
-			{ description = "Select previous layout", group = "Layouts" }
+			{ env.mod}, "k", function() awful.layout.inc(1) end,
+			{ description = "Select next layout", group = "Layouts" }
 		},
 		{
 			{ env.mod }, "y", function() laybox:toggle_menu(mouse.screen.selected_tag) end,
@@ -802,19 +802,19 @@ function hotkeys:init(args)
 		},
 
 		{
-			{ env.mod }, "h", focus_switch_byd("left"),
-			{ description = "Go to left client", group = "Client focus" }
-		},
-		{
-			{ env.mod }, "j", focus_switch_byd("down"),
-			{ description = "Go to lower client", group = "Client focus" }
-		},
-		{
-			{ env.mod }, "k", focus_switch_byd("up"),
+			{ env.mod }, "Up", focus_switch_byd("up"),
 			{ description = "Go to upper client", group = "Client focus" }
 		},
 		{
-			{ env.mod }, "l", focus_switch_byd("right"),
+			{ env.mod }, "Down", focus_switch_byd("down"),
+			{ description = "Go to lower client", group = "Client focus" }
+		},
+		{
+			{ env.mod }, "Left", focus_switch_byd("left"),
+			{ description = "Go to left client", group = "Client focus" }
+		},
+		{
+			{ env.mod }, "Right", focus_switch_byd("right"),
 			{ description = "Go to right client", group = "Client focus" }
 		},
 		{
