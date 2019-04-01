@@ -62,13 +62,13 @@ function upgrades.new(pacmans, args, style)
 	--------------------------------------------------------------------------------
 	local function update_count(pm, stdout, stderr, _, exitcode)
 		local c = string.match(stdout, "(%d+)")
-		pm.count = tonumber(c) or 0
+		pm.count = tonumber(c)
 		local total = 0
 		local tt_text = nil
 
 		for _, pm in ipairs(pacmans) do
-			total = total + pm.count
-			tt_text = (tt_text and tt_text .. "\n" or "") .. pm.name .. ": " .. pm.count .. " updates"
+			total = total + (pm.count or 0)
+			tt_text = (tt_text and tt_text .. "\n" or "") .. pm.name .. ": " .. (pm.count or 0) .. " updates"
 		end
 
 		object.tp:set_text(tt_text)
