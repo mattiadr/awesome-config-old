@@ -52,6 +52,13 @@ local function focus_switch_byd(dir)
 	end
 end
 
+local function client_swap_byd(dir)
+	return function()
+		awful.client.swap.bydirection(dir)
+		if client.focus then client.focus:raise() end
+	end
+end
+
 -- minimize and restore windows
 local function minimize_all()
 	for _, c in ipairs(client.get()) do
@@ -818,6 +825,22 @@ function hotkeys:init(args)
 			{ description = "Go to right client", group = "Client focus" }
 		},
 		{
+			{ env.mod, "Shift" }, "Up", client_swap_byd("up"),
+			{ description = "Swap with upper client", group = "Client focus" }
+		},
+		{
+			{ env.mod, "Shift" }, "Down", client_swap_byd("down"),
+			{ description = "Swap with lower client", group = "Client focus" }
+		},
+		{
+			{ env.mod, "Shift" }, "Left", client_swap_byd("left"),
+			{ description = "Swap with left client", group = "Client focus" }
+		},
+		{
+			{ env.mod, "Shift" }, "Right", client_swap_byd("right"),
+			{ description = "Swap with right client", group = "Client focus" }
+		},
+		{
 			{ env.mod }, "Tab", focus_to_previous,
 			{ description = "Go to previos client", group = "Client focus" }
 		},
@@ -950,7 +973,7 @@ function hotkeys:init(args)
 		},
 		{
 			{ env.mod, "Shift" }, "1..0", nil,
-			{ description = "Move focused client to tag  / Switch to prev tab", group = "Numeric Tags", keyset = numkeys }
+			{ description = "Move focused client to tag / Switch to prev tab", group = "Numeric Tags", keyset = numkeys }
 		},
 		{
 			{ env.mod, "Control", "Shift" }, "1..0", nil,
