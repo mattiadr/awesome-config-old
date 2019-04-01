@@ -94,26 +94,30 @@ function debugger:init()
 
 	-- setup wibox content
 	self.wibox:setup({
+		layout = wibox.layout.fixed.vertical,
+		spacing = 15,
+
 		title,
 		{
+			layout = wibox.layout.flex.horizontal,
+			spacing = 20,
+
 			self.logger.widget,
 			{
+				layout = wibox.layout.fixed.vertical,
+				spacing = 15,
+
 				self.console.context_widget,
 				{
+					layout = wibox.layout.fixed.horizontal,
+					spacing = 4,
+
 					create_button("New Command", function() self:open_editor(true) end),
 					create_button("Edit Command", function() self:open_editor() end),
 					create_button("Run Command", function() self:run_command() end),
-					layout = wibox.layout.fixed.horizontal,
-					spacing = 4,
 				},
-				layout = wibox.layout.fixed.vertical,
-				spacing = 15,
 			},
-			layout = wibox.layout.flex.horizontal,
-			spacing = 20,
 		},
-		layout = wibox.layout.fixed.vertical,
-		spacing = 15,
 	})
 end
 
