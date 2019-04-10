@@ -4,7 +4,7 @@ local beautiful = require("beautiful")
 local sl = {}
 sl.path = "/tmp/i3lock_img.png"
 sl.cmd = {
-	img_edit   = "imlib2_blur 5 1920 1080 \"%s\" /tmp/i3lock_img.png",
+	img_edit   = [[corrupter -mag 3 -boffset 10 -meanabber 5 "%s" ]] .. sl.path,
 	lock_color = "i3lock -p default -c %s",
 	lock_img   = "i3lock -p default -i " .. sl.path,
 }

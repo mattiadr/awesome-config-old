@@ -9,8 +9,10 @@ Credits:
 - [widget/udisks](user/widget/udisks.lua) cloned from https://github.com/mireq/awesome-udisks2-mount
 
 Dependencies and other utilities:
+- [corrupter](https://github.com/r00tman/corrupter)
+- htop
 - i3lock
-- imlib2_blur (compiled from [external/imlib2_blur.c](external/imlib2_blur.c))
+- MEGAsync
 - nm-applet
 - pulseaudio
 - qalculate-gtk
