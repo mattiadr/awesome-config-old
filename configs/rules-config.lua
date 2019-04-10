@@ -272,6 +272,21 @@ function rules:init(args)
 		}
 	})
 
+	-- Sublime auto kill message
+	table.insert(self.rules, {
+		rule = {
+			class = "Sublime_text",
+			type = "dialog",
+		},
+		properties = {
+			callback = function(client, rules)
+				if (client.width == 589 and client.height == 190) then
+					client:kill()
+				end
+			end
+		}
+	})
+
 	-- Set awful rules
 	--------------------------------------------------------------------------------
 	awful.rules.rules = self.rules
