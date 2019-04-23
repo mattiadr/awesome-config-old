@@ -12,11 +12,12 @@ local redflat = require("redflat")
 
 local rules = require("configs/rules-config")
 
-local lock_screen = require("user/util/screen-lock").lock_screen
+-- util
 local cheatsheet = require("user/float/cheatsheet-selector")
-local hist = require("user/util/history")
-
 local debugger = require("user/util/debugger")
+local hist = require("user/util/history")
+local lock_screen = require("user/util/screen-lock").lock_screen
+local scrot = require("user/util/scrot")
 
 -- Initialize tables and vars for module
 -----------------------------------------------------------------------------------------------------------------------
@@ -180,18 +181,6 @@ local function toggle_hor_scroll()
 			awful.spawn.with_shell('notify-send "Horizontal scroll ' .. (m and "Enabled" or "Disabled") .. '"')
 		end
 	})
-end
-
--- scrot function
-local function scrot(sel, clipboard)
-	local s = ""
-	if sel then s = "-s " end
-
-	local name = clipboard and "/tmp/scrot.png" or "~/images/scrot/%Y-%m-%d_%T_scrot.png"
-	local notif = clipboard and "clipboard" or "~/images/scrot/"
-
-	local cmd = "sleep 0.2 ; scrot -z -q 100 %s%s --exec 'xclip -i -selection c -t image/png < $f' && notify-send 'scrot' 'Screenshot taken to %s'"
-	awful.spawn.with_shell(string.format(cmd, s, name, notif))
 end
 
 -- stash functions
@@ -788,20 +777,12 @@ function hotkeys:init(args)
 			{ description = "Toggle horizontal scroll", group = "Misc" }
 		},
 		{
-			{}, "Print", function() scrot(true, true) end,
+			{}, "Print", function() scrot(false) end,
 			{ description = "scrot selection to clipboard", group = "Misc" }
 		},
 		{
-			{ "Shift" }, "Print", function() scrot(false, true) end,
-			{ description = "scrot to clipboard", group = "Misc" }
-		},
-		{
-			{ "Control" }, "Print", function() scrot(true, false) end,
-			{ description = "scrot selection to file", group = "Misc" }
-		},
-		{
-			{ "Control", "Shift" }, "Print", function() scrot(false, false) end,
-			{ description = "scrot to file", group = "Misc" }
+			{ "Shift" }, "Print", function() scrot(true) end,
+			{ description = "open scrot menu", group = "Misc" }
 		},
 		{
 			{ env.mod, "Control" }, "s", function() for s in screen do env.wallpaper(s) end end,
