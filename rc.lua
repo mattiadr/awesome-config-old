@@ -87,20 +87,6 @@ tasklist.buttons = awful.util.table.join(
 	awful.button({ }, 3, redflat.widget.tasklist.action.menu  )
 )
 
--- Battery widget
---------------------------------------------------------------------------------
-local battery_widget = require("user/widget/battery")
-local BAT0 = battery_widget({
-	adapter         = "BAT0",
-	listen          = false,
-	timeout         = 30,
-	widget_text     = "${AC_BAT}${color_on}${percent}%${color_off}",
-	widget_font     = "monospace",
-	alert_threshold = 25,
-	alert_timeout   = 10,
-	alert_title     = "Battery low!",
-})
-
 -- Textclock widget
 --------------------------------------------------------------------------------
 local textclock = {}
@@ -200,8 +186,6 @@ awful.screen.connect_for_each_screen(
 				env.wrapper(upgrades.widget, "upgrades"),
 				separator,
 				env.wrapper(textclock.widget, "textclock"),
-				separator,
-				env.wrapper(BAT0.widget, "battery"),
 			},
 		})
 	end
