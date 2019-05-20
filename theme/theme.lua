@@ -369,7 +369,8 @@ theme.widget.wrapper = {
 -- Pulseaudio volume control
 ------------------------------------------------------------
 theme.widget.pulse = {
-	notify      = { icon = theme.path .. "/widget/audio.svg" }
+	notify      = { icon = theme.path .. "/widget/audio.svg" },
+	check_icon  = theme.path .. "/common/check.svg"
 }
 
 -- Brightness control
