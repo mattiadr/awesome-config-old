@@ -119,7 +119,7 @@ rules.nn_tags = {
 		rule_any = { class = { "TelegramDesktop" } },
 		key      = "\\",
 		desc     = "Toggle Telegram",
-		spawn    = function() awful.spawn.with_shell("telegram-desktop") end,
+		spawn    = function() awful.spawn("telegram-desktop") end,
 	},
 }
 

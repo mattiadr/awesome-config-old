@@ -177,8 +177,8 @@ local function toggle_hor_scroll()
 			if not line:find("libinput Horizontal Scroll Enabled") then return end
 
 			local m = line:match("0$")
-			awful.spawn.with_shell('xinput set-prop "AlpsPS/2 ALPS DualPoint TouchPad" "libinput Horizontal Scroll Enabled" ' .. (m and "1" or "0"))
-			awful.spawn.with_shell('notify-send "Horizontal scroll ' .. (m and "Enabled" or "Disabled") .. '"')
+			awful.spawn('xinput set-prop "AlpsPS/2 ALPS DualPoint TouchPad" "libinput Horizontal Scroll Enabled" ' .. (m and "1" or "0"))
+			awful.spawn('notify-send "Horizontal scroll ' .. (m and "Enabled" or "Disabled") .. '"')
 		end
 	})
 end
@@ -860,11 +860,11 @@ function hotkeys:init(args)
 			{} -- hidden key
 		},
 		{
-			{}, "XF86Calculator", function() awful.spawn.with_shell("qalculate-gtk") end,
+			{}, "XF86Calculator", function() awful.spawn("qalculate-gtk") end,
 			{} -- hidden key
 		},
 		{
-			{}, "XF86Sleep", function() lock_screen(); awful.spawn.with_shell("systemctl suspend") end,
+			{}, "XF86Sleep", function() lock_screen(); awful.spawn("systemctl suspend") end,
 			{} -- hidden key
 		},
 		{
