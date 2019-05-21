@@ -55,6 +55,8 @@ local function set_sink(name)
 	for i in redutil.read.output("pacmd list-sink-inputs | grep -Po '(?<=index: )\\d+'"):gmatch("[^\n]+") do
 		awful.spawn("pacmd move-sink-input " .. tostring(i) .. " " .. name)
 	end
+
+	pulse:update_volume()
 end
 
 -- Show menu to change sink
