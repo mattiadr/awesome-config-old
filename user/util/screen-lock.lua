@@ -10,15 +10,15 @@ sl.cmd = {
 }
 
 function sl.convert_wallpaper(wallpaper)
-	awful.spawn.with_shell(string.format(sl.cmd.img_edit, wallpaper))
+	awful.spawn(string.format(sl.cmd.img_edit, wallpaper))
 end
 
 function sl.lock_screen()
 	if type(beautiful.wallpaper) == "string" then
 		if string.sub(beautiful.wallpaper, 1, 1) == "#" then
-			awful.spawn.with_shell(string.format(sl.cmd.lock_color, beautiful.wallpaper))
+			awful.spawn(string.format(sl.cmd.lock_color, beautiful.wallpaper))
 		else
-			awful.spawn.with_shell(sl.cmd.lock_img)
+			awful.spawn(sl.cmd.lock_img)
 		end
 	end
 end

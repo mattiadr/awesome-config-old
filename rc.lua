@@ -140,11 +140,11 @@ volume.widget = pulse({ sink_names = {
 } }, { widget = redflat.gauge.audio.red.new })
 
 volume.buttons = awful.util.table.join(
-	awful.button({ }, 1, function() pulse:mute()                             end),
-	awful.button({ }, 2, function() awful.spawn.with_shell("pavucontrol-qt") end),
-	awful.button({ }, 3, function() pulse:choose_sink()                      end),
-	awful.button({ }, 4, function() pulse:change_volume()                    end),
-	awful.button({ }, 5, function() pulse:change_volume({ down = true })     end)
+	awful.button({ }, 1, function() pulse:mute()                         end),
+	awful.button({ }, 2, function() awful.spawn("pavucontrol-qt")        end),
+	awful.button({ }, 3, function() pulse:choose_sink()                  end),
+	awful.button({ }, 4, function() pulse:change_volume()                end),
+	awful.button({ }, 5, function() pulse:change_volume({ down = true }) end)
 )
 
 -- Usisks widget

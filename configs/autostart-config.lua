@@ -15,11 +15,11 @@ local autostart = {}
 --------------------------------------------------------------------------------
 function autostart.run()
 	-- utils
-	awful.spawn.with_shell("nm-applet")
-	awful.spawn.with_shell("xcompmgr")
+	awful.spawn("nm-applet")
+	awful.spawn("xcompmgr")
 	-- apps
-	awful.spawn.with_shell("telegram-desktop -startintray")
-	awful.spawn.with_shell("megasync")
+	awful.spawn("telegram-desktop -startintray")
+	awful.spawn("megasync")
 end
 
 -- Read and commads from file and spawn them
@@ -27,7 +27,7 @@ end
 function autostart.run_from_file(file_)
 	local f = io.open(file_)
 	for line in f:lines() do
-		if line:sub(1, 1) ~= "#" then awful.spawn.with_shell(line) end
+		if line:sub(1, 1) ~= "#" then awful.spawn(line) end
 	end
 	f:close()
 end
