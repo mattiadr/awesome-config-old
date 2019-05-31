@@ -9,6 +9,7 @@ local awful = require("awful")
 local beautiful = require("beautiful")
 
 local redflat = require("redflat")
+local pulse = require("user/widget/pulse")
 
 local rules = require("configs/rules-config")
 
@@ -153,16 +154,16 @@ end
 
 -- volume functions
 local function volume_raise()
-	redflat.widget.pulse:mute(false)
-	redflat.widget.pulse:change_volume({ show_notify = true })
+	pulse:mute(false)
+	pulse:change_volume({ show_notify = true })
 end
 
 local function volume_lower()
-	redflat.widget.pulse:mute(false)
-	redflat.widget.pulse:change_volume({ show_notify = true, down = true })
+	pulse:mute(false)
+	pulse:change_volume({ show_notify = true, down = true })
 end
 
-local function volume_mute() redflat.widget.pulse:mute() end
+local function volume_mute() pulse:mute() end
 
 -- brightness functions
 local function brightness(args)
