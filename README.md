@@ -9,13 +9,11 @@ Credits:
 - [widget/udisks](user/widget/udisks.lua) cloned from https://github.com/mireq/awesome-udisks2-mount
 
 Dependencies and other utilities:
+- checkupdates (pacman-contrib)
 - [corrupter](https://github.com/r00tman/corrupter)
 - htop
 - i3lock
-- MEGAsync
-- nm-applet
 - pulseaudio
-- qalculate-gtk
 - scrot
 - telegram-desktop
 - xcompmgr
