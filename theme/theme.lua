@@ -403,18 +403,19 @@ theme.widget.keyboard.menu = {
 -- Upgrades
 ------------------------------------------------------------
 theme.widget.upgrades = {
-	icon        = theme.path .. "/widget/upgrades.svg",
-	notify      = { icon = theme.path .. "/widget/upgrades.svg" },
-	color       = theme.color,
-	firstrun    = true,
+	firstrun     = true,
+	delay        = 3,
+	icon         = theme.path .. "/widget/upgrades.svg",
+	color        = theme.color,
+	notify       = { icon = theme.path .. "/widget/upgrades.svg" },
 }
 
 -- Mail
 ------------------------------------------------------------
 theme.widget.mail = {
-	icon        = theme.path .. "/widget/mail.svg",
-	notify      = { icon = theme.path .. "/widget/mail.svg" },
-	color       = theme.color,
+	icon         = theme.path .. "/widget/mail.svg",
+	notify       = { icon = theme.path .. "/widget/mail.svg" },
+	color        = theme.color,
 }
 
 -- Minitray

@@ -26,11 +26,11 @@ local upgrades = { objects = {}, mt = {} }
 -----------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
-		icon        = redutil.base.placeholder(),
-		firstrun    = false,
-		-- interval    = 60, TODO
-		-- timeout     = 5,
-		color       = { main = "#b1222b", icon = "#a0a0a0" }
+		firstrun = false,
+		delay    = 0,
+		icon     = redutil.base.placeholder(),
+		color    = { main = "#b1222b", icon = "#a0a0a0" }
+		-- notify TODO
 	}
 	return redutil.table.merge(style, redutil.table.check(beautiful, "widget.upgrades") or {})
 end
@@ -68,7 +68,8 @@ function upgrades.new(pacmans, args, style)
 
 		for _, pm in ipairs(pacmans) do
 			total = total + (pm.count or 0)
-			tt_text = (tt_text and tt_text .. "\n" or "") .. pm.name .. ": " .. (pm.count or 0) .. " updates"
+			local nup = exitcode == 0 and (pm.count or 0) .. " updates" or "Error!"
+			tt_text = (tt_text and tt_text .. "\n" or "") .. pm.name .. ": " .. nup
 		end
 
 		object.tp:set_text(tt_text)
@@ -101,7 +102,13 @@ function upgrades.new(pacmans, args, style)
 	t:connect_signal("timeout", object.update_all)
 	t:start()
 
-	if true then t:emit_signal("timeout") end
+	if style.firstrun then
+		if (style.delay > 0) then
+			timer.start_new(style.delay, function() t:emit_signal("timeout") end)
+		else
+			t:emit_signal("timeout")
+		end
+	end
 
 	-- Set buttons
 	--------------------------------------------------------------------------------
@@ -116,8 +123,8 @@ end
 
 -- Update upgrades info for every widget
 -----------------------------------------------------------------------------------------------------------------------
-function upgrades:update(is_force)
-	for _, o in ipairs(upgrades.objects) do o.update({ is_force = is_force }) end
+function upgrades:update_all_widgets()
+	for _, o in ipairs(upgrades.objects) do o.update_all() end
 end
 
 -- Config metatable to call upgrades module as function

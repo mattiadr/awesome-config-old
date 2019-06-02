@@ -19,8 +19,11 @@ local redflat = require("redflat")
 
 local rules = require("configs/rules-config")
 
--- global module
+-- Global modules
+------------------------------------------------------------
 timestamp = require("redflat.timestamp")
+
+debugger = require("user/util/debugger")
 
 -- Error handling
 -----------------------------------------------------------------------------------------------------------------------
@@ -125,7 +128,7 @@ local upgrades_widget = require("user/widget/upgrades")
 
 local upgrades = {}
 upgrades.widget = upgrades_widget({
-	{ name = "pacman", check = [[checkupdates | wc -l]], upgrade = [[sudo pacman -Syu]] },
+	{ name = "pacman", check = [[set -o pipefail; checkupdates | wc -l]], upgrade = [[sudo pacman -Syu]] },
 	-- { name = "cower",  check = [[cower -u | grep -v -P "(Checking)|(ignored)" | wc -l]], upgrade = [[cower -duf]] },
 }, { terminal = env.terminal })
 
