@@ -404,7 +404,7 @@ theme.widget.keyboard.menu = {
 ------------------------------------------------------------
 theme.widget.upgrades = {
 	firstrun     = true,
-	delay        = 3,
+	retry        = 5,
 	icon         = theme.path .. "/widget/upgrades.svg",
 	color        = theme.color,
 	notify       = { icon = theme.path .. "/widget/upgrades.svg" },

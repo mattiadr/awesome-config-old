@@ -26,10 +26,11 @@ local upgrades = { objects = {}, mt = {} }
 -----------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
-		firstrun = false,
-		delay    = 0,
-		icon     = redutil.base.placeholder(),
-		color    = { main = "#b1222b", icon = "#a0a0a0" }
+		firstrun    = false,
+		retry       = 0,
+		retry_delay = 5,
+		icon        = redutil.base.placeholder(),
+		color       = { main = "#b1222b", icon = "#a0a0a0" }
 		-- notify TODO
 	}
 	return redutil.table.merge(style, redutil.table.check(beautiful, "widget.upgrades") or {})
@@ -56,40 +57,68 @@ function upgrades.new(pacmans, args, style)
 
 	-- Set tooltip
 	--------------------------------------------------------------------------------
-	object.tp = tooltip({ objects =  { object.widget } }, style.tooltip)
+	object.tt = tooltip({ objects =  { object.widget } }, style.tooltip)
 
-	-- Update info function
+	-- Update tooltip and icon color
 	--------------------------------------------------------------------------------
-	local function update_count(pm, stdout, stderr, _, exitcode)
-		local c = string.match(stdout, "(%d+)")
-		pm.count = tonumber(c)
+	function object.update_widget()
 		local total = 0
 		local tt_text = nil
 
 		for _, pm in ipairs(pacmans) do
 			total = total + (pm.count or 0)
-			local nup = exitcode == 0 and (pm.count or 0) .. " updates" or "Error!"
-			tt_text = (tt_text and tt_text .. "\n" or "") .. pm.name .. ": " .. nup
+			tt_text = (tt_text and tt_text .. "\n" or "") .. pm.name .. ": " .. (pm.text or "Not checked yet")
 		end
 
-		object.tp:set_text(tt_text)
 		object.widget:set_color(total > 0 and style.color.main or style.color.icon)
+		object.tt:set_text(tt_text)
 	end
 
-	function object.update_all()
-		object.tp:set_text("Checking updates...")
+	-- Callback to check exit code and output
+	--------------------------------------------------------------------------------
+	local function check_callback(pm, stdout, stderr, _, exitcode)
+		if exitcode == 0 then
+			local c = string.match(stdout, "(%d+)")
+			pm.count = tonumber(c)
+			pm.text = c .. " updates"
+		else
+			pm.text = "Error!"
+		end
+
+		object.update_widget()
+
+		pm.try = pm.try or 0
+		if exitcode ~= 0 and pm.try < style.retry then
+			pm.try = pm.try + 1
+			timer.start_new(style.retry_delay, function() object.check_pm(pm) end)
+		end
+	end
+
+	-- Check a single packet manager for updates
+	--------------------------------------------------------------------------------
+	function object.check_pm(pm)
+		pm.text = "Checking..."
+		object.update_widget()
+		awful.spawn.easy_async_with_shell(pm.check, function (...) check_callback(pm, ...) end)
+	end
+
+	-- Check all packet managers for updates
+	--------------------------------------------------------------------------------
+	function object.check_all()
 		for _, pm in ipairs(pacmans) do
-			awful.spawn.easy_async_with_shell(pm.check, function (...) update_count(pm, ...) end)
+			object.check_pm(pm)
 		end
 	end
 
 	-- Spawn terminal for updates
 	--------------------------------------------------------------------------------
-	function object.do_update()
+	function object.do_upgrade()
 		for _, pm in ipairs(pacmans) do
-			if pm.count > 0 then
+			if pm.count and pm.count > 0 then
+				pm.text = "Upgrading..."
+				object.update_widget()
 				awful.spawn.with_line_callback(string.format(spawn_cmd, terminal, pm.upgrade, pm.upgrade), {
-					exit = object.update_all
+					exit = object.check_all
 				})
 				return
 			end
@@ -99,32 +128,24 @@ function upgrades.new(pacmans, args, style)
 	-- Set update timer
 	--------------------------------------------------------------------------------
 	local t = timer({ timeout = update_timeout })
-	t:connect_signal("timeout", object.update_all)
+	t:connect_signal("timeout", object.check_all)
 	t:start()
 
 	if style.firstrun then
-		if (style.delay > 0) then
-			timer.start_new(style.delay, function() t:emit_signal("timeout") end)
-		else
-			t:emit_signal("timeout")
-		end
+		t:emit_signal("timeout")
+	else
+		object.update_widget()
 	end
 
 	-- Set buttons
 	--------------------------------------------------------------------------------
 	object.widget:buttons(awful.util.table.join(
-		awful.button({ }, 1, object.do_update),
-		awful.button({ }, 3, object.update_all)
+		awful.button({ }, 1, object.do_upgrade),
+		awful.button({ }, 3, object.check_all)
 	))
 
 	--------------------------------------------------------------------------------
 	return object.widget
-end
-
--- Update upgrades info for every widget
------------------------------------------------------------------------------------------------------------------------
-function upgrades:update_all_widgets()
-	for _, o in ipairs(upgrades.objects) do o.update_all() end
 end
 
 -- Config metatable to call upgrades module as function
