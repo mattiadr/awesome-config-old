@@ -26,14 +26,12 @@ rules.floating_any = {
 		"dialog"
 	},
 	class = {
-		"Nm-connection-editor",
 		"Qalculate-gtk",
 	},
 	role = {
 		"pop-up"
 	},
 	name = {
-		"Eclipse IDE Launcher ",
 		"Event Tester",
 	},
 }
@@ -86,7 +84,7 @@ rules.named_tags = {
 		name       = "3 DEV",
 		layout     = lay_tabbed(awful.layout.suit.tile, rules.tabbed.master, rules.tabbed.minor),
 		lay_args   = { gap_single_client = false, master_width_factor = 0.75 },
-		rule_any   = { class = { "Sublime_text", "Eclipse", "MATLAB R2019a - academic use" } },
+		rule_any   = { class = { "Sublime_text", "jetbrains-idea", "MATLAB R2019a - academic use" } },
 		except_any = rules.floating_any,
 		cl_props   = { switchtotag = true },
 	},
@@ -264,11 +262,11 @@ function rules:init(args)
 			type = "dialog"
 		},
 		properties = {
-			floating = true,
+			floating     = true,
 			border_width = 0,
-			focus = false,
-			focusable = false,
-			placement = awful.placement.next_to_mouse
+			focus        = false,
+			focusable    = false,
+			placement    = awful.placement.next_to_mouse
 		}
 	})
 
@@ -284,6 +282,22 @@ function rules:init(args)
 					client:kill()
 				end
 			end
+		}
+	})
+
+	-- IDEA
+	table.insert(self.rules, {
+		rule = {
+			class = "jetbrains-idea",
+			name = "^ $",
+		},
+		properties = {
+			floating     = true,
+			border_width = 0,
+			focus        = false,
+			focusable    = false,
+			switchtotag  = false,
+			placement    = awful.placement.centered,
 		}
 	})
 
