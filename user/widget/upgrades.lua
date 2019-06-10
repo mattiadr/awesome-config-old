@@ -48,7 +48,7 @@ function upgrades.new(pacmans, args, style)
 	local args = args or {}
 	local terminal = args.terminal or nil
 	local update_timeout = args.update_timeout or 3600
-	local spawn_cmd = [[%s -e sh -c "echo '%s'; %s"]]
+	local spawn_cmd = [[%s -e bash -c "echo '%s'; %s; echo Done!; read"]]
 
 	local style = redutil.table.merge(default_style(), style or {})
 
@@ -128,7 +128,7 @@ function upgrades.new(pacmans, args, style)
 	--------------------------------------------------------------------------------
 	function object.do_upgrade()
 		for _, pm in ipairs(pacmans) do
-			if pm.count and pm.count >= 0 then
+			if pm.count and pm.count > 0 then
 				pm.text = "Upgrading..."
 				object.update_widget(false)
 				awful.spawn.with_line_callback(string.format(spawn_cmd, terminal, pm.upgrade, pm.upgrade), {
