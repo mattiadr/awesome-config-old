@@ -27,6 +27,7 @@ rules.floating_any = {
 	},
 	class = {
 		"Nm-connection-editor",
+		"Pavucontrol",
 		"Qalculate-gtk",
 	},
 	role = {
