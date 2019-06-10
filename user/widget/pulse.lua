@@ -33,10 +33,11 @@ local pulse = { widgets = {}, mt = {} }
 -----------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
-		notify      = {},
-		widget      = audio.new,
-		audio       = {},
-		check_icon  = redutil.base.placeholder(),
+		retry      = 0,
+		notify     = {},
+		widget     = audio.new,
+		audio      = {},
+		check_icon = redutil.base.placeholder(),
 	}
 	return redutil.table.merge(style, redutil.table.check(beautiful, "widget.pulse") or {})
 end
@@ -168,6 +169,14 @@ function pulse:update_volume()
 	-- get current sink
 	local sink = redutil.read.output("pacmd dump | perl -ane 'print $F[1] if /set-default-sink/'")
 
+	-- retry if no default sink is detected
+	if sink == "" then
+		if pulse.retry and pulse.retry > 0 then
+			timer.start_new(1, function() pulse:update_volume() end)
+		end
+		return
+	end
+
 	-- get current volume and mute state
 	local v = redutil.read.output("pacmd dump | grep set-sink-volume | grep " .. sink)
 	local m = redutil.read.output("pacmd dump | grep set-sink-mute | grep " .. sink)
@@ -202,6 +211,7 @@ function pulse.new(args, style)
 	--------------------------------------------------------------------------------
 	local style = redutil.table.merge(default_style(), style or {})
 	pulse.notify = style.notify
+	pulse.retry = style.retry
 
 	local args = args or {}
 	local timeout = args.timeout or 5
