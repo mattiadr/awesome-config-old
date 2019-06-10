@@ -53,7 +53,6 @@ function menu:init(args)
 	------------------------------------------------------------
 	local exitmenu = {
 		{ "Reboot",       "reboot",            micon("gnome-session-reboot")  },
-		{ "Log Out",      awesome.quit,        micon("exit")                  },
 		{ "Suspend",      "systemctl suspend", micon("gnome-session-suspend") },
 	}
 
@@ -79,7 +78,6 @@ function menu:init(args)
 		items = {
 			{ "Shutdown",     "shutdown now",      micon("system-shutdown")       },
 			{ "Reboot",       "reboot",            micon("gnome-session-reboot")  },
-			{ "Log Out",      awesome.quit,        micon("exit")                  },
 			{ "Suspend",      "systemctl suspend", micon("gnome-session-suspend") },
 		}
 	})
