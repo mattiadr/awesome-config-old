@@ -780,19 +780,16 @@ theme.naughty.base = {
 	font         = theme.fonts.main,
 	bg           = theme.color.wibox,
 	fg           = theme.color.text,
-	height       = theme.float.notify.geometry.height,
-	width        = theme.float.notify.geometry.width,
+	height       = 75,
+	width        = 380,
 	border_width = 4,
 	border_color = theme.color.wibox
 }
 
 theme.naughty.normal = {}
 theme.naughty.critical = {
-	width = 0,
-	height = 0,
 	border_color = theme.color.main,
 	timeout = 0,
-
 }
 theme.naughty.low = { timeout = 3 }
 
