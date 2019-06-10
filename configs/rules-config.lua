@@ -26,6 +26,7 @@ rules.floating_any = {
 		"dialog"
 	},
 	class = {
+		"Pavucontrol",
 		"Qalculate-gtk",
 	},
 	role = {
