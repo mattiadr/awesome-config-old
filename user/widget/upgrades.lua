@@ -12,6 +12,7 @@ local string = string
 
 local awful = require("awful")
 local beautiful = require("beautiful")
+local naughty = require("naughty")
 local timer = require("gears.timer")
 
 local tooltip = require("redflat.float.tooltip")
@@ -30,8 +31,8 @@ local function default_style()
 		retry       = 0,
 		retry_delay = 5,
 		icon        = redutil.base.placeholder(),
-		color       = { main = "#b1222b", icon = "#a0a0a0" }
-		-- notify TODO
+		color       = { main = "#b1222b", icon = "#a0a0a0" },
+		notify      = { preset = naughty.config.presets.normal, title = "Upgrades" },
 	}
 	return redutil.table.merge(style, redutil.table.check(beautiful, "widget.upgrades") or {})
 end
@@ -47,7 +48,7 @@ function upgrades.new(pacmans, args, style)
 	local args = args or {}
 	local terminal = args.terminal or nil
 	local update_timeout = args.update_timeout or 3600
-	local spawn_cmd = [[%s -e sh -c "echo '%s'; %s; echo 'Done!'; read"]]
+	local spawn_cmd = [[%s -e sh -c "echo '%s'; %s"]]
 
 	local style = redutil.table.merge(default_style(), style or {})
 
@@ -59,9 +60,13 @@ function upgrades.new(pacmans, args, style)
 	--------------------------------------------------------------------------------
 	object.tt = tooltip({ objects =  { object.widget } }, style.tooltip)
 
+	-- Set notify
+	--------------------------------------------------------------------------------
+	object.notify = style.notify
+
 	-- Update tooltip and icon color
 	--------------------------------------------------------------------------------
-	function object.update_widget()
+	function object.update_widget(show_notify)
 		local total = 0
 		local tt_text = nil
 
@@ -72,6 +77,15 @@ function upgrades.new(pacmans, args, style)
 
 		object.widget:set_color(total > 0 and style.color.main or style.color.icon)
 		object.tt:set_text(tt_text)
+
+		if show_notify and total > 0 then
+			naughty.notify(
+				redutil.table.merge({
+					text = tt_text,
+					run = function(n) object.do_upgrade(); n.die(naughty.notificationClosedReason.dismissedByUser) end
+				}, object.notify)
+			)
+		end
 	end
 
 	-- Callback to check exit code and output
@@ -85,7 +99,7 @@ function upgrades.new(pacmans, args, style)
 			pm.text = "Error!"
 		end
 
-		object.update_widget()
+		object.update_widget(args.show_notify and exitcode == 0)
 
 		pm.try = pm.try or 0
 		if exitcode ~= 0 and pm.try < style.retry then
@@ -98,7 +112,7 @@ function upgrades.new(pacmans, args, style)
 	--------------------------------------------------------------------------------
 	function object.check_pm(pm)
 		pm.text = "Checking..."
-		object.update_widget()
+		object.update_widget(false)
 		awful.spawn.easy_async_with_shell(pm.check, function (...) check_callback(pm, ...) end)
 	end
 
@@ -114,9 +128,9 @@ function upgrades.new(pacmans, args, style)
 	--------------------------------------------------------------------------------
 	function object.do_upgrade()
 		for _, pm in ipairs(pacmans) do
-			if pm.count and pm.count > 0 then
+			if pm.count and pm.count >= 0 then
 				pm.text = "Upgrading..."
-				object.update_widget()
+				object.update_widget(false)
 				awful.spawn.with_line_callback(string.format(spawn_cmd, terminal, pm.upgrade, pm.upgrade), {
 					exit = object.check_all
 				})
@@ -134,7 +148,7 @@ function upgrades.new(pacmans, args, style)
 	if style.firstrun then
 		t:emit_signal("timeout")
 	else
-		object.update_widget()
+		object.update_widget(false)
 	end
 
 	-- Set buttons
