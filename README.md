@@ -9,10 +9,12 @@ Credits:
 - [widget/udisks](user/widget/udisks.lua) cloned from https://github.com/mireq/awesome-udisks2-mount
 
 Dependencies and other utilities:
+- [ACYLS](https://github.com/worron/ACYLS)
 - checkupdates (pacman-contrib)
 - [corrupter](https://github.com/r00tman/corrupter)
 - htop
 - i3lock
+- pavucontrol
 - pulseaudio
 - scrot
 - telegram-desktop
