@@ -162,6 +162,14 @@ function upgrades.new(pacmans, args, style)
 	return object.widget
 end
 
+-- Do upgrades on all widgets
+-----------------------------------------------------------------------------------------------------------------------
+function upgrades.upgrade_all()
+	for _, o in ipairs (upgrades.objects) do
+		o.do_upgrade()
+	end
+end
+
 -- Config metatable to call upgrades module as function
 -----------------------------------------------------------------------------------------------------------------------
 function upgrades.mt:__call(...)

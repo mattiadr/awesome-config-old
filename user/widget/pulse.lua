@@ -15,6 +15,7 @@ local string = string
 local setmetatable = setmetatable
 local wibox = require("wibox")
 local awful = require("awful")
+local naughty = require("naughty")
 local beautiful = require("beautiful")
 local timer = require("gears.timer")
 
@@ -50,7 +51,7 @@ local change_volume_default_args = {
 
 -- Change default and active sink
 -----------------------------------------------------------------------------------------------------------------------
-local function set_sink(name)
+local function set_sink(name, notify)
 	awful.spawn("pacmd set-default-sink " .. name)
 
 	for i in redutil.read.output("pacmd list-sink-inputs | grep -Po '(?<=index: )\\d+'"):gmatch("[^\n]+") do
@@ -58,6 +59,10 @@ local function set_sink(name)
 	end
 
 	pulse:update_volume()
+
+	if notify then
+		naughty.notify({ text = "Activated " .. pulse.sink_names[name], preset = naughty.config.presets.low })
+	end
 end
 
 -- Show menu to change sink
@@ -79,7 +84,6 @@ function pulse:choose_sink()
 	end
 
 	-- get sink names
-	local sinks = {}
 	local def_sink = redutil.read.output("pacmd dump | perl -ane 'print $F[1] if /set-default-sink/'")
 	for s in redutil.read.output("pacmd list-sinks | grep -Po '(?<=name: <)\\S+(?=>)'"):gmatch("[^\n]+") do
 		table.insert(items, {
@@ -92,6 +96,29 @@ function pulse:choose_sink()
 	-- update and spawn menu
 	pulse.sink_selector:replace_items(items)
 	pulse.sink_selector:show()
+
+end
+
+-- Activate next or prev sink
+-----------------------------------------------------------------------------------------------------------------------
+function pulse:cycle_sink(prev)
+
+	-- get default sink names
+	local def_sink = redutil.read.output("pacmd dump | perl -ane 'print $F[1] if /set-default-sink/'")
+	-- get available sinks
+	local i = 0
+	local index = 0
+	local sinks = {}
+	for s in redutil.read.output("pacmd list-sinks | grep -Po '(?<=name: <)\\S+(?=>)'"):gmatch("[^\n]+") do
+		sinks[i] = s
+		if s == def_sink then
+			index = i
+		end
+		i = i + 1
+	end
+	-- switch to next or prev sink
+	index = (index + (prev and -1 or 1)) % i
+	set_sink(sinks[index], true)
 
 end
 

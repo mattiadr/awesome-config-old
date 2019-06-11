@@ -9,16 +9,17 @@ local awful = require("awful")
 local beautiful = require("beautiful")
 
 local redflat = require("redflat")
-local pulse = require("user/widget/pulse")
 
 local rules = require("configs/rules-config")
 
--- util
+-- user
 local cheatsheet = require("user/float/cheatsheet-selector")
 local debugger = require("user/util/debugger")
 local hist = require("user/util/history")
 local lock_screen = require("user/util/screen-lock").lock_screen
 local scrot = require("user/util/scrot")
+local pulse = require("user/widget/pulse")
+local upgrades = require("user/widget/upgrades")
 
 -- Initialize tables and vars for module
 -----------------------------------------------------------------------------------------------------------------------
@@ -691,10 +692,6 @@ function hotkeys:init(args)
 			{ env.mod }, "e", function() awful.spawn(env.fm) end,
 			{ description = "Open ranger", group = "Applications" }
 		},
-		--[[{
-			{ env.mod, "Mod1" }, "space", function() awful.spawn("clipflap --show") end,
-			{ description = "Clipboard manager", group = "Applications" }
-		},]]
 
 		{
 			{ env.mod }, "w", function() mainmenu:show() end,
@@ -703,6 +700,18 @@ function hotkeys:init(args)
 		{
 			{ env.mod }, "r", function() apprunner:show() end,
 			{ description = "Application launcher", group = "Widgets" }
+		},
+		{
+			{ env.mod }, "u", upgrades.upgrade_all,
+			{ description = "Start system upgrade", group = "Widgets" }
+		},
+		{
+			{ env.mod }, "o", function() pulse:cycle_sink() end,
+			{ description = "Switch to next pulseaudio sink", group = "Widgets" }
+		},
+		{
+			{ env.mod, "Shift" }, "o", function() pulse:cycle_sink(true) end,
+			{ description = "Switch to previous pulseaudio sink", group = "Widgets" }
 		},
 		{
 			{ env.mod }, "p", function() redflat.float.prompt:run() end,
@@ -826,10 +835,10 @@ function hotkeys:init(args)
 			{ env.mod }, "Tab", focus_to_previous,
 			{ description = "Go to previos client", group = "Client focus" }
 		},
-		{
+		--[[{
 			{ env.mod }, "u", awful.client.urgent.jumpto,
 			{ description = "Go to urgent client", group = "Client focus" }
-		},
+		},]]
 		{
 			{ env.mod }, "s", stash_push,
 			{ description = "Push current client to stash", group = "Client focus" }
