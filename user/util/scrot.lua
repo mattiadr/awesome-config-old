@@ -6,6 +6,7 @@ local redflat = require("redflat")
 local scrot = { mt = {} }
 scrot.base_cmd = "sleep 0.2; scrot -z -q 100"
 scrot.clip_cmd = "xclip -i -selection c -t image/png < $f"
+scrot.imgdir = os.getenv("HOME") .. "/images/scrot/"
 
 scrot.options = {
 	full = "",
