@@ -44,23 +44,23 @@ theme.wallpaper = theme.path .. "/wallpapers/" -- wallpaper file
 -- Fonts
 ------------------------------------------------------------
 theme.fonts = {
-	main     = "monospace 13",      -- main font
-	menu     = "monospace 13",      -- main menu font
-	tooltip  = "monospace 13",      -- tooltip font
-	notify   = "monospace bold 14", -- redflat notify popup font
-	clock    = "monospace bold 12", -- textclock widget font
-	qlaunch  = "monospace bold 14", -- quick launch key label font
-	keychain = "monospace bold 16", -- key sequence tip font
-	title    = "monospace bold 13", -- widget titles font
-	titlebar = "monospace bold 13", -- client titlebar font
+	main     = "monospace 13",       -- main font
+	menu     = "monospace 13",       -- main menu font
+	tooltip  = "monospace 13",       -- tooltip font
+	notify   = "monospace bold 14",  -- redflat notify popup font
+	clock    = "monospace bold 12",  -- textclock widget font
+	qlaunch  = "monospace bold 14",  -- quick launch key label font
+	keychain = "monospace bold 16",  -- key sequence tip font
+	title    = "monospace bold 13",  -- widget titles font
+	titlebar = "monospace bold 13",  -- client titlebar font
 	hotkeys  = {
-		main  = "monospace 14",             -- hotkeys helper main font
-		key   = "monospace 14", -- hotkeys helper key font (use monospace for align)
-		title = "monospace bold 16",        -- hotkeys helper group title font
+		main  = "monospace 13",      -- hotkeys helper main font
+		key   = "monospace 13",      -- hotkeys helper key font (use monospace for align)
+		title = "monospace bold 16", -- hotkeys helper group title font
 	},
 	player   = {
-		main = "monospace bold 13", -- player widget main font
-		time = "monospace bold 15", -- player widget current time font
+		main = "monospace bold 13",  -- player widget main font
+		time = "monospace bold 15",  -- player widget current time font
 	},
 }
 
