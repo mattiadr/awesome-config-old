@@ -56,6 +56,16 @@ function upgrades.new(pacmans, args, style)
 	object.widget:set_color(style.color.icon)
 	table.insert(upgrades.objects, object)
 
+	-- Add padding to names
+	--------------------------------------------------------------------------------
+	local padding = 0
+	for _, pm in ipairs(pacmans) do
+		padding = math.max(padding, #pm.name)
+	end
+	for _, pm in ipairs(pacmans) do
+		pm.name = pm.name .. string.rep(" ", padding - #pm.name)
+	end
+
 	-- Set tooltip
 	--------------------------------------------------------------------------------
 	object.tt = tooltip({ objects =  { object.widget } }, style.tooltip)
@@ -72,7 +82,7 @@ function upgrades.new(pacmans, args, style)
 
 		for _, pm in ipairs(pacmans) do
 			total = total + (pm.count or 0)
-			tt_text = (tt_text and tt_text .. "\n" or "") .. pm.name .. ": " .. (pm.text or "Not checked yet")
+			tt_text = (tt_text and tt_text .. "\n" or "") .. pm.name .. " : " .. (pm.text or "Not checked yet")
 		end
 
 		object.widget:set_color(total > 0 and style.color.main or style.color.icon)
