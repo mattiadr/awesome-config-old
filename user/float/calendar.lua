@@ -55,7 +55,7 @@ function calendar:init(args, style)
 	-- notification area:
 	self.html          = args.html          or "<span font_desc='monospace'>\n%s</span>"
 	-- highlight current date:
-	self.today         = args.today         or "<b><span color='#00ff00'>%2i</span></b>"
+	self.today         = args.today         or "<b><span color='" .. style.color.main .. "'>%2i</span></b>"
 	self.anyday        = args.anyday        or "%2i"
 	self.page_title    = args.page_title    or "%B %Y"    -- month year
 	self.col_title     = args.col_title     or "%a "      -- weekday
@@ -81,7 +81,7 @@ function calendar:init(args, style)
 	cal.wibox.visible = false
 	cal.wibox.ontop = true
 	cal.wibox.border_width = style.border_width
-	cal.wibox.border_color = style.color.main
+	cal.wibox.border_color = style.color.border
 	cal.wibox:set_bg(style.color.wibox)
 	cal.wibox:set_fg(style.color.text)
 
