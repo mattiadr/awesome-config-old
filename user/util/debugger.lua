@@ -86,6 +86,7 @@ function debugger:init()
 	self.console.context = setmetatable({
 		awful     = require("awful"),
 		beautiful = require("beautiful"),
+		inspect   = require("user/util/inspect"),
 		log       = function(...) self:log(...) end,
 	}, { __index = _G })
 
