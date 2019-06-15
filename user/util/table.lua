@@ -23,6 +23,15 @@ function table_.merge_rules(r1, r2)
 	return ret
 end
 
+-- Replace the content of a table with another
+------------------------------------------------------------
+function table_.replace_with(t1, t2)
+	-- empty table 1
+	for k, _ in pairs(t1) do t1[k] = nil end
+	-- copy all values of table 2 to table 1
+	for k, _ in pairs(t2) do t1[k] = t2[k] end
+end
+
 -- End
 -----------------------------------------------------------------------------------------------------------------------
 return table_

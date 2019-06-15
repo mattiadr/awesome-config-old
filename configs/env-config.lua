@@ -16,6 +16,7 @@ local naughty = require("naughty")
 
 local redflat = require("redflat")
 
+local utable = require("user/util/table")
 local convert_wallpaper = require("user.util.screen-lock").convert_wallpaper
 
 -- Initialize tables and vars for module
@@ -46,9 +47,9 @@ function env:init()
 	naughty.config.padding = beautiful.useless_gap and 2 * beautiful.useless_gap or 0
 
 	if beautiful.naughty then
-		naughty.config.presets.normal   = redflat.util.table.merge(beautiful.naughty.base, beautiful.naughty.normal)
-		naughty.config.presets.critical = redflat.util.table.merge(beautiful.naughty.base, beautiful.naughty.critical)
-		naughty.config.presets.low      = redflat.util.table.merge(beautiful.naughty.base, beautiful.naughty.low)
+		utable.replace_with(naughty.config.presets.normal,   redflat.util.table.merge(beautiful.naughty.base, beautiful.naughty.normal))
+		utable.replace_with(naughty.config.presets.critical, redflat.util.table.merge(beautiful.naughty.base, beautiful.naughty.critical))
+		utable.replace_with(naughty.config.presets.low,      redflat.util.table.merge(beautiful.naughty.base, beautiful.naughty.low))
 
 		-- dirty fix to ignore forced geometry for critical preset
 		-- For the sake of laziness I prefer fix some parameters after inherit than write pure table without inherit
