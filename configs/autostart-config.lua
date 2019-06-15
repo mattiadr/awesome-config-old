@@ -14,8 +14,6 @@ local autostart = {}
 -- Application list function
 --------------------------------------------------------------------------------
 function autostart.run()
-	-- utils
-	awful.spawn("xcompmgr")
 	-- apps
 	awful.spawn("telegram-desktop -startintray")
 	awful.spawn("megasync")

@@ -206,7 +206,7 @@ theme.service = {}
 -- Window control mode appearance
 --------------------------------------------------------------------------------
 theme.service.navigator = {
-	border_width = 0,
+	border_width = 2,
 	gradstep     = 60,
 	marksize     = { width = 160, height = 80, r = 20 },
 	linegap      = 32,
@@ -250,7 +250,7 @@ theme.service.dfparser = {
 -- Menu config
 -----------------------------------------------------------------------------------------------------------------------
 theme.menu = {
-	border_width = 0,
+	border_width = 4,
 	screen_gap   = theme.useless_gap + theme.border_width,
 	height       = 32,
 	width        = 250,
@@ -422,7 +422,7 @@ theme.widget.mail = {
 -- Minitray
 ------------------------------------------------------------
 theme.widget.minitray = {
-	border_width = 0,
+	border_width = 2,
 	geometry     = { height = 40 },
 	screen_gap   = 2 * theme.useless_gap,
 	color        = { wibox = theme.color.wibox, border = theme.color.wibox },
@@ -561,7 +561,7 @@ theme.float.player = {
 	timefont     = theme.fonts.player.time,
 	dashcontrol  = { color = theme.color, bar = { num = 7 } },
 	progressbar  = { color = theme.color },
-	border_width = 0,
+	border_width = 2,
 	timeout      = 1,
 	color        = theme.color
 }
@@ -585,7 +585,7 @@ theme.float.apprunner = {
 	prompt_height = 35,
 	title_icon    = theme.path .. "/widget/search.svg",
 	keytip        = { geometry = { width = 400, height = 260 } },
-	border_width  = 0,
+	border_width  = 2,
 	name_font     = theme.fonts.title,
 	comment_font  = theme.fonts.main,
 	color         = theme.color
@@ -602,7 +602,7 @@ theme.float.appswitcher = {
 	preview_margin = { 15, 15, 15, 15 },
 	preview_format = 16 / 10,
 	title_font     = theme.fonts.title,
-	border_width   = 0,
+	border_width   = 2,
 	update_timeout = 1 / 12,
 	keytip         = { geometry = { width = 400, height = 360 }, exit = true },
 	font           = theme.cairo_fonts.appswitcher,
@@ -621,7 +621,7 @@ theme.float.appswitcher.hotkeys = { "1", "2", "3", "4", "5", "6", "7", "8", "9",
 theme.float.qlaunch = {
 	geometry      = { width = 1400, height = 170 },
 	border_margin = { 5, 5, 12, 15 },
-	border_width  = 0,
+	border_width  = 2,
 	appline       = { iwidth = 140, im = { 5, 5, 0, 0 }, igap = { 0, 0, 5, 15 }, lheight = 26 },
 	state         = { gap = 5, radius = 5, size = 10,  height = 14 },
 	df_icon       = theme.homedir .. "/.icons/ACYLS/scalable/mimetypes/application-x-executable.svg",
@@ -637,7 +637,7 @@ theme.float.qlaunch = {
 theme.float.hotkeys = {
 	geometry      = { width = 1800, height = 975 },
 	border_margin = { 20, 20, 8, 10 },
-	border_width  = 0,
+	border_width  = 2,
 	is_align      = true,
 	font          = theme.fonts.hotkeys.main,
 	keyfont       = theme.fonts.hotkeys.key,
@@ -659,7 +659,7 @@ theme.float.tooltip = {
 -- Floating prompt
 ------------------------------------------------------------
 theme.float.prompt = {
-	border_width = 0,
+	border_width = 2,
 	color        = theme.color
 }
 
@@ -671,7 +671,7 @@ theme.float.top = {
 	border_margin = { 20, 20, 10, 0 },
 	button_margin = { 140, 140, 18, 18 },
 	title_height  = 40,
-	border_width  = 0,
+	border_width  = 2,
 	bottom_height = 70,
 	title_font    = theme.fonts.title,
 	color         = theme.color,
@@ -686,7 +686,7 @@ theme.float.top = {
 theme.float.keychain = {
 	geometry        = { width = 250, height = 56 },
 	font            = theme.fonts.keychain,
-	border_width    = 0,
+	border_width    = 2,
 	keytip          = { geometry = { width = 1200, height = 580 }, column = 2 },
 	color           = theme.color,
 }
@@ -697,7 +697,7 @@ theme.float.notify = {
 	geometry     = { width = 484, height = 106 },
 	screen_gap   = 2 * theme.useless_gap,
 	font         = theme.fonts.notify,
-	border_width = 0,
+	border_width = 2,
 	icon         = theme.icon.warning,
 	color        = theme.color,
 	timeout      = 3,
@@ -741,7 +741,7 @@ theme.float.cheatsheet_selector = {
 	border_margin = { 24, 24, 24, 24 },
 	title_height  = 48,
 	prompt_height = 35,
-	border_width  = 0,
+	border_width  = 2,
 	keytip        = { geometry = { width = 400, height = 260 } },
 	name_font     = theme.fonts.title,
 	name_margin   = { 10, 10, 0, 0 },
@@ -752,6 +752,7 @@ theme.float.cheatsheet_selector = {
 ------------------------------------------------------------
 theme.float.cheatsheet_viewer = {
 	border_margin = { 20, 20, 8, 10 },
+	border_width  = 2,
 	font          = theme.fonts.hotkeys.main,
 	keyfont       = theme.fonts.hotkeys.key,
 	titlefont     = theme.fonts.hotkeys.title,
@@ -777,14 +778,14 @@ theme.naughty = {}
 theme.naughty.base = {
 	timeout      = 5,
 	margin       = 12,
-	icon_size    = 80,
+	icon_size    = 54,
 	font         = theme.fonts.main,
 	bg           = theme.color.wibox,
 	fg           = theme.color.text,
-	height       = 75,
+	height       = 80,
 	width        = 380,
-	border_width = 4,
-	border_color = theme.color.wibox
+	border_width = 2,
+	border_color = theme.color.gray,
 }
 
 theme.naughty.normal = {}
