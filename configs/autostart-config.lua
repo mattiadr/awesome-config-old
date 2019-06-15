@@ -18,7 +18,7 @@ function autostart.run()
 	awful.spawn("nm-applet")
 	awful.spawn("xcompmgr")
 	-- apps
-	awful.spawn("telegram-desktop -startintray")
+	awful.spawn("telegram-desktop")
 	awful.spawn("megasync")
 end
 
