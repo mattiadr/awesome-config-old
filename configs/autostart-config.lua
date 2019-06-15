@@ -15,7 +15,7 @@ local autostart = {}
 --------------------------------------------------------------------------------
 function autostart.run()
 	-- apps
-	awful.spawn("telegram-desktop -startintray")
+	awful.spawn("telegram-desktop")
 	awful.spawn("megasync")
 end
 

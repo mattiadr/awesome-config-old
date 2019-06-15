@@ -116,6 +116,7 @@ rules.nn_tags = {
 		layout   = awful.layout.suit.max,
 		lay_args = { always_show = true },
 		rule_any = { class = { "TelegramDesktop" } },
+		cl_props = { switchtotag = false },
 		key      = "\\",
 		desc     = "Toggle Telegram",
 		spawn    = function() awful.spawn("telegram-desktop") end,
@@ -279,7 +280,8 @@ function rules:init(args)
 		},
 		properties = {
 			callback = function(client, rules)
-				if (client.width == 589 and client.height == 190) then
+				if (client.width == 589 and client.height == 190) or
+				   (client.width == 457 and client.height == 172) then
 					client:kill()
 				end
 			end
