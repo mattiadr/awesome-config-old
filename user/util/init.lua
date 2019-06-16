@@ -1,15 +1,10 @@
------------------------------------------------------------------------------------------------------------------------
---                                                     user/util                                                     --
------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------
+--                                                    User library                                                    --
+------------------------------------------------------------------------------------------------------------------------
+
+local wrequire = require("redflat.util").wrequire
 local setmetatable = setmetatable
 
-local wrequire = function(table_, key)
-	local module = rawget(table_, key)
-	return module or require(table_._NAME .. '.' .. key)
-end
-
-local setmetatable = setmetatable
-
-local lib = { _NAME = "user.util", wrequire = wrequire }
+local lib = { _NAME = "user.util" }
 
 return setmetatable(lib, { __index = wrequire })

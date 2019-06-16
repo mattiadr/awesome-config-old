@@ -8,9 +8,9 @@ local beautiful = require("beautiful")
 
 local redtitle = require("redflat.titlebar")
 
-local appnames = require("configs/alias-config")
-local env = require("configs/env-config")
-local lay_tabbed = require("user/layout/tabbed")
+local appnames = require("configs.alias-config")
+local env = require("configs.env-config")
+local lay_tabbed = require("user.layout.tabbed")
 
 -- Initialize tables and vars for module
 -----------------------------------------------------------------------------------------------------------------------

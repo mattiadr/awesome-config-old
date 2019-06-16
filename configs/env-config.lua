@@ -16,7 +16,7 @@ local naughty = require("naughty")
 
 local redflat = require("redflat")
 
-local utable = require("user/util/table")
+local utable = require("user.util.table")
 local convert_wallpaper = require("user.util.screen-lock").convert_wallpaper
 
 -- Initialize tables and vars for module

@@ -1,7 +1,7 @@
 local io = io
 
 local naughty = require("naughty")
-local inspect = require("user/util/inspect")
+local inspect = require("user.util.inspect")
 
 local print = {}
 
