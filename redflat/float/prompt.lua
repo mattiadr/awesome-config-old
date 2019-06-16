@@ -69,7 +69,6 @@ end
 -- Run method for prompt widget
 -- Wibox appears on call and hides after command entered
 -----------------------------------------------------------------------------------------------------------------------
-pn = require("user/util/print").n
 function floatprompt:run()
 	if not self.wibox then self:init() end
 	redutil.placement.centered(self.wibox, nil, mouse.screen.workarea)

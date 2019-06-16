@@ -8,7 +8,7 @@ local awful = require("awful")
 local wibox = require("wibox")
 local gfs = require("gears.filesystem")
 
-local inspect = require("user/util/inspect")
+local inspect = require("user.util.inspect")
 
 -- Initialize tables for module
 -----------------------------------------------------------------------------------------------------------------------
@@ -86,7 +86,7 @@ function debugger:init()
 	self.console.context = setmetatable({
 		awful     = require("awful"),
 		beautiful = require("beautiful"),
-		inspect   = require("user/util/inspect"),
+		inspect   = require("user.util.inspect"),
 		log       = function(...) self:log(...) end,
 	}, { __index = _G })
 

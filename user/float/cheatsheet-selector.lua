@@ -19,7 +19,7 @@ local redutil = require("redflat.util")
 local decoration = require("redflat.float.decoration")
 local redtip = require("redflat.float.hotkeys")
 
-local cs_viewer = require("user/float/cheatsheet-viewer")
+local cs_viewer = require("user.float.cheatsheet-viewer")
 
 -- Initialize tables and vars for module
 -----------------------------------------------------------------------------------------------------------------------

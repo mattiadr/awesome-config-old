@@ -9,17 +9,9 @@ local awful = require("awful")
 local beautiful = require("beautiful")
 
 local redflat = require("redflat")
+local user = require("user")
 
-local rules = require("configs/rules-config")
-
--- user
-local cheatsheet = require("user/float/cheatsheet-selector")
-local debugger = require("user/util/debugger")
-local hist = require("user/util/history")
-local lock_screen = require("user/util/screen-lock").lock_screen
-local scrot = require("user/util/scrot")
-local pulse = require("user/widget/pulse")
-local upgrades = require("user/widget/upgrades")
+local rules = require("configs.rules-config")
 
 -- Initialize tables and vars for module
 -----------------------------------------------------------------------------------------------------------------------
@@ -37,6 +29,14 @@ local grid = redflat.layout.grid
 local map = redflat.layout.map
 local redtitle = redflat.titlebar
 local qlaunch = redflat.float.qlaunch
+
+local cheatsheet = user.float["cheatsheet-selector"]
+local debugger = user.util.debugger
+local hist = user.util.history
+local lock_screen = user.util["screen-lock"].lock_screen
+local scrot = user.util.scrot
+local pulse = user.widget.pulse
+local upgrades = user.widget.upgrades
 
 -- Key support functions
 -----------------------------------------------------------------------------------------------------------------------

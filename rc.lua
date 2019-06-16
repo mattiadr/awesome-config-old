@@ -17,31 +17,31 @@ require("awful.autofocus")
 ------------------------------------------------------------
 local redflat = require("redflat")
 
-local rules = require("configs/rules-config")
+local rules = require("configs.rules-config")
 
 -- Global modules
 ------------------------------------------------------------
 timestamp = require("redflat.timestamp")
 
-debugger = require("user/util/debugger")
+debugger = require("user.util.debugger")
 
 -- Error handling
 -----------------------------------------------------------------------------------------------------------------------
-require("configs/ercheck-config") -- load file with error handling
+require("configs.ercheck-config") -- load file with error handling
 
 -- Setup theme and environment vars
 -----------------------------------------------------------------------------------------------------------------------
-local env = require("configs/env-config") -- load file with environment
+local env = require("configs.env-config") -- load file with environment
 env:init()
 
 -- Layouts setup
 -----------------------------------------------------------------------------------------------------------------------
-local layouts = require("configs/layout-config") -- load file with tile layouts setup
+local layouts = require("configs.layout-config") -- load file with tile layouts setup
 layouts:init()
 
 -- Main menu configuration
 -----------------------------------------------------------------------------------------------------------------------
-local mymenu = require("configs/menu-config") -- load file with menu configuration
+local mymenu = require("configs.menu-config") -- load file with menu configuration
 mymenu:init({ env = env })
 
 -- Panel widgets
@@ -82,7 +82,7 @@ taglist.buttons = awful.util.table.join(
 local tasklist = {}
 
 -- load list of app name aliases from files and set it as part of tasklist theme
-tasklist.style = { appnames = require("configs/alias-config") }
+tasklist.style = { appnames = require("configs.alias-config") }
 
 tasklist.buttons = awful.util.table.join(
 	awful.button({ }, 1, redflat.widget.tasklist.action.select),
@@ -115,7 +115,7 @@ textclock.widget = redflat.widget.textclock({
 
 -- Floating Calendar
 --------------------------------------------------------------------------------
-local calendar = require("user/float/calendar")
+local calendar = require("user.float.calendar")
 calendar({
 	day_id     = "%Y-%m-%d",
 	week_head  = "",
@@ -124,7 +124,7 @@ calendar({
 
 -- Software update indcator
 --------------------------------------------------------------------------------
-local upgrades_widget = require("user/widget/upgrades")
+local upgrades_widget = require("user.widget.upgrades")
 
 local upgrades = {}
 upgrades.widget = upgrades_widget({
@@ -134,7 +134,7 @@ upgrades.widget = upgrades_widget({
 
 -- PA volume control
 --------------------------------------------------------------------------------
-local pulse = require("user/widget/pulse")
+local pulse = require("user.widget.pulse")
 
 local volume = {}
 volume.widget = pulse({ sink_names = {
@@ -152,7 +152,7 @@ volume.buttons = awful.util.table.join(
 
 -- Usisks widget
 --------------------------------------------------------------------------------
-local udisks = require("user/widget/udisks")
+local udisks = require("user.widget.udisks")
 udisks.filemanager = env.fm
 
 -- Screen setup
@@ -218,7 +218,7 @@ awful.screen.connect_for_each_screen(
 
 -- Key bindings
 -----------------------------------------------------------------------------------------------------------------------
-local hotkeys = require("configs/keys-config") -- load file with hotkeys configuration
+local hotkeys = require("configs.keys-config") -- load file with hotkeys configuration
 hotkeys:init({ env = env, menu = mymenu.mainmenu, powermenu = mymenu.powermenu })
 
 -- Rules
@@ -227,12 +227,12 @@ rules:init({ hotkeys = hotkeys})
 
 -- Base signal set for awesome wm
 -----------------------------------------------------------------------------------------------------------------------
-local signals = require("configs/signals-config") -- load file with signals configuration
+local signals = require("configs.signals-config") -- load file with signals configuration
 signals:init({ env = env })
 
 -- Autostart user applications
 -----------------------------------------------------------------------------------------------------------------------
-local autostart = require("configs/autostart-config") -- load file with autostart application list
+local autostart = require("configs.autostart-config") -- load file with autostart application list
 
 if timestamp.is_startup() then
 	autostart.run()
