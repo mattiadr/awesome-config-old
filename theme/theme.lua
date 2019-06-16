@@ -702,8 +702,8 @@ theme.float.notify = {
 	color        = theme.color,
 	timeout      = 3,
 	progressbar  = { color = theme.color },
-	set_position = function()
-		return { x = mouse.screen.workarea.x + mouse.screen.workarea.width, y = mouse.screen.workarea.y }
+	set_position = function(wibox)
+		wibox:geometry({ x = mouse.screen.workarea.x + mouse.screen.workarea.width, y = mouse.screen.workarea.y })
 	end,
 }
 
