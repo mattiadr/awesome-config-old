@@ -19,10 +19,12 @@ local redflat = require("redflat")
 
 local rules = require("configs.rules-config")
 
+-- Activate startup
+-----------------------------------------------------------------------------------------------------------------------
+redflat.startup:activate()
+
 -- Global modules
 ------------------------------------------------------------
-timestamp = require("redflat.timestamp")
-
 debugger = require("user.util.debugger")
 
 -- Error handling
@@ -234,6 +236,6 @@ signals:init({ env = env })
 -----------------------------------------------------------------------------------------------------------------------
 local autostart = require("configs.autostart-config") -- load file with autostart application list
 
-if timestamp.is_startup() then
+if redflat.startup.is_startup then
 	autostart.run()
 end
