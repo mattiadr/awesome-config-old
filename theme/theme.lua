@@ -635,7 +635,7 @@ theme.float.qlaunch = {
 -- Hotkeys helper
 ------------------------------------------------------------
 theme.float.hotkeys = {
-	geometry      = { width = 1800, height = 975 },
+	geometry      = { width = 1800 },
 	border_margin = { 20, 20, 8, 10 },
 	border_width  = 0,
 	is_align      = true,
@@ -643,6 +643,7 @@ theme.float.hotkeys = {
 	keyfont       = theme.fonts.hotkeys.key,
 	titlefont     = theme.fonts.hotkeys.title,
 	separator     = { marginh = { 0, 0, 3, 6 } },
+	heights       = { key = 22, title = 27 },
 	color         = theme.color
 }
 
